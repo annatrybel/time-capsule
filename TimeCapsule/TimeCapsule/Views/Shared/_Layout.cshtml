@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,6 +32,22 @@
                         </li>
                     </ul>
                 </div>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <div class="sidebar-footer">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <li class="nav-item">
+                                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Identity/Account/Login">
+                                    <button id="logout" type="submit" class="nav-link btn btn-link text-white border-0 logout-button">
+                                        <i class="fas fa-sign-out-alt nav-icon"></i>
+                                        <span style="color:black;">Logout</span>
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                }
+
             </div>
         </nav>
     </header>
