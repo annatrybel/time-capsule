@@ -1,0 +1,41 @@
+networks:
+  dev:
+    driver: bridge
+
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: timecapsule
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U ${POSTGRES_USER} -h localhost -d timecapsule"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - dev
+    restart: unless-stopped
+
+
+  timecapsule:
+    depends_on:
+      - "db"
+    image: timecapsule-web
+    environment:
+      - ConnectionStrings__Database=User ID=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Host=db;Port=5432;Database=timecapsule;Pooling=true;
+    build:
+      context: .
+      dockerfile: TimeCapsule/Dockerfile
+    networks:
+      - dev
+
+volumes:
+  db-data: {}

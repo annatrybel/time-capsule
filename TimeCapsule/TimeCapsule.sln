@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCapsule", "TimeCapsule\TimeCapsule.csproj", "{CBD9EF2E-17CA-4475-A3CF-3B32E3519EEE}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CCC01B30-2FDD-4B8E-98FC-28EF2E816A22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{CBD9EF2E-17CA-4475-A3CF-3B32E3519EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBD9EF2E-17CA-4475-A3CF-3B32E3519EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBD9EF2E-17CA-4475-A3CF-3B32E3519EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCC01B30-2FDD-4B8E-98FC-28EF2E816A22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCC01B30-2FDD-4B8E-98FC-28EF2E816A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCC01B30-2FDD-4B8E-98FC-28EF2E816A22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCC01B30-2FDD-4B8E-98FC-28EF2E816A22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
