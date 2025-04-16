@@ -1,1 +1,88 @@
-﻿
+﻿@using TimeCapsule.Models.Dto
+@model CapsuleDto
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+
+            <div class="text-center">
+                <h1 class="display-6 mb-3">Krok 6 z 9: Dodaj załączniki</h1>
+
+                <p class="lead mb-3">
+                    Tekst nie przekazuje w pełni tego, co chcesz zawrzeć w kapsule?
+                    Dodaj zdjęcie, filmy, nagrania, oraz linki, aby wzbogacić jego zawartość!
+                </p>
+            </div>
+
+            <!-- Sekcja przesyłania plików -->
+            <div class="text-center my-5 bg-light p-5 rounded-3 shadow-sm" id="uploadSection" style="color: #6c757d;">
+                <i class="bi bi-cloud-arrow-up" style="font-size: 8rem; color: #6c757d;"></i>
+                <input type="file" id="fileUpload" name="uploadedFiles" multiple hidden accept="image/*,video/*,audio/*">
+                <div class="mt-3">
+                    <label for="fileUpload" class="btn btn-primary">
+                        <i class="bi bi-hdd-stack"></i> Prześlij z dysku
+                    </label>
+                </div>
+            </div>
+
+            <!-- Sekcja dodawania linków -->
+            <div id="linkSection" class="mt-4">
+                <label for="linkInput-0" class="form-label">Dodaj link:</label>
+                <div id="linkInputsContainer">
+                    <div class="input-group mb-3" id="linkGroup-0">
+                        <input type="url" class="form-control" placeholder="https://przykladowy-link.com" id="linkInput-0" name="Links[0]" aria-label="Link do zasobu">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-secondary mt-2" id="addLinkBtn">
+                    <i class="bi bi-plus-lg"></i>
+                </button>
+            </div>
+
+            <div class="d-flex justify-content-between mt-5">
+                <a href="" class="btn btn-outline-secondary">Wstecz</a>
+                <button type="submit" class="btn btn-success">Dalej</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addLinkBtn = document.getElementById('addLinkBtn');
+            const linkInputsContainer = document.getElementById('linkInputsContainer');
+            let linkCounter = 1; 
+
+            addLinkBtn.addEventListener('click', function () {
+                const newGroupId = `linkGroup-${linkCounter}`;
+                const newInputId = `linkInput-${linkCounter}`;
+                const newName = `Links[${linkCounter}]`;
+
+                const newDiv = document.createElement('div');
+                newDiv.classList.add('input-group', 'mb-3');
+                newDiv.id = newGroupId;
+
+                newDiv.innerHTML = `
+                    <input type="url" class="form-control" placeholder="https://kolejny-link.com" id="${newInputId}" name="${newName}" aria-label="Link do zasobu">
+                    <button class="btn btn-outline-danger" type="button" onclick="removeLinkInput(${linkCounter})">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                `;
+
+                linkInputsContainer.appendChild(newDiv);
+                linkCounter++;
+            });
+
+            // Funkcja do usuwania pola linku
+            window.removeLinkInput = function(index) {
+                const groupToRemove = document.getElementById(`linkGroup-${index}`);
+                if (groupToRemove) {
+                    groupToRemove.remove();
+                }
+            }          
+        });
+    </script>
+}
