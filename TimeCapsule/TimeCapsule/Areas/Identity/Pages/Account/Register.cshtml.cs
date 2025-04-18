@@ -108,7 +108,7 @@ namespace TimeCapsule.Areas.Identity.Pages.Account
             if(!await _roleManager.RoleExistsAsync("Admin"))
             {
                 await _roleManager.CreateAsync(new IdentityRole("Admin"));
-                await _roleManager.CreateAsync(new IdentityRole("Customer"));
+                await _roleManager.CreateAsync(new IdentityRole("User"));
             }
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -128,16 +128,28 @@ namespace TimeCapsule.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    if (User.IsInRole("Admin"))
+                    var admins = await _userManager.GetUsersInRoleAsync("Admin");
+
+                    if (admins.Count == 0)
                     {
                         await _userManager.AddToRoleAsync(user, "Admin");
+                        _logger.LogInformation("First user created as an Admin.");
                     }
                     else
                     {
-                        await _userManager.AddToRoleAsync(user, "Customer");
+                        if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            await _userManager.AddToRoleAsync(user, "Admin");
+                            _logger.LogInformation("New admin user created by existing admin.");
+                        }
+                        else
+                        {
+                            await _userManager.AddToRoleAsync(user, "User");
+                            _logger.LogInformation("User created with User role.");
+                        }
                     }
-                        _logger.LogInformation("User created a new account with password.");
 
+                    _logger.LogInformation("User created a new account with password.");
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
