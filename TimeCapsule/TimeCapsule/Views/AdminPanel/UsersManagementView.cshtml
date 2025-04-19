@@ -1,0 +1,58 @@
+﻿<div class="container">
+    <!-- Breadcrumb -->
+    <div class="row mt-3 mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="AdminPanel" asp-action="Index">Panel Administracyjny</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Zarządzanie użytkownikami</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2>Zarządzanie użytkownikami</h2>
+            <p class="text-muted">Przeglądaj, edytuj, dodawaj i usuwaj użytkowników systemu</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <button class="btn btn-primary" id="addUserBtn">
+                <i class="bi bi-person-plus-fill me-2"></i>Dodaj użytkownika
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabela użytkowników z DataTables -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <table id="usersTable" class="table table-striped table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Nazwa użytkownika</th>
+                        <th>Rola</th>
+                        <th>Status</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/js/userDataTable.js"></script>
+
+    
+}
+

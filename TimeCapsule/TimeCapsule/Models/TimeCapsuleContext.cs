@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using TimeCapsule.Models.DatabaseModels;
 using Microsoft.AspNetCore.Identity;
+using TimeCapsule.Models.Dto;
 
 namespace TimeCapsule.Models
 {
@@ -18,6 +19,8 @@ namespace TimeCapsule.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserDto>().HasNoKey().ToView("UserWithRoles");
 
             modelBuilder.Entity<Capsule>()
                 .HasIndex(c => c.Title);
