@@ -1,0 +1,82 @@
+﻿@using TimeCapsule.Models.Dto;
+@model List<CapsuleSectionDto>;
+
+<div class="container">
+    <!-- Breadcrumb -->
+    <div class="row mt-3 mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="AdminPanel" asp-action="Index">Panel Administracyjny</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Zarządzanie formularzem</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2>Zarządzanie formularzem</h2>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSectionModal">
+                <i class="bi bi-plus-circle me-2"></i>Dodaj nową sekcję
+            </button>
+        </div>
+    </div>
+
+    <!-- Sekcje formularza -->
+    <div class="accordion mb-4" id="formSectionsAccordion">
+        @foreach (var sectionItem in Model)
+        {
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading@(sectionItem.Id)">
+                    <button class="accordion-button @(sectionItem.DisplayOrder > 1 ? "collapsed" : "")" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapse@(sectionItem.Id)"
+                            aria-expanded="@(sectionItem.DisplayOrder == 1 ? "true" : "false")"
+                            aria-controls="collapse@(sectionItem.Id)">
+                        <strong>Sekcja @(sectionItem.DisplayOrder): @sectionItem.Name</strong>
+                    </button>
+                </h2>
+                <div id="collapse@(sectionItem.Id)" class="accordion-collapse collapse @(sectionItem.DisplayOrder == 1 ? "show" : "")"
+                     aria-labelledby="heading@(sectionItem.Id)" data-bs-parent="#formSectionsAccordion">
+                    <div class="accordion-body">
+                        <table class="table">
+                            <tbody>
+                                @foreach (var question in sectionItem.Questions)
+                                {
+                                    <tr>
+                                        <td>@question.DisplayOrder</td>
+                                        <td>@question.QuestionText</td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <div class="text-center mt-3">
+                            <button class="btn btn-outline-primary add-question-btn" data-section-id="@sectionItem.Id" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
+                                <i class="bi bi-plus-lg me-1"></i> Dodaj pytanie
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>    
+</div>
+
+<partial name="~/Views/AdminPanel/_SectionModal.cshtml"></partial>
+<partial name="~/Views/AdminPanel/_QuestionModal.cshtml"></partial>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('.add-question-btn').click(function() {
+                const sectionId = $(this).data('section-id');
+                $('#sectionId').val(sectionId);
+            });
+        });
+    </script>
+}

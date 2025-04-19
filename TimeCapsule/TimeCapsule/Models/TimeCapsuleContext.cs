@@ -15,7 +15,8 @@ namespace TimeCapsule.Models
         public DbSet<CapsuleQuestion> CapsuleQuestions { get; set; }
         public DbSet<CapsuleAnswer> CapsuleAnswers { get; set; }
         public DbSet<ContactMessage> ContactMessages { get; set; }
-
+        public DbSet<CapsuleSection> CapsuleSections { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
