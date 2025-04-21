@@ -17,8 +17,8 @@
                     </p>
                 </div>
 
-                <div class="mb-3 text-center">
-                    <label asp-for="MessageContent" class="form-label">Treść listu:</label>
+                <div class="mb-3">
+                    <label asp-for="MessageContent" class="form-label text-center w-100">Treść listu:</label>
                     <textarea asp-for="MessageContent" class="summernote">@Model?.MessageContent</textarea>
                 </div>
 
