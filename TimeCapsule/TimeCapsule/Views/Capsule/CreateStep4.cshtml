@@ -17,7 +17,8 @@
                     @if (Model.CapsuleSections != null && Model.CapsuleSections.Any())
                     {
                         var isFirstSection = true;
-                        
+                        var answerIndex = 0;
+
                         @foreach (var sectionItem in Model.CapsuleSections.OrderBy(s => s.DisplayOrder))
                         {
                             <div class="accordion-item">
@@ -35,14 +36,26 @@
                                         @if (sectionItem.Questions != null && sectionItem.Questions.Any())
                                         {
                                             var questionNumber = 1;
-                                            
+
                                             @foreach (var question in sectionItem.Questions.OrderBy(q => q.DisplayOrder))
                                             {
                                                 <div class="mb-3">
                                                     <label class="form-label">@questionNumber. @question.QuestionText</label>
-                                                    <textarea name="Answers[@question.Id]" class="form-control" rows="3"></textarea>
+
+                                                    <input type="hidden" name="Answers[@answerIndex].QuestionId" value="@question.Id" />
+
+                                                    @{
+                                                        var existingAnswer = Model.Answers?.FirstOrDefault(a => a.QuestionId == question.Id);
+                                                        var answerText = existingAnswer?.AnswerText ?? "";
+                                                    }
+
+                                                    <textarea name="Answers[@answerIndex].AnswerText" class="form-control" rows="3">@answerText</textarea>
+
+                                                    @{
+                                                        questionNumber++;
+                                                        answerIndex++;
+                                                    }
                                                 </div>
-                                                questionNumber++;
                                             }
                                         }
                                         else
@@ -54,7 +67,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             isFirstSection = false;
                         }
                     }
