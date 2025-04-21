@@ -21,7 +21,8 @@ builder.Services
 
 builder.Services.AddScoped<CapsuleService>();
 builder.Services.AddScoped<ContactService>();
-builder.Services.AddScoped<ProfileService>();	
+builder.Services.AddScoped<ProfileService>();
+builder.Services.AddScoped<AdminPanelService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var connectionString = builder.Configuration.GetConnectionString("Database") ?? throw new ArgumentNullException("ConnectionString");
@@ -31,6 +32,16 @@ builder.Services.AddDbContext<TimeCapsuleContext>(options =>
     options.UseNpgsql(connectionString);
     options.EnableDetailedErrors();
 });
+
+//Session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 
 var app = builder.Build();
 
@@ -44,8 +55,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
