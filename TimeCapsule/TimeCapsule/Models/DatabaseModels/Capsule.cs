@@ -9,8 +9,7 @@ namespace TimeCapsule.Models.DatabaseModels
         public string Title { get; set; }
         public string Icon { get; set; }
         public string Color { get; set; }
-        public string Introduction { get; set; }
-        public string Question1Answer { get; set; }  
+        public string Introduction { get; set; } 
         public string MessageContent { get; set; }
         public DateTime OpeningDate { get; set; }
         public string CreatedByUserId { get; set; }
@@ -25,9 +24,9 @@ namespace TimeCapsule.Models.DatabaseModels
     }
     public enum CapsuleType
     {
-        Individual,
-        Couple,
-        Group
+        Indywidualna,
+        Parna,
+        Grupowa
     }
 
     public enum Status

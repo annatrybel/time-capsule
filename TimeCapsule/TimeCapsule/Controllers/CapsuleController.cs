@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using TimeCapsule.Models;
+using TimeCapsule.Extensions;
+using TimeCapsule.Models.DatabaseModels;
 using TimeCapsule.Models.Dto;
 using TimeCapsule.Services;
 
@@ -14,42 +14,321 @@ namespace TimeCapsule.Controllers
     {
         private readonly IEmailSender _emailSender;
         private readonly CapsuleService _capsuleService;
+        //private readonly AttachmentService _attachmentService;
 
         public CapsuleController(IEmailSender emailSender, CapsuleService capsuleService )
         {
             _emailSender = emailSender;
             _capsuleService = capsuleService;
+            //_attachmentService = attachmentService;
         }
         public IActionResult Index()
         {
             return View();
         }
 
-        [Route("Step4")]
-        public async Task<IActionResult> Step4([FromForm] CapsuleDto capsule)
+        [HttpGet]
+        [Route("Step1")]
+        public IActionResult Step1()
         {
-            var updatedCapsule = await _capsuleService.GetSectionsWithQuestions(capsule);
+            var capsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
 
-            return View("~/Views/Capsule/CreateStep4.cshtml", updatedCapsule);
+            if (capsule == null)
+            {
+                var newCapsule = new CreateCapsuleDto();
+
+                HttpContext.Session.SetObject("CurrentCapsule", newCapsule);
+                return View("~/Views/Capsule/CreateStep1.cshtml", newCapsule);
+            }           
+            return View("~/Views/Capsule/CreateStep1.cshtml", capsule);
         }
 
+        [HttpPost]
+        [Route("SaveStep1")]
+        public IActionResult SaveStep1([FromForm] CreateCapsuleDto capsule)
+        {
+            if (!capsule.Type.HasValue || !Enum.IsDefined(typeof(CapsuleType), capsule.Type.Value))
+            {
+                ModelState.AddModelError("Type", "Wybór typu kapsuły jest wymagany");
+                TempData["ErrorMessage"] = "Wybór typu kapsuły jest niezbędny do kontynuowania procesu.";
+                return View("~/Views/Capsule/CreateStep1.cshtml", capsule);
+            }
+
+            var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+
+            if (fullCapsule != null)
+            {
+                fullCapsule.Type = capsule.Type;
+                HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
+            }
+            else
+            {
+                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+            }
+
+            return RedirectToAction("Step2");
+        }
+
+        [HttpGet]
+        [Route("Step2")]
+        public IActionResult Step2()
+        {
+            var capsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+
+            if (capsule != null)
+            {
+                return View("~/Views/Capsule/CreateStep2.cshtml", capsule);
+            }
+
+            TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+            return RedirectToAction("Step1");
+        }
+
+        [HttpPost]
+        [Route("SaveStep2")]
+        public IActionResult SaveStep2([FromForm] CreateCapsuleDto capsule)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return View("~/Views/Capsule/CreateStep2.cshtml", capsule);
+            //}
+
+            if (string.IsNullOrWhiteSpace(capsule.Title))
+            {
+                ModelState.AddModelError("Title", "Tytuł jest wymagany");
+                return View("~/Views/Capsule/CreateStep2.cshtml", capsule);
+            }
+
+            var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+
+            if (fullCapsule != null)
+            {
+                fullCapsule.Title = capsule.Title;
+                fullCapsule.Color = capsule.Color;
+                fullCapsule.Icon = capsule.Icon;
+                HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
+            }
+            else
+            {
+                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+            }
+
+            return RedirectToAction("Step3");
+        }
+
+        [HttpGet]
+        [Route("Step3")]
+        public IActionResult Step3()
+        {
+            var capsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+
+            if (capsule != null)
+            {
+                return View("~/Views/Capsule/CreateStep3.cshtml", capsule);
+            }
+
+            TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+            return RedirectToAction("Step1");
+        }
+
+        [HttpPost]
+        [Route("SaveStep3")]
+        public async Task<IActionResult> SaveStep3([FromForm] CreateCapsuleDto capsule)
+        {
+            var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+
+            if (fullCapsule != null)
+            {
+                fullCapsule.Introduction = capsule.Introduction;
+                HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
+            }
+            else
+            {
+                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+            }
+
+            return RedirectToAction("Step4");
+        }
+
+        [HttpGet]
+        [Route("Step4")]
+        public async Task<IActionResult> Step4()
+        {
+            var capsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+
+            if (capsule == null)
+            {
+                TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+                return RedirectToAction("Step1");
+            }
+
+            if (!capsule.Type.HasValue || !Enum.IsDefined(typeof(CapsuleType), capsule.Type.Value))
+            {
+                TempData["ErrorMessage"] = "Wybór typu kapsuły jest niezbędny do kontynuowania procesu. Prosimy wybrać typ kapsuły.";
+                return RedirectToAction("Step1");
+            }
+
+            var capsuleWithSections = await _capsuleService.GetSectionsWithQuestions(capsule);
+
+            HttpContext.Session.SetObject("CurrentCapsule", capsuleWithSections);
+
+            return View("~/Views/Capsule/CreateStep4.cshtml", updatedCacapsuleWithSectionspsule);
+        }
+
+        [HttpPost]
+        [Route("SaveStep4")]
+        public async Task<IActionResult> SaveStep4([FromForm] CreateCapsuleDto capsule)
+        {
+            var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+
+            if (fullCapsule != null)
+            {
+                fullCapsule.Answers = capsule.Answers ?? new List<CapsuleAnswerDto>();
+
+                HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
+            }
+            else
+            {
+                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+            }
+
+            return RedirectToAction("Step5");            
+        }
+                
+
+        [HttpGet]
         [Route("Step5")]
         public IActionResult Step5()
         {
-            return View("~/Views/Capsule/CreateStep5.cshtml");
+            var capsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+            if (capsule != null)
+            {
+                return View("~/Views/Capsule/CreateStep5.cshtml", capsule);
+            }
+            TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+
+            return RedirectToAction("Step1");
         }
 
+        [HttpPost]
+        [Route("SaveStep5")]
+        public IActionResult SaveStep5([FromForm] CreateCapsuleDto capsule)
+        {
+            var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+
+            if (fullCapsule != null)
+            {
+                fullCapsule.MessageContent = capsule.MessageContent;
+                HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
+            }
+            else
+            {
+                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+            }
+
+            return RedirectToAction("Step6");
+        }
+
+        [HttpGet]
         [Route("Step6")]
         public IActionResult Step6()
         {
-            return View("~/Views/Capsule/CreateStep6.cshtml");
+            var capsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+            if (capsule != null)
+            {
+                return View("~/Views/Capsule/CreateStep6.cshtml", capsule);
+            }
+            TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+
+            return RedirectToAction("Step1");
         }
 
-       
+        [HttpPost]
+        [Route("SaveStep6")]
+        public async Task<IActionResult> SaveStep6([FromForm] CreateCapsuleDto capsule, List<IFormFile> uploadedFiles)
+        {
+            var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+
+            if (fullCapsule != null)
+            {
+                fullCapsule.Links = capsule.Links ?? new List<string>();
+
+                if (uploadedFiles != null && uploadedFiles.Any())
+                {
+                    if (fullCapsule.UploadedImages == null)
+                        fullCapsule.UploadedImages = new List<UploadedImageDto>();
+
+                    foreach (var file in uploadedFiles)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            await file.CopyToAsync(ms);
+                            var base64 = Convert.ToBase64String(ms.ToArray());
+
+                            fullCapsule.UploadedImages.Add(new UploadedImageDto
+                            {
+                                FileName = file.FileName,
+                                Base64Content = base64,
+                                ContentType = file.ContentType
+                            });
+                        }
+                    }
+                }
+                HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
+            }
+            else
+            {
+                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+            }
+
+            return RedirectToAction("Step7");
+        }
+
+        [HttpGet]
         [Route("Step7")]
         public IActionResult Step7()
         {
-            return View("~/Views/Capsule/CreateStep7.cshtml");
+            var capsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+            if (capsule != null)
+            {
+                return View("~/Views/Capsule/CreateStep7.cshtml", capsule);
+            }
+            TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+
+            return RedirectToAction("Step1");
+        }
+
+        [HttpPost]
+        [Route("SaveStep7")]
+        public IActionResult SaveStep7([FromForm] CreateCapsuleDto capsule, string OpenDate, string OpenTime)
+        {
+            var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+
+            if (fullCapsule != null)
+            {
+                if (!string.IsNullOrEmpty(OpenDate))
+                {
+                    if (!string.IsNullOrEmpty(OpenTime))
+                    {
+                        if (DateTime.TryParse($"{OpenDate} {OpenTime}", out DateTime openingDateTime))
+                        {
+                            fullCapsule.OpeningDate = openingDateTime;
+                        }
+                    }
+                    else if (DateTime.TryParse(OpenDate, out DateTime openingDate))
+                    {
+                        fullCapsule.OpeningDate = openingDate;
+                    }
+                }
+
+                HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
+            }
+            else
+            {
+                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+            }
+
+            return RedirectToAction("Step8");
         }
 
 
