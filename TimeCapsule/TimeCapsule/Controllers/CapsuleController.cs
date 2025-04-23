@@ -172,7 +172,7 @@ namespace TimeCapsule.Controllers
 
             HttpContext.Session.SetObject("CurrentCapsule", capsuleWithSections);
 
-            return View("~/Views/Capsule/CreateStep4.cshtml", updatedCacapsuleWithSectionspsule);
+            return View("~/Views/Capsule/CreateStep4.cshtml", capsuleWithSections);
         }
 
         [HttpPost]

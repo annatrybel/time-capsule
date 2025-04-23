@@ -24,6 +24,7 @@ builder.Services.AddScoped<ContactService>();
 builder.Services.AddScoped<ProfileService>();
 builder.Services.AddScoped<AdminPanelService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+//builder.Services.AddScoped<AttachmentService>();
 
 var connectionString = builder.Configuration.GetConnectionString("Database") ?? throw new ArgumentNullException("ConnectionString");
 
