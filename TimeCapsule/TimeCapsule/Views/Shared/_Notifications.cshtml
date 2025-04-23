@@ -1,0 +1,41 @@
+﻿<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const notifications = @Html.Raw(Json.Serialize(new
+        {
+            error = TempData["ErrorMessage"],
+            success = TempData["SuccessMessage"],
+            info = TempData["InfoMessage"],
+            warning = TempData["WarningMessage"],
+        }));
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+
+        for (const type in notifications) {
+
+            if (notifications.hasOwnProperty(type) && notifications[type]) {
+                const messageId = `${type}_${notifications[type].replace(/\s+/g, '_')}`;
+
+                if (!sessionStorage.getItem(messageId)) {
+                    Toast.fire({
+                        icon: type,
+                        title: notifications[type]
+                    });
+
+                    sessionStorage.setItem(messageId, 'displayed');
+                }
+            }
+        }
+    });
+</script>
