@@ -16,7 +16,7 @@ namespace TimeCapsule.Controllers
         private readonly CapsuleService _capsuleService;
         //private readonly AttachmentService _attachmentService;
 
-        public CapsuleController(IEmailSender emailSender, CapsuleService capsuleService )
+        public CapsuleController(IEmailSender emailSender, CapsuleService capsuleService)
         {
             _emailSender = emailSender;
             _capsuleService = capsuleService;
@@ -39,7 +39,7 @@ namespace TimeCapsule.Controllers
 
                 HttpContext.Session.SetObject("CurrentCapsule", newCapsule);
                 return View("~/Views/Capsule/CreateStep1.cshtml", newCapsule);
-            }           
+            }
             return View("~/Views/Capsule/CreateStep1.cshtml", capsule);
         }
 
@@ -59,11 +59,25 @@ namespace TimeCapsule.Controllers
             if (fullCapsule != null)
             {
                 fullCapsule.Type = capsule.Type;
+
+                if (capsule.Type == CapsuleType.Parna)
+                {
+                    fullCapsule.Recipients = capsule.Recipients?.Where(r => !string.IsNullOrWhiteSpace(r)).ToList() ?? new List<string>();
+
+                    if (!fullCapsule.Recipients.Any())
+                    {
+                        ModelState.AddModelError("Recipients", "Należy podać co najmniej jednego odbiorcę");
+                        TempData["ErrorMessage"] = "Dla kapsuły parnej należy podać co najmniej jednego odbiorcę.";
+                        return View("~/Views/Capsule/CreateStep1.cshtml", capsule);
+                    }
+                }
+
                 HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
             }
             else
             {
-                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+                TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+                return RedirectToAction("Step1");
             }
 
             return RedirectToAction("Step2");
@@ -90,7 +104,7 @@ namespace TimeCapsule.Controllers
         {
             //if (!ModelState.IsValid)
             //{
-            //    return View("~/Views/Capsule/CreateStep2.cshtml", capsule);
+            //	return View("~/Views/Capsule/CreateStep2.cshtml", capsule);
             //}
 
             if (string.IsNullOrWhiteSpace(capsule.Title))
@@ -110,7 +124,8 @@ namespace TimeCapsule.Controllers
             }
             else
             {
-                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+                TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+                return RedirectToAction("Step1");
             }
 
             return RedirectToAction("Step3");
@@ -144,7 +159,8 @@ namespace TimeCapsule.Controllers
             }
             else
             {
-                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+                TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+                return RedirectToAction("Step1");
             }
 
             return RedirectToAction("Step4");
@@ -189,12 +205,13 @@ namespace TimeCapsule.Controllers
             }
             else
             {
-                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+                TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+                return RedirectToAction("Step1");
             }
 
-            return RedirectToAction("Step5");            
+            return RedirectToAction("Step5");
         }
-                
+
 
         [HttpGet]
         [Route("Step5")]
@@ -223,7 +240,8 @@ namespace TimeCapsule.Controllers
             }
             else
             {
-                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+                TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+                return RedirectToAction("Step1");
             }
 
             return RedirectToAction("Step6");
@@ -278,7 +296,8 @@ namespace TimeCapsule.Controllers
             }
             else
             {
-                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+                TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+                return RedirectToAction("Step1");
             }
 
             return RedirectToAction("Step7");
@@ -325,7 +344,8 @@ namespace TimeCapsule.Controllers
             }
             else
             {
-                HttpContext.Session.SetObject("CurrentCapsule", capsule);
+                TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+                return RedirectToAction("Step1");
             }
 
             return RedirectToAction("Step8");
@@ -345,5 +365,7 @@ namespace TimeCapsule.Controllers
         }
     }
 }
+
+
 
 

@@ -9,6 +9,7 @@ namespace TimeCapsule.Models.Dto
         public int? Id { get; set; }
         public CapsuleType? Type { get; set; }
         public string Title { get; set; } = string.Empty;
+        public List<string> Recipients { get; set; } = new List<string>();
         public string? Icon { get; set; }
         public string? Color { get; set; }
         public string? Introduction { get; set; }
