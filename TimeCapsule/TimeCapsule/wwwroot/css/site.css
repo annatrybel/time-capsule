@@ -27,6 +27,7 @@ html {
   min-height: 100%;
 }
 
+/*styles for top bar*/
 .background-image-for-pages {
     background: url('/images/pages_background.png');
     background-size: cover;
@@ -59,3 +60,24 @@ html {
     color: #FFFFFF !important;
 }
 
+
+/* styles for CreateStep2.cshtml */
+.color-btn {
+    transition: all 0.2s;
+}
+
+.selected-color {
+    transform: scale(1.1);
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    border-width: 3px !important;
+}
+
+.icon-btn {
+    transition: all 0.2s;
+}
+
+.btn-check:checked + .icon-btn {
+    border-color: #6c757d !important;
+    background-color: rgba(108, 117, 125, 0.1);
+    transform: scale(1.05);
+}
