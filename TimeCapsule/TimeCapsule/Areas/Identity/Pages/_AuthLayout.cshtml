@@ -1,38 +1,32 @@
-﻿@* Areas/Identity/Pages/_AuthLayout.cshtml *@
-@{
-    Layout = null;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"] – Time Capsule</title>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
-    <!-- globalne style -->
-    <link rel="stylesheet" href="~/css/site.css" />
-
-    <!-- Style specyficzne dla Auth (tło, modal itp.) -->
-    <link rel="stylesheet" href="~/css/authLayout.css" />
+    <title>@ViewData["Title"] - CertIQ</title>
+    <link rel="stylesheet" href="~/css/authLayout.css">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body class="auth-page">
-    <!-- logo w lewym górnym rogu -->
-    <div class="auth-logo">Time Capsule</div>
-
-    @RenderBody()
-
-    <!-- stopka pomocy w lewym dolnym rogu -->
-    <div class="help-footer">
-        potrzebujesz pomocy? skontaktuj się z nami!
-        <button type="button" class="help-btn">✉️</button>
+    <div class="row justify-content-center">
+        <div class="col-md-5 mt-5">
+            <div class="card login-logout-card">
+                <div class="card-header">
+                    <div class="tab-container">
+                        <a href="/Identity/Account/Login" class="tab @(ViewData["Title"]?.ToString() == "Login" ? "active" : "")">Login</a>
+                        <a href="/Identity/Account/Register" class="tab @(ViewData["Title"]?.ToString() == "Register" ? "active" : "")">Register</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-10 my-4">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <!-- skrypty -->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

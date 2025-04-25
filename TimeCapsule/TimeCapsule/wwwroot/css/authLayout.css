@@ -1,185 +1,51 @@
-﻿/* Import fontów */
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap');
-
-@font-face {
-    font-family: 'Leckerli One';
-    src: url('../fonts/LeckerliOne-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-/* Tło i centrowanie w pionie */
-body.auth-page {
-    background-color: #98A4B4;
+﻿body.auth-page {
+    background: url('/images/background.png');
+    background-size: cover;
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    position: relative;
-    font-family: 'Jost', sans-serif;
 }
 
-/* Logo w lewym górnym rogu */
-.auth-logo {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    font-family: 'Leckerli One', cursive;
-    font-size: 2rem;
-    color: #ffffff;
-    z-index: 1000;
+.login-logout-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    color: #333;
 }
 
-/* Kafelek logowania */
-.login-modal {
-    background-color: #E4E4E4;
-    border-radius: 1rem;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-    width: 700px;
-    max-width: 90vw;
-    padding: 2.5rem 2.5rem 2rem;
-    position: relative;
-    color: #475264;
+.card-body {
+    padding: 2rem;
 }
 
-    /* Duży "×" */
-    .login-modal .close-btn {
-        position: absolute;
-        top: 0.75rem;
-        right: 0.75rem;
-        background: transparent;
-        border: none;
-        font-size: 3.5rem;
-        color: #758395;
-        cursor: pointer;
-        line-height: 1;
-    }
-
-/* Tytuł */
-.login-title {
-    text-align: center;
-    font-size: 2rem;
-    margin: 0 0 2rem;
-    font-weight: 700;
-}
-
-/* Węższe pola formularza */
-.login-form .form-floating {
-    max-width: 500px;
-    margin: 0 auto 1.5rem;
-}
-
-.login-form .form-control {
-    background-color: #f9f9f9;
-    border: none;
-    border-radius: 0.5rem;
-    height: 3rem;
-}
-
-.login-form .form-floating > label {
-    color: #758395;
-}
-
-/* Zapomniane hasło link */
-.login-form .forgot-link {
-    display: block;
-    max-width: 500px;
-    margin: 0 auto 2rem;
-    text-align: left;
-    color: #758395;
-    font-size: 0.9rem;
-    text-decoration: none;
-}
-
-    .login-form .forgot-link:hover {
-        text-decoration: underline;
-    }
-
-/* Przycisk */
-.btn-login {
-    display: block;
-    width: 140px;
-    margin: 0 auto;
-    background-color: #475264;
-    color: #fff;
-    border: none;
-    border-radius: 0.75rem;
-    padding: 0.75rem 1.5rem;
-    font-size: 1.1rem;
-    cursor: pointer;
-}
-
-    .btn-login:hover {
-        opacity: 0.9;
-    }
-
-/* Pole wymagane */
-.required-note {
-    display: block;
-    max-width: 600px;
-    margin: 1rem auto 0;
-    text-align: left;
-    font-size: 0.9rem;
-    color: #ffffff;
-}
-
-/* Stopka rejestracji/logowania */
-.post-modal-footer {
-    max-width: 600px;
-    margin: 1rem auto 0;
-    text-align: right;
-    font-size: 1rem;
-    color: #ffffff;
-}
-
-    .post-modal-footer .btn-register {
-        margin-left: 0;
-        background-color: #475264;
-        color: #fff;
-        border: none;
-        border-radius: 0.75rem;
-        padding: 0.6rem 1.2rem;
-        font-size: 1rem;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-        .post-modal-footer .btn-register:hover {
-            opacity: 0.9;
-        }
-
-/* Stopka pomocy */
-.help-footer {
-    position: absolute;
-    bottom: 1rem;
-    left: 1rem;
-    color: #ffffff;
-    font-size: 0.9rem;
+.tab-container {
     display: flex;
-    align-items: center;
 }
 
-    .help-footer .help-btn {
-        background: transparent;
-        border: none;
-        font-size: 1.5rem;
-        margin-left: 0.5rem;
-        cursor: pointer;
-        color: #ffffff;
-    }
-
-/* Responsywność */
-@media (max-width: 576px) {
-    .login-modal {
-        padding: 1.5rem 1.5rem 1rem;
-        width: 100%;
-        border-radius: 0;
-    }
-
-    .post-modal-footer {
-        margin-top: 1rem;
-    }
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #333;
+    text-decoration: none;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 1em;
 }
+    .tab:not(.active) {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .tab:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
