@@ -1,1 +1,34 @@
-﻿
+﻿@using TimeCapsule.Models.Dto
+@model CreateCapsuleDto
+
+<div class="background-image-for-pages">
+    <div class="container-fluid p-0">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 bg-light rounded shadow-sm p-4 my-5">
+                <form asp-controller="TimeCapsule" asp-action="SaveStep5" method="post">
+                    <div class="text-center">
+                        <h1 class="display-6 mb-3">Krok 5 z 9: Napisz list</h1>
+
+                        <p class="lead mb-3">
+                            To miejsce, gdzie możesz przelać swoje myśli, emocje i marzenia.
+                            Napisz do siebie lub do kogoś bliskiego - opowiedz o swoim życiu,
+                            swoich planach, nadziejach i tym, co jest teraz dla Ciebie ważne.
+                            Może chcesz zostawić radę dla przyszłego siebie lub podzielić się
+                            historią, którą warto zapamiętać?
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="MessageContent" class="form-label text-center w-100">Treść listu:</label>
+                        <textarea asp-for="MessageContent" class="summernote">@Model?.MessageContent</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-5">
+                        <a asp-controller="TimeCapsule" asp-action="Step4" class="btn btn-secondary">Wstecz</a>
+                        <button type="submit" class="btn btn-success">Dalej</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

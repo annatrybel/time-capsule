@@ -1,1 +1,31 @@
-﻿
+﻿@using TimeCapsule.Models.Dto
+@model CreateCapsuleDto
+
+<div class="background-image-for-pages">
+    <div class="container-fluid p-0">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 bg-light rounded shadow-sm p-4 my-5">
+                <form asp-controller="TimeCapsule" asp-action="SaveStep3" method="post">
+                    <div class="text-center">
+                        <h1 class="display-6 mb-3">Krok 3 z 9: Napisz wstęp</h1>
+
+                        <p class="lead mb-3">
+                            Nadaj kapsule kontekst - opisz, co w niej umieszczasz i dlaczego:
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Introduction" class="form-label text-center w-100">Wstęp</label>
+                        <textarea asp-for="Introduction" class="summernote">@Model?.Introduction</textarea>
+                        <span asp-validation-for="Introduction" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-5">
+                        <a asp-controller="TimeCapsule" asp-action="Step2" class="btn btn-secondary">Wstecz</a>
+                        <button type="submit" class="btn btn-success">Dalej</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

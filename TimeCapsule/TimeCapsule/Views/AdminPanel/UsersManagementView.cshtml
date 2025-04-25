@@ -1,0 +1,248 @@
+﻿<div class="container">
+    <!-- Breadcrumb -->
+    <div class="row mt-3 mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="AdminPanel" asp-action="Index">Panel Administracyjny</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Zarządzanie użytkownikami</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2>Zarządzanie użytkownikami</h2>
+            <p class="text-muted">Przeglądaj, edytuj, dodawaj i usuwaj użytkowników systemu</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <button class="btn btn-primary" id="addUserBtn">
+                <i class="bi bi-person-plus-fill me-2"></i>Dodaj użytkownika
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabela użytkowników z DataTables -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <table id="usersTable" class="table table-striped table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Nazwa użytkownika</th>
+                        <th>Rola</th>
+                        <th>Status</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal dodawania/edycji użytkownika -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalLabel">Dodaj nowego użytkownika</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <input type="hidden" id="userId" name="userId" value="">
+
+                    <div class="mb-3">
+                        <label for="userEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="userEmail" name="email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">Nazwa użytkownika</label>
+                        <input type="text" class="form-control" id="userName" name="userName" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="userPassword" class="form-label password-field">Hasło</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="userPassword" name="password">
+                            <button class="btn btn-outline-secondary toggle-password" type="button">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <small class="form-text text-muted edit-mode-text" style="display: none;">
+                            Pozostaw puste, jeśli nie chcesz zmieniać hasła
+                        </small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="userRole" class="form-label">Rola</label>
+                        <select class="form-select" id="userRole" name="role" required>
+                            <option value="User">Użytkownik</option>
+                            <option value="Admin">Administrator</option>
+                        </select>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="userStatus" name="isActive" checked>
+                        <label class="form-check-label" for="userStatus">
+                            Konto aktywne
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                <button type="button" class="btn btn-primary" id="saveUserBtn">Zapisz</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal potwierdzenia usunięcia -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmModalLabel">Potwierdź usunięcie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Czy na pewno chcesz usunąć użytkownika <strong id="deleteUserName"></strong>?</p>
+                <p class="text-danger">Tej operacji nie można cofnąć!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Usuń</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/js/userDataTable.js"></script>
+
+    <script>
+
+            // Obsługa przycisku edycji
+            $('#usersTable').on('click', '.dropdown-item.edit-user', function() {
+                const userId = $(this).data('id');
+                const userData = usersTable.row($(this).closest('tr')).data();
+
+                // Wypełnij formularz danymi
+                $('#userId').val(userData.id);
+                $('#userEmail').val(userData.email);
+                $('#userName').val(userData.userName);
+                $('#userRole').val(userData.role);
+                $('#userStatus').prop('checked', userData.status === 'Aktywny');
+
+                // Wyczyść pole hasła i oznacz jako opcjonalne w trybie edycji
+                $('#userPassword').val('').removeAttr('required');
+                $('.edit-mode-text').show();
+
+                // Zmień tytuł modalu
+                $('#userModalLabel').text('Edytuj użytkownika');
+
+                // Pokaż modal
+                const modal = new bootstrap.Modal(document.getElementById('userModal'));
+                modal.show();
+            });
+
+
+
+            // Obsługa zapisywania użytkownika
+            $('#saveUserBtn').click(function() {
+                if (!$('#userForm')[0].checkValidity()) {
+                    $('#userForm')[0].reportValidity();
+                    return;
+                }
+
+                // Zbierz dane z formularza
+                const formData = {
+                    id: $('#userId').val(),
+                    email: $('#userEmail').val(),
+                    userName: $('#userName').val(),
+                    password: $('#userPassword').val(),
+                    role: $('#userRole').val(),
+                    isActive: $('#userStatus').prop('checked')
+                };
+
+                // Tryb - dodawanie czy edycja
+                const isEditMode = formData.id !== '';
+
+                // Log formularza (możesz usunąć w produkcji)
+                console.log('Dane formularza:', formData);
+
+                // Tu dodaj kod do wysłania danych na serwer
+                // $.ajax({
+                // 	url: isEditMode ? '/AdminPanel/UpdateUser' : '/AdminPanel/AddUser',
+                // 	type: 'POST',
+                // 	data: formData,
+                // 	success: function(response) {
+                //     	if (response.success) {
+                //         	// Odśwież tabelę
+                //         	usersTable.ajax.reload();
+                //     	} else {
+                //         	alert('Wystąpił błąd: ' + response.message);
+                //     	}
+                // 	},
+                // 	error: function() {
+                //     	alert('Wystąpił błąd podczas komunikacji z serwerem.');
+                // 	}
+                // });
+
+                // Na potrzeby demonstracji, po prostu dodaj nowy wiersz lub zaktualizuj istniejący
+                if (isEditMode) {
+                    // Zaktualizuj istniejące dane
+                    usersTable.rows((idx, data) => data.id === formData.id).every(function() {
+                        const rowData = this.data();
+                        rowData.email = formData.email;
+                        rowData.userName = formData.userName;
+                        rowData.role = formData.role;
+                        rowData.status = formData.isActive ? 'Aktywny' : 'Nieaktywny';
+                        this.data(rowData).draw();
+                    });
+                } else {
+                    // Dodaj nowy wiersz
+                    const newRow = {
+                        id: usersTable.data().length + 1,
+                        email: formData.email,
+                        userName: formData.userName,
+                        role: formData.role,
+                        createdDate: new Date().toISOString().split('T')[0],
+                        status: formData.isActive ? 'Aktywny' : 'Nieaktywny'
+                    };
+                    usersTable.row.add(newRow).draw();
+                }
+
+                // Zamknij modal
+                bootstrap.Modal.getInstance(document.getElementById('userModal')).hide();
+            });
+
+            // Przełącznik widoczności hasła
+            $('.toggle-password').click(function() {
+                const passwordField = $(this).closest('.input-group').find('input');
+                const icon = $(this).find('i');
+
+                if (passwordField.attr('type') === 'password') {
+                    passwordField.attr('type', 'text');
+                    icon.removeClass('bi-eye').addClass('bi-eye-slash');
+                } else {
+                    passwordField.attr('type', 'password');
+                    icon.removeClass('bi-eye-slash').addClass('bi-eye');
+                }
+            });
+        });
+    </script>
+
+}
+

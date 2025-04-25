@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using TimeCapsule.Models.DatabaseModels;
 using Microsoft.AspNetCore.Identity;
+using TimeCapsule.Models.Dto;
 
 namespace TimeCapsule.Models
 {
@@ -14,10 +15,13 @@ namespace TimeCapsule.Models
         public DbSet<CapsuleQuestion> CapsuleQuestions { get; set; }
         public DbSet<CapsuleAnswer> CapsuleAnswers { get; set; }
         public DbSet<ContactMessage> ContactMessages { get; set; }
-
+        public DbSet<CapsuleSection> CapsuleSections { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserDto>().HasNoKey().ToView("UserWithRoles");
 
             modelBuilder.Entity<Capsule>()
                 .HasIndex(c => c.Title);

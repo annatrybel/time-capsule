@@ -3,12 +3,12 @@ using TimeCapsule;
 using TimeCapsule.Models;
 using Microsoft.AspNetCore.Identity;
 using TimeCapsule.Services;
-using TimeCapsule.Models.DatabaseModels;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<TimeCapsuleContext>().AddDefaultTokenProviders().AddDefaultUI();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<TimeCapsuleContext>().AddDefaultTokenProviders().AddDefaultUI();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -22,6 +22,9 @@ builder.Services
 builder.Services.AddScoped<CapsuleService>();
 builder.Services.AddScoped<ContactService>();
 builder.Services.AddScoped<ProfileService>();
+builder.Services.AddScoped<AdminPanelService>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+//builder.Services.AddScoped<AttachmentService>();
 
 var connectionString = builder.Configuration.GetConnectionString("Database") ?? throw new ArgumentNullException("ConnectionString");
 
@@ -30,6 +33,16 @@ builder.Services.AddDbContext<TimeCapsuleContext>(options =>
     options.UseNpgsql(connectionString);
     options.EnableDetailedErrors();
 });
+
+//Session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 
 var app = builder.Build();
 
@@ -43,8 +56,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -71,3 +84,5 @@ using (var scope = app.Services.CreateScope())
     ctx.Database.Migrate();
 }
 app.Run();
+
+

@@ -1,0 +1,25 @@
+﻿
+<div class="modal fade" id="editQuestionModal" tabindex="-1" aria-labelledby="editQuestionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editQuestionModalLabel">Zaktualizuj pytanie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editQuestionForm" method="post" action="/AdminPanel/UpdateQuestion">
+                <div class="modal-body">
+                    <input type="hidden" id="editQuestionId" name="QuestionId" value="">
+                    <input type="hidden" id="editSectionId" name="SectionId" value="">
+                    <div class="mb-3">
+                        <label for="editQuestionText" class="form-label">Treść pytania</label>
+                        <textarea class="form-control" id="editQuestionText" name="QuestionText" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

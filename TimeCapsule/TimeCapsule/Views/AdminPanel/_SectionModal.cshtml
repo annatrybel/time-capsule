@@ -1,0 +1,31 @@
+﻿<div class="modal fade" id="addSectionModal" tabindex="-1" aria-labelledby="addSectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSectionModalLabel">Dodaj nową sekcję</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addSectionForm" method="post" action="/AdminPanel/AddSection" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="sectionName" class="form-label">Nazwa sekcji</label>
+                        <input type="text" class="form-control" id="sectionName" name="SectionName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="capsuleType" class="form-label">Typ kapsuły</label>
+                        <select class="form-select" id="capsuleType" name="CapsuleType" required>
+                            <option value="" selected disabled>Wybierz typ kapsuły</option>
+                            <option value="0">Indywidualna</option>
+                            <option value="1">Dla kogoś</option>
+                            <option value="2">Grupowa</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-primary">Dodaj sekcję</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

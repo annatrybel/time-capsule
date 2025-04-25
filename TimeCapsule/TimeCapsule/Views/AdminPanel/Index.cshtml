@@ -1,1 +1,43 @@
-﻿<h1 class="display-4">Welcome in Admin panel</h1>
+﻿<div class="container">
+    <div class="row mt-3">
+        <div class="col-6 text-center">
+            <p>
+                <strong>Panel administratora aktywny!</strong>
+            </p>
+            <p>Zachowaj ostrożność podczas zarządzania użytkownikami i kapsułami.</p>
+        </div>
+    </div>
+
+    <!-- Main header -->
+    <div class="row mt-4 mb-5">
+        <div class="col-12 text-center">
+            <div class="d-flex align-items-center justify-content-center">
+                <hr class="flex-grow-1 me-3" style="width: 30%;">
+                <h2 class="display-6 text-center m-0">Panel Administracyjny</h2>
+                <hr class="flex-grow-1 ms-3" style="width: 30%;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin buttons -->
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="d-grid gap-4">
+                <a asp-controller="AdminPanel" asp-action="Users" class="btn btn-outline-secondary btn-lg p-3">
+                    <i class="bi bi-people-fill me-2"></i>
+                    Zarządzanie użytkownikami
+                </a>
+
+                <a asp-controller="AdminPanel" asp-action="Forms" class="btn btn-outline-secondary btn-lg p-3">
+                    <i class="bi bi-file-text-fill me-2"></i>
+                    Zarządzanie formularzem
+                </a>
+
+                <a asp-controller="AdminPanel" asp-action="Capsules" class="btn btn-outline-secondary btn-lg p-3">
+                    <i class="bi bi-archive-fill me-2"></i>
+                    Zarządzanie kapsułami
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
