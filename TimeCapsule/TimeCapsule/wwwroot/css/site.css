@@ -1,12 +1,36 @@
-html {
-  font-size: 14px;
+/*globalny css dla wszystkich stron*/
+
+.custom-navbar {
+    background-color: 98A4B4;
 }
+    .custom-navbar a,
+    .custom-navbar .navbar-brand,
+    .custom-navbar .nav-link {
+        color: white !important;
+    }
+
+.logo-font {
+    font-family: 'Leckerli One', cursive;
+}
+.logout-button {
+    color: white !important;
+}
+
+    .logout-button span {
+        color: white !important;
+    }
 
 @media (min-width: 768px) {
   html {
-    font-size: 16px;
+    font-size: 20px;
   }
 }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
@@ -18,5 +42,65 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    background: url('../images/top-background.svg') no-repeat center;
+    background-size: 100%;
+    background-color: #E4E4E4;
+    background-position-y: top;
+    font-family: "Jost", sans-serif;
+    display: flex;
+    flex-direction: column;
 }
+.container {
+    flex: 1;
+}
+
+.hero {
+    position: relative;
+    background-size: contain;
+    padding-bottom: 32%;
+}
+
+    .hero h1 {
+        position: absolute;
+        top: 35%;
+        right: 45%;
+        transform: translateY(-50%);
+        font-size: clamp(1rem, 2vw, 2.5rem);
+    }
+
+
+.description {
+    font-size: 30px;
+    text-align: justify;
+}
+
+footer {
+    background: url('../images/footer-background.png') no-repeat center;
+    background-size: 100%;
+    min-height: 400px;
+    background-position-y: 200px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 60px;
+    color: #fff;
+}
+.footer-content {
+    max-width: 400px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.footer-content a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.mail-icon {
+    width: 40px;
+    margin: 0;
+}
+
