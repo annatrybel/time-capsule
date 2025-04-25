@@ -144,7 +144,7 @@ namespace TimeCapsule.Services
         }
 
 
-        public async Task<ServiceResult> UpdateUserRoles(UserDto model)
+        public async Task<ServiceResult> UpdateUser(UserDto model)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -364,6 +364,102 @@ namespace TimeCapsule.Services
             {
                 _logger.LogError(ex, "Error adding question to section {SectionId}", model.SectionId);
                 return ServiceResult.Failure($"Failed to add question: {ex.Message}");
+            }
+        }
+
+        public async Task<ServiceResult> UpdateQuestion(int questionId, string questionText)
+        {
+            try
+            {
+                var question = await _context.CapsuleQuestions
+                    .FirstOrDefaultAsync(q => q.Id == questionId);
+
+                if (question == null)
+                {
+                    return ServiceResult.Failure("Nie znaleziono pytania");
+                }
+
+                question.QuestionText = questionText;
+
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    _context.CapsuleQuestions.Update(question);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    _logger.LogInformation("Zaktualizowano pytanie {QuestionId}: {QuestionText}",
+                        questionId, questionText);
+
+                    return ServiceResult.Success();
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Błąd podczas aktualizacji pytania {QuestionId}", questionId);
+                return ServiceResult.Failure($"Nie udało się zaktualizować pytania: {ex.Message}");
+            }
+        }
+
+        public async Task<ServiceResult> DeleteQuestion(int questionId)
+        {
+            try
+            {
+                var question = await _context.CapsuleQuestions
+                    .Include(q => q.CapsuleAnswers)
+                    .FirstOrDefaultAsync(q => q.Id == questionId);
+
+                if (question == null)
+                {
+                    return ServiceResult.Failure("Nie znaleziono pytania o podanym ID");
+                }
+
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    if (question.CapsuleAnswers != null && question.CapsuleAnswers.Any())
+                    {
+                        _context.CapsuleAnswers.RemoveRange(question.CapsuleAnswers);
+                    }
+
+                    _context.CapsuleQuestions.Remove(question);
+
+                    await _context.SaveChangesAsync();
+
+                    var questionsToUpdate = await _context.CapsuleQuestions
+                        .Where(q => q.CapsuleSectionId == question.CapsuleSectionId && q.DisplayOrder > question.DisplayOrder)
+                        .OrderBy(q => q.DisplayOrder)
+                        .ToListAsync();
+
+                    foreach (var q in questionsToUpdate)
+                    {
+                        q.DisplayOrder--;
+                        _context.CapsuleQuestions.Update(q);
+                    }
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    _logger.LogInformation("Usunięto pytanie {QuestionId} z sekcji {SectionId}",
+                        questionId, question.CapsuleSectionId);
+
+                    return ServiceResult.Success();
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Błąd podczas usuwania pytania {QuestionId}", questionId);
+                return ServiceResult.Failure($"Nie udało się usunąć pytania: {ex.Message}");
             }
         }
     }
