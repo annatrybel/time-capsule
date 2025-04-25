@@ -99,17 +99,29 @@ namespace TimeCapsule.Controllers
         {
             if (string.IsNullOrEmpty(userId))
             {
-                return BadRequest(ServiceResult.Failure("Invalid parameter: User ID cannot be empty"));
+                TempData["ErrorMessage"] = "Nieprawidłowy identyfikator użytkownika";
+                return RedirectToAction("GetUsers");
             }
 
             string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == currentUserId)
             {
-                return BadRequest(ServiceResult.Failure("Cannot lock your own account"));
+                TempData["ErrorMessage"] = "Nie można zablokować własnego konta";
+                return RedirectToAction("GetUsers");
             }
 
             var result = await _adminPanelService.LockUser(userId);
-            return HandleServiceResult(result);
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Konto użytkownika zostało zablokowane";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = $"Wystąpił błąd podczas blokowania konta: {result.Error?.Description}";
+            }
+
+            return RedirectToAction("GetUsers");
         }
 
         [HttpPost("UnlockUser/{userId}")]
@@ -117,11 +129,22 @@ namespace TimeCapsule.Controllers
         {
             if (string.IsNullOrEmpty(userId))
             {
-                return BadRequest(ServiceResult.Failure("Invalid parameter: User ID cannot be empty"));
+                TempData["ErrorMessage"] = "Nieprawidłowy identyfikator użytkownika";
+                return RedirectToAction("GetUsers");
             }
 
             var result = await _adminPanelService.UnlockUser(userId);
-            return HandleServiceResult(result);
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Konto użytkownika zostało odblokowane";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = $"Wystąpił błąd podczas odblokowywania konta: {result.Error?.Description}";
+            }
+
+            return RedirectToAction("GetUsers");
         }
 
         [HttpGet("GetUserById")]
