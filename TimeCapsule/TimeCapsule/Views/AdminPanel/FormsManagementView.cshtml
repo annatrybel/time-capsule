@@ -93,8 +93,17 @@
                                                                     <td>@question.DisplayOrder</td>
                                                                     <td>@question.QuestionText</td>
                                                                     <td>
-                                                                        <button class="btn btn-sm btn-outline-secondary">
+                                                                        <button class="btn btn-sm btn-outline-secondary edit-question-btn"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#editQuestionModal"
+                                                                                onclick="document.getElementById('editQuestionId').value=@question.Id; document.getElementById('editQuestionText').value='@Html.Raw(question.QuestionText.Replace("'", "\\'"))';">
                                                                             <i class="bi bi-pencil"></i>
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#deleteConfirmModal"
+                                                                                onclick="document.getElementById('deleteForm').action='/AdminPanel/DeleteQuestion/@question.Id'">
+                                                                            <i class="bi bi-trash"></i>
                                                                         </button>
                                                                     </td>
                                                                 </tr>
@@ -126,6 +135,8 @@
 
 <partial name="~/Views/AdminPanel/_SectionModal.cshtml"></partial>
 <partial name="~/Views/AdminPanel/_QuestionModal.cshtml"></partial>
+<partial name="~/Views/AdminPanel/_UpdateQuesionModal.cshtml"></partial>
+<partial name="_DeleteConfirmModal"></partial>
 
 @section Scripts {
     <script>

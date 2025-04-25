@@ -13,6 +13,7 @@ namespace TimeCapsule.Models.Dto
 
     public class CreateQuestionDto
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Sekcja jest wymagana")]
         public int SectionId { get; set; }
 
