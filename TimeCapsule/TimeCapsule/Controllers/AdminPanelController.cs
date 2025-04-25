@@ -5,6 +5,8 @@ using TimeCapsule.Services;
 using TimeCapsule.Models;
 using TimeCapsule.Models.Dto;
 using TimeCapsule.Services.Results;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace TimeCapsule.Controllers
 {
@@ -13,10 +15,12 @@ namespace TimeCapsule.Controllers
     public class AdminPanelController : TimeCapsuleBaseController
     {
         private readonly AdminPanelService _adminPanelService;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminPanelController(AdminPanelService adminPanelService)
+        public AdminPanelController(AdminPanelService adminPanelService, RoleManager<IdentityRole> roleManager)
         {
             _adminPanelService = adminPanelService;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -25,9 +29,14 @@ namespace TimeCapsule.Controllers
         }
 
         [Route("Users")]
-        public IActionResult GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            return View("~/Views/AdminPanel/UsersManagementView.cshtml");
+            var roles = await _roleManager.Roles.ToListAsync();
+            var viewModel = new UserDto
+            {
+                AvailableRoles = roles
+            };
+            return View("~/Views/AdminPanel/UsersManagementView.cshtml", viewModel);
         }
 
         [HttpPost("GetAllUsers")]
@@ -37,9 +46,55 @@ namespace TimeCapsule.Controllers
             return HandleStatusCodeServiceResult(serviceResponse);
         }
 
-        
+        [HttpPost("CreateUser")]
+        public async Task<IActionResult> CreateUser(UserDto user)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                       .SelectMany(v => v.Errors)
+                       .Select(e => e.ErrorMessage)
+                       .ToList();
+                return BadRequest(ServiceResult.Failure("Invalid data:\n" + string.Join("\n", errors)));
+            }
+            var result = await _adminPanelService.CreateUser(user);
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = $"User {user.UserName} created successfully";
+                TempData["SuccessMessageId"] = $"user_create_{user.UserId}_{DateTime.UtcNow.Ticks}";
+                return HandleStatusCodeServiceResult(result);
+            }
+            else
+            {
+                return BadRequest(ServiceResult.Failure(result.Error.Description));
+            }
+        }
+
+        [HttpPost("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(UserDto user)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                       .SelectMany(v => v.Errors)
+                       .Select(e => e.ErrorMessage)
+                       .ToList();
+                return BadRequest(ServiceResult.Failure("Invalid data", string.Join("\n", errors)));
+            }
+            var result = await _adminPanelService.UpdateUser(user);
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = $"User {user.UserName} updated successfully";
+                TempData["SuccessMessageId"] = $"user_update_{user.UserId}_{DateTime.UtcNow.Ticks}";
+                return HandleServiceResult(result);
+            }
+            else
+            {
+                return BadRequest(ServiceResult.Failure(result.Error.Description));
+            }
+        }
+
         [HttpPost("LockUser/{userId}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> LockUser(string userId)
         {
             if (string.IsNullOrEmpty(userId))
@@ -58,7 +113,6 @@ namespace TimeCapsule.Controllers
         }
 
         [HttpPost("UnlockUser/{userId}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UnlockUser(string userId)
         {
             if (string.IsNullOrEmpty(userId))
@@ -70,6 +124,17 @@ namespace TimeCapsule.Controllers
             return HandleServiceResult(result);
         }
 
+        [HttpGet("GetUserById")]
+        public async Task<IActionResult> GetUserById(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest(ServiceResult.Failure("Invalid parameter: User ID cannot be empty"));
+            }
+
+            var result = await _adminPanelService.GetUserById(userId);
+            return HandleStatusCodeServiceResult(result);
+        }
 
         [Route("Forms")]
         public async Task<IActionResult> GetForms()
@@ -82,6 +147,24 @@ namespace TimeCapsule.Controllers
             }
 
             return View("~/Views/AdminPanel/FormsManagementView.cshtml", sectionsResult.Data);
+        }
+
+        [HttpPost("UpdateQuestion")]
+        public async Task<IActionResult> UpdateQuestion(int QuestionId, string QuestionText)
+        {
+            if (QuestionId <= 0 || string.IsNullOrWhiteSpace(QuestionText))
+            {
+                TempData["ErrorMessage"] = "Należy podać poprawny identyfikator pytania i treść.";
+                return RedirectToAction("Forms");
+            }
+
+            var result = await _adminPanelService.UpdateQuestion(QuestionId, QuestionText);
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Pytanie zostało zaktualizowane pomyślnie.";
+            }
+
+            return RedirectToAction("Forms");
         }
 
         [HttpPost("AddSection")]
@@ -105,6 +188,25 @@ namespace TimeCapsule.Controllers
             }
 
             var result = await _adminPanelService.AddQuestion(model);
+            return RedirectToAction("Forms");
+        }
+
+        [HttpPost("DeleteQuestion/{questionId}")]
+        public async Task<IActionResult> DeleteQuestion(int questionId)
+        {
+            if (questionId <= 0)
+            {
+                TempData["ErrorMessage"] = "Nieprawidłowy identyfikator pytania.";
+                return RedirectToAction("Forms");
+            }
+
+            var result = await _adminPanelService.DeleteQuestion(questionId);
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Pytanie zostało usunięte pomyślnie.";
+            }
+
             return RedirectToAction("Forms");
         }
 

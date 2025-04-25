@@ -8,7 +8,7 @@ using TimeCapsule.Services.Results;
 
 namespace TimeCapsule.Services
 {
-    public class AdminPanelService 
+    public class AdminPanelService
     {
         private readonly TimeCapsuleContext _context;
         private readonly ILogger<AdminPanelService> _logger;
@@ -94,6 +94,140 @@ namespace TimeCapsule.Services
             }
         }
 
+        public async Task<ServiceResult<UserDto>> CreateUser(UserDto user)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var existing = await _userManager.FindByEmailAsync(user.Email);
+                if (existing != null)
+                    return ServiceResult<UserDto>.Failure($"User {user.Email} already exists");
+
+                var role = await _context.Roles.FindAsync(user.RoleId);
+                if (role == null)
+                    return ServiceResult<UserDto>.Failure($"Role with ID {user.RoleId} not found");
+
+                var newUser = new IdentityUser
+                {
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    EmailConfirmed = true
+                };
+
+                var createResult = await _userManager.CreateAsync(newUser, "DefaultPassword123!");
+                if (!createResult.Succeeded)
+                {
+                    var errors = string.Join(", ", createResult.Errors.Select(e => e.Description));
+                    _logger.LogError("Failed to create user: {Errors}", errors);
+                    return ServiceResult<UserDto>.Failure($"Failed to create user: {errors}");
+                }
+
+                var roleResult = await _userManager.AddToRoleAsync(newUser, role.Name);
+                if (!roleResult.Succeeded)
+                {
+                    var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
+                    _logger.LogError("Failed to add user to role: {Errors}", errors);
+                    return ServiceResult<UserDto>.Failure($"Failed to add user to role: {errors}");
+                }
+
+                await transaction.CommitAsync();
+
+                user.UserId = newUser.Id;
+                return ServiceResult<UserDto>.Success(user);
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                _logger.LogError(ex, "Error creating user {Email}", user.Email);
+                return ServiceResult<UserDto>.Failure($"Failed to save user: {ex.Message}");
+            }
+        }
+
+
+        public async Task<ServiceResult> UpdateUserRoles(UserDto model)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+                if (user == null)
+                    return ServiceResult.Failure("User not found");
+
+                var role = await _context.Roles.FindAsync(model.RoleId);
+                if (role == null)
+                    return ServiceResult.Failure($"Role with ID {model.RoleId} not found");
+
+                user.UserName = model.UserName;
+                user.Email = model.Email;
+
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded)
+                {
+                    var errors = string.Join(", ", updateResult.Errors.Select(e => e.Description));
+                    _logger.LogError("Failed to update user: {Errors}", errors);
+                    return ServiceResult.Failure($"Failed to update user: {errors}");
+                }
+
+                var currentRoles = await _userManager.GetRolesAsync(user);
+                if (currentRoles.Any())
+                {
+                    await _userManager.RemoveFromRolesAsync(user, currentRoles);
+                }
+                await _userManager.AddToRoleAsync(user, role.Name);
+
+                await transaction.CommitAsync();
+                return ServiceResult.Success();
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                _logger.LogError(ex, $"Error updating roles for user {model.UserId}");
+                return ServiceResult.Failure("Error updating user roles");
+            }
+        }
+
+        public async Task<ServiceResult<UserDto>> GetUserById(string userId)
+        {
+            try
+            {
+                var userData = await _context.Users
+                     .Where(u => u.Id == userId)
+                     .Join(_context.UserRoles,
+                           u => u.Id,
+                           ur => ur.UserId,
+                           (u, ur) => new { User = u, UserRole = ur })
+                     .Join(_context.Roles,
+                           ur => ur.UserRole.RoleId,
+                           r => r.Id,
+                           (ur, r) => new
+                           {
+                               User = ur.User,
+                               Role = r
+                           })
+                     .FirstOrDefaultAsync();
+
+                if (userData == null)
+                    return ServiceResult<UserDto>.Failure($"User with ID {userId} not found");
+
+                var userDto = new UserDto
+                {
+                    UserId = userData.User.Id,
+                    UserName = userData.User.UserName,
+                    Email = userData.User.Email,
+                    RoleId = userData.Role.Id,
+                    RoleName = userData.Role.Name
+                };
+
+                return ServiceResult<UserDto>.Success(userDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error getting user with ID {userId}");
+                return ServiceResult<UserDto>.Failure("Error retrieving user details");
+            }
+        }
+
+
         public async Task<ServiceResult<List<CapsuleSectionDto>>> GetFormSectionsWithQuestions()
         {
             try
@@ -173,7 +307,7 @@ namespace TimeCapsule.Services
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
-                    throw; 
+                    throw;
                 }
             }
             catch (Exception ex)
@@ -220,7 +354,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
                     throw;
