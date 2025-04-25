@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    const usersTable = $('#usersTable').DataTable({
+    const usersTable = $('#tableUser').DataTable({
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/pl.json',
         },
@@ -12,11 +12,12 @@
             dataType: "json"
         },
         columns: [
-            { data: "userId" },
-            { data: "email" },
-            { data: "userName" },
+            { data: "userId", name: "ID", },
+            { data: "email", name: "Email", },
+            { data: "userName", name: "Nazwa użytkownika", },
             {
-                data: "role",
+                data: "roleName",
+                name: "Rola",
                 render: function (data) {
                     if (data === "Admin") {
                         return '<span class="badge bg-primary">Administrator</span>';
@@ -26,48 +27,54 @@
                 }
             },
             {
-                data: "status",
+                data: "isLocked",
+                name: "Status",
                 render: function (data) {
-                    if (data === "Aktywny") {
-                        return '<span class="badge bg-success">Aktywny</span>';
-                    } else {
+                    if (data === true) {
                         return '<span class="badge bg-danger">Zablokowany</span>';
+                    } else {
+                        return '<span class="badge bg-success">Aktywny</span>';
                     }
                 }
             },
             {
                 data: "userId",
+                name: "Akcje",
                 orderable: false,
                 className: "actions",
-                render: function (data,type,row) {
+                render: function (data, type, row) {
                     return `
-                                <div class="dropdown text-center">
-                                <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-${data}" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-${data}">
-                                <li>
-                                    <a class="dropdown-item edit-user" href="/Users/GetUserById?id=${data}">
-                                            <i class="fas fa-edit"></i> Edit user
-                                        </a>
-                                </li>
-                                <li>
-                                        <a class="dropdown-item delete-button" data-id="${data}" data-url="/Users/DeleteUser">
-                                            <i class="fas fa-trash"></i> Delete
-                                        </a>
-                                </li>
-                                <li>
-                                        ${row.isLocked ?
-                            `<a class="dropdown-item unlock-user" data-id="${data}">
-                                            <i class="fas fa-unlock"></i> Unlock user
-                                        </a>` :
-                            `<a class="dropdown-item lock-user" data-id="${data}">
-                                            <i class="fas fa-lock"></i> Lock user
-                                        </a>`
+                    	<div class="dropdown text-center">
+                        	<button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-${data}" data-bs-toggle="dropdown" aria-expanded="false">
+                            	<i class="fas fa-ellipsis-v"></i>
+                        	</button>
+                        	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-${data}">
+                            	<li>
+                                	<button class="dropdown-item edit-user" data-id="${data}" type="button">
+                                    	<i class="fas fa-edit"></i> Edit user
+                                	</button>
+                            	</li>
+                            	<li>
+                                	<a class="dropdown-item delete-button" data-id="${data}" data-url="/AdminPanel/DeleteUser">
+                                    	<i class="fas fa-trash"></i> Delete
+                                	</a>
+                            	</li>
+                            	<li>
+                                	${row.isLocked ?
+                            `<form method="post" action="/AdminPanel/UnlockUser/${data}" style="margin:0">
+                                        	<button type="submit" class="dropdown-item unlock-user">
+                                            	<i class="fas fa-unlock"></i> Unlock user
+                                        	</button>
+                                    	</form>` :
+                            `<form method="post" action="/AdminPanel/LockUser/${data}" style="margin:0">
+                                        	<button type="submit" class="dropdown-item lock-user">
+                                            	<i class="fas fa-lock"></i> Lock user
+                                        	</button>
+                                     	</form>`
                         }
-                                </li>
-                                </ul>
-                            </div>`;
+                            	</li>
+                        	</ul>
+                    	</div>`;
                 }
             }
         ],
@@ -81,4 +88,32 @@
         ],
         order: [[0, "asc"]]
     });
+
+
+    $(document).on('click', '.dropdown-item.edit-user', function (event) {
+        const userId = $(this).data('id');
+        const url = '/AdminPanel/GetUserById?userId=' + userId;
+
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (response) {
+                const modal = $('#editUserModal');
+
+                modal.find('#EditId').val(response.userId);
+                modal.find('#EditEmail').val(response.email);
+                modal.find('#EditUserName').val(response.userName);
+                modal.find('#EditRoleId').val(response.roleId);
+
+                const modalInstance = new bootstrap.Modal(document.getElementById('editUserModal'));
+                modalInstance.show();
+            },
+            error: function (error) {
+                console.error('Error fetching user data:', error);
+                alert('Failed to fetch user data. Please try again.');
+            }
+        });
+    });
 });
+
