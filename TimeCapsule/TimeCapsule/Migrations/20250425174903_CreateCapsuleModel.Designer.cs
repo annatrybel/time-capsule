@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TimeCapsule.Models;
@@ -11,9 +12,11 @@ using TimeCapsule.Models;
 namespace TimeCapsule.Migrations
 {
     [DbContext(typeof(TimeCapsuleContext))]
-    partial class TimeCapsuleContextModelSnapshot : ModelSnapshot
+    [Migration("20250425174903_CreateCapsuleModel")]
+    partial class CreateCapsuleModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -294,7 +297,7 @@ namespace TimeCapsule.Migrations
                     b.ToTable("CapsuleAnswers");
                 });
 
-            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleImage", b =>
+            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleAttachment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -317,7 +320,7 @@ namespace TimeCapsule.Migrations
 
                     b.HasIndex("CapsuleId");
 
-                    b.ToTable("CapsuleImages");
+                    b.ToTable("CapsuleAttachments");
                 });
 
             modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleLink", b =>
@@ -561,7 +564,7 @@ namespace TimeCapsule.Migrations
                     b.Navigation("CapsuleQuestion");
                 });
 
-            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleImage", b =>
+            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleAttachment", b =>
                 {
                     b.HasOne("TimeCapsule.Models.DatabaseModels.Capsule", "Capsule")
                         .WithMany("CapsuleAttachments")

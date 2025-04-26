@@ -11,12 +11,15 @@ namespace TimeCapsule.Models
         public TimeCapsuleContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Capsule> Capsules { get; set; }
-        public DbSet<CapsuleAttachment> CapsuleAttachments { get; set; }
+        public DbSet<CapsuleImage> CapsuleImages { get; set; }
         public DbSet<CapsuleQuestion> CapsuleQuestions { get; set; }
         public DbSet<CapsuleAnswer> CapsuleAnswers { get; set; }
         public DbSet<ContactMessage> ContactMessages { get; set; }
         public DbSet<CapsuleSection> CapsuleSections { get; set; }
+        public DbSet<CapsuleLink> CapsuleLinks { get; set; }
+        public DbSet<CapsuleRecipient> CapsuleRecipients { get; set; }
         
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -57,14 +60,8 @@ namespace TimeCapsule.Models
             modelBuilder.Entity<CapsuleAnswer>()
                 .HasOne(ca => ca.CapsuleQuestion)
                 .WithMany(q => q.CapsuleAnswers)
-                .HasForeignKey(ca => ca.CapsuleQuestionId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<CapsuleAttachment>()
-                .HasOne(ca => ca.Capsule)       
-                .WithMany(c => c.CapsuleAttachments)  
-                .HasForeignKey(ca => ca.CapsuleId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .HasForeignKey(ca => ca.QuestionId)
+                .OnDelete(DeleteBehavior.Cascade);            
         }
     }
 }
