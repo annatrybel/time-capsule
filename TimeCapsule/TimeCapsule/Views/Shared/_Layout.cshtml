@@ -1,4 +1,5 @@
-﻿﻿@using Microsoft.AspNetCore.Identity
+﻿<!--globalny html dla wszytskich stron-->
+﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
@@ -8,6 +9,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>@ViewData["Title"] - TimeCapsule</title>
+
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+    <link rel="icon" type="image/png" href="~/favicon.png" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -28,7 +35,13 @@
                             <a class="nav-link nav-link-custom" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="FAQ">FAQ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MainPageLogged">MainPageLogged</a>
                         </li>
                         @if (User.IsInRole("Admin"))
                         {
@@ -74,18 +87,13 @@
         </main>
     </div>
 
-    <footer class="fixed-bottom bg-transparent">
-        <div class="container">
-            <div class="d-flex justify-content-end align-items-center py-2">
-                <div>
-                    <a href="#" class="text-dark position-relative"
-                       data-bs-toggle="modal"
-                       data-bs-target="#contactModal"
-                       title="Skontaktuj się z nami">
-                        <i class="bi bi-envelope-fill fs-4"></i>
-                    </a>
-                </div>
-            </div>
+    <footer>
+        <div class="footer-content">
+            <span>
+                potrzebujesz pomocy?
+                <a asp-controller="Home" asp-action="Contact">skontaktuj się z nami!</a>
+            </span>
+            <img src="~/images/mail-icon.png" alt="Mail icon" class="mail-icon" />
         </div>
     </footer>
     <partial name="_ContactModalForm.cshtml" />

@@ -26,7 +26,7 @@
 .tab {
     flex: 1;
     text-align: center;
-    padding: 10px 20px;
+    padding: 10px 10px;
     cursor: pointer;
     color: #333;
     text-decoration: none;
@@ -34,6 +34,7 @@
     background: none;
     outline: none;
     font-size: 1em;
+
 }
     .tab:not(.active) {
         background-color: rgba(0, 0, 0, 0.1);
