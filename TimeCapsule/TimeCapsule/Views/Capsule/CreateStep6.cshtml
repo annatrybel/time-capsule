@@ -1,0 +1,164 @@
+﻿@using TimeCapsule.Models.Dto
+@model CreateCapsuleDto
+
+<div class="background-image-for-pages">
+    <div class="container-fluid p-0">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 bg-light rounded shadow-sm p-4 my-5">
+                <form asp-controller="TimeCapsule" asp-action="SaveStep6" method="post" enctype="multipart/form-data">
+                    <div class="text-center">
+                        <h1 class="display-6 mb-3">Krok 6 z 9: Dodaj załączniki</h1>
+
+                        <p class="lead mb-3">
+                            Tekst nie przekazuje w pełni tego, co chcesz zawrzeć w kapsule?
+                            Dodaj zdjęcie oraz linki, aby wzbogacić jego zawartość!
+                        </p>
+                    </div>
+
+                    <!-- Sekcja przesyłania plików -->
+                    <div class="mt-4" id="imagesSection">
+                        <h5>Dodaj zdjęcia:</h5>
+                        <div id="imageInputsContainer">
+                            <div class="input-group mb-3" id="imageGroup-0">
+                                <input type="file" class="form-control" id="imageInput-0" name="uploadedFiles" accept="image/*">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-secondary mt-2" id="addImageBtn">
+                            <i class="bi bi-plus-lg"></i> Dodaj kolejne zdjęcie
+                        </button>
+                    </div>
+
+                    <!-- Wyświetlanie już dodanych załączników -->
+                    @if (Model?.UploadedImages != null && Model.UploadedImages.Any())
+                    {
+                        <div class="mt-4">
+                            <h5>Dodane zdjęcia:</h5>
+                            <div class="row">
+                                @foreach (var image in Model.UploadedImages)
+                                {
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card">
+                                            <img src="data:@image.ContentType;base64,@image.Base64Content" class="card-img-top" alt="@image.FileName">
+                                            <div class="card-body">
+                                                <p class="card-text small text-truncate">@image.FileName</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                
+                    <!-- Sekcja dodawania linków -->
+                    <div id="linkSection" class="mt-4">
+                        <label for="linkInput-0" class="form-label">Dodaj link:</label>
+                        <div id="linkInputsContainer">
+                            @if (Model?.Links != null && Model.Links.Any())
+                            {
+                                @for (int i = 0; i < Model.Links.Count; i++)
+                                {
+                                    <div class="input-group mb-3" id="linkGroup-@i">
+                                        <input type="url" class="form-control" placeholder="https://przykladowy-link.com"
+                                               id="linkInput-@i" name="Links[@i]" value="@Model.Links[i]" aria-label="Link do zasobu">
+                                        @if (i > 0)
+                                        {
+                                            <button class="btn btn-outline-danger" type="button" onclick="removeLinkInput(@i)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="input-group mb-3" id="linkGroup-0">
+                                    <input type="url" class="form-control" placeholder="https://przykladowy-link.com"
+                                           id="linkInput-0" name="Links[0]" aria-label="Link do zasobu">
+                                </div>
+                            }
+                        </div>
+                        <button type="button" class="btn btn-outline-secondary mt-2" id="addLinkBtn">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-5">
+                        <a asp-controller="TimeCapsule" asp-action="Step5" class="btn btn-secondary">Wstecz</a>
+                        <button type="submit" class="btn btn-success">Dalej</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addLinkBtn = document.getElementById('addLinkBtn');
+            const linkInputsContainer = document.getElementById('linkInputsContainer');
+            let linkCounter = @(Model?.Links != null && Model.Links.Any() ? Model.Links.Count : 1);
+
+            addLinkBtn.addEventListener('click', function () {
+                const newGroupId = `linkGroup-${linkCounter}`;
+                const newInputId = `linkInput-${linkCounter}`;
+                const newName = `Links[${linkCounter}]`;
+
+                const newDiv = document.createElement('div');
+                newDiv.classList.add('input-group', 'mb-3');
+                newDiv.id = newGroupId;
+
+                newDiv.innerHTML = `
+                    <input type="url" class="form-control" placeholder="https://kolejny-link.com" id="${newInputId}" name="${newName}" aria-label="Link do zasobu">
+                    <button class="btn btn-outline-danger" type="button" onclick="removeLinkInput(${linkCounter})">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                `;
+
+                linkInputsContainer.appendChild(newDiv);
+                linkCounter++;
+            });
+
+            // Funkcja do usuwania pola linku
+            window.removeLinkInput = function(index) {
+                const groupToRemove = document.getElementById(`linkGroup-${index}`);
+                if (groupToRemove) {
+                    groupToRemove.remove();
+                }
+            }
+
+
+
+             // Obsługa dynamicznych pól na zdjęcia (minimalna ilość JS)
+            const addImageBtn = document.getElementById('addImageBtn');
+            const imageInputsContainer = document.getElementById('imageInputsContainer');
+            let imageCounter = 1;
+
+            addImageBtn.addEventListener('click', function() {
+                const newGroupId = `imageGroup-${imageCounter}`;
+                const newInputId = `imageInput-${imageCounter}`;
+
+                const newDiv = document.createElement('div');
+                newDiv.classList.add('input-group', 'mb-3');
+                newDiv.id = newGroupId;
+
+                newDiv.innerHTML = `
+                    <input type="file" class="form-control" id="${newInputId}" name="uploadedFiles" accept="image/*">
+                    <button class="btn btn-outline-danger" type="button" onclick="removeImageInput(${imageCounter})">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                `;
+
+                imageInputsContainer.appendChild(newDiv);
+                imageCounter++;
+            });
+
+            window.removeImageInput = function(index) {
+                const groupToRemove = document.getElementById(`imageGroup-${index}`);
+                if (groupToRemove) {
+                    groupToRemove.remove();
+                }
+            };
+        });
+    </script>
+}

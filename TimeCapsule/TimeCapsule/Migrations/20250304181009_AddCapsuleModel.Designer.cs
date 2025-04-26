@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TimeCapsule.Models;
@@ -11,9 +12,11 @@ using TimeCapsule.Models;
 namespace TimeCapsule.Migrations
 {
     [DbContext(typeof(TimeCapsuleContext))]
-    partial class TimeCapsuleContextModelSnapshot : ModelSnapshot
+    [Migration("20250304181009_AddCapsuleModel")]
+    partial class AddCapsuleModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,6 +88,11 @@ namespace TimeCapsule.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("character varying(21)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -135,6 +143,10 @@ namespace TimeCapsule.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator().HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -165,10 +177,12 @@ namespace TimeCapsule.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
@@ -205,10 +219,12 @@ namespace TimeCapsule.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
@@ -252,6 +268,10 @@ namespace TimeCapsule.Migrations
                     b.Property<DateTime>("OpeningDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Question1Answer")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -265,8 +285,6 @@ namespace TimeCapsule.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("Title");
 
                     b.ToTable("Capsules");
                 });
@@ -286,16 +304,24 @@ namespace TimeCapsule.Migrations
                     b.Property<int>("CapsuleId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("CapsuleQuestionId")
+                    b.Property<string>("QuestionName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("UserId1")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CapsuleId");
 
-                    b.HasIndex("CapsuleQuestionId");
+                    b.HasIndex("UserId1");
 
-                    b.ToTable("CapsuleAnswers");
+                    b.ToTable("CapsuleAnswer");
                 });
 
             modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleAttachment", b =>
@@ -328,32 +354,7 @@ namespace TimeCapsule.Migrations
 
                     b.HasIndex("CapsuleId");
 
-                    b.ToTable("CapsuleAttachments");
-                });
-
-            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleQuestion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CapsuleSectionId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("QuestionText")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CapsuleSectionId");
-
-                    b.ToTable("CapsuleQuestions");
+                    b.ToTable("CapsuleAttachment");
                 });
 
             modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleRecipient", b =>
@@ -389,88 +390,11 @@ namespace TimeCapsule.Migrations
                     b.ToTable("CapsuleRecipient");
                 });
 
-            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleSection", b =>
+            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.ApplicationUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CapsuleType")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CapsuleSections");
-                });
-
-            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.ContactMessage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("ContactMessages");
-                });
-
-            modelBuilder.Entity("TimeCapsule.Models.Dto.UserDto", b =>
-                {
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsLocked")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.ToTable((string)null);
-
-                    b.ToView("UserWithRoles", (string)null);
+                    b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -526,10 +450,10 @@ namespace TimeCapsule.Migrations
 
             modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.Capsule", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedByUser")
-                        .WithMany()
+                    b.HasOne("TimeCapsule.Models.DatabaseModels.ApplicationUser", "CreatedByUser")
+                        .WithMany("Capsules")
                         .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CreatedByUser");
@@ -543,15 +467,15 @@ namespace TimeCapsule.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TimeCapsule.Models.DatabaseModels.CapsuleQuestion", "CapsuleQuestion")
-                        .WithMany("CapsuleAnswers")
-                        .HasForeignKey("CapsuleQuestionId")
+                    b.HasOne("TimeCapsule.Models.DatabaseModels.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Capsule");
 
-                    b.Navigation("CapsuleQuestion");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleAttachment", b =>
@@ -565,17 +489,6 @@ namespace TimeCapsule.Migrations
                     b.Navigation("Capsule");
                 });
 
-            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleQuestion", b =>
-                {
-                    b.HasOne("TimeCapsule.Models.DatabaseModels.CapsuleSection", "CapsuleSection")
-                        .WithMany("Questions")
-                        .HasForeignKey("CapsuleSectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CapsuleSection");
-                });
-
             modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleRecipient", b =>
                 {
                     b.HasOne("TimeCapsule.Models.DatabaseModels.Capsule", "Capsule")
@@ -584,7 +497,7 @@ namespace TimeCapsule.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "RecipientUser")
+                    b.HasOne("TimeCapsule.Models.DatabaseModels.ApplicationUser", "RecipientUser")
                         .WithMany()
                         .HasForeignKey("RecipientUserId1")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -604,14 +517,9 @@ namespace TimeCapsule.Migrations
                     b.Navigation("CapsuleRecipients");
                 });
 
-            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleQuestion", b =>
+            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.ApplicationUser", b =>
                 {
-                    b.Navigation("CapsuleAnswers");
-                });
-
-            modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.CapsuleSection", b =>
-                {
-                    b.Navigation("Questions");
+                    b.Navigation("Capsules");
                 });
 #pragma warning restore 612, 618
         }

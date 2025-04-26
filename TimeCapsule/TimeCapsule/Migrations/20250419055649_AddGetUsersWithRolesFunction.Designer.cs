@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TimeCapsule.Models;
@@ -11,9 +12,11 @@ using TimeCapsule.Models;
 namespace TimeCapsule.Migrations
 {
     [DbContext(typeof(TimeCapsuleContext))]
-    partial class TimeCapsuleContextModelSnapshot : ModelSnapshot
+    [Migration("20250419055649_AddGetUsersWithRolesFunction")]
+    partial class AddGetUsersWithRolesFunction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -409,7 +412,7 @@ namespace TimeCapsule.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CapsuleSections");
+                    b.ToTable("CapsuleSection");
                 });
 
             modelBuilder.Entity("TimeCapsule.Models.DatabaseModels.ContactMessage", b =>
@@ -445,32 +448,6 @@ namespace TimeCapsule.Migrations
                         .IsUnique();
 
                     b.ToTable("ContactMessages");
-                });
-
-            modelBuilder.Entity("TimeCapsule.Models.Dto.UserDto", b =>
-                {
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsLocked")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.ToTable((string)null);
-
-                    b.ToView("UserWithRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

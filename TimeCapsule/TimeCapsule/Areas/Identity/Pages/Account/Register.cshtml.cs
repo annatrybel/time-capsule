@@ -29,13 +29,15 @@ namespace TimeCapsule.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +45,7 @@ namespace TimeCapsule.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -102,6 +105,11 @@ namespace TimeCapsule.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            if(!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+                await _roleManager.CreateAsync(new IdentityRole("User"));
+            }
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -120,8 +128,28 @@ namespace TimeCapsule.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    var admins = await _userManager.GetUsersInRoleAsync("Admin");
 
+                    if (admins.Count == 0)
+                    {
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                        _logger.LogInformation("First user created as an Admin.");
+                    }
+                    else
+                    {
+                        if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            await _userManager.AddToRoleAsync(user, "Admin");
+                            _logger.LogInformation("New admin user created by existing admin.");
+                        }
+                        else
+                        {
+                            await _userManager.AddToRoleAsync(user, "User");
+                            _logger.LogInformation("User created with User role.");
+                        }
+                    }
+
+                    _logger.LogInformation("User created a new account with password.");
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
