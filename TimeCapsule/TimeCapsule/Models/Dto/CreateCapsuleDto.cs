@@ -20,7 +20,6 @@ namespace TimeCapsule.Models.Dto
         public List<UploadedImageDto>? UploadedImages { get; set; } = new List<UploadedImageDto>();
         public DateTime OpeningDate { get; set; }
         public string? CreatedByUserId { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public IdentityUser CreatedByUser { get; set; } 
         public Status Status { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using TimeCapsule.Extensions;
 using TimeCapsule.Models.DatabaseModels;
@@ -320,34 +321,59 @@ namespace TimeCapsule.Controllers
 
         [HttpPost]
         [Route("SaveStep7")]
-        public IActionResult SaveStep7([FromForm] CreateCapsuleDto capsule, string OpenDate, string OpenTime)
+        public IActionResult SaveStep7([FromForm] CreateCapsuleDto capsule, string OpenDate, string OpenTime, string PredefinedPeriod)
         {
             var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
 
-            if (fullCapsule != null)
-            {
-                if (!string.IsNullOrEmpty(OpenDate))
-                {
-                    if (!string.IsNullOrEmpty(OpenTime))
-                    {
-                        if (DateTime.TryParse($"{OpenDate} {OpenTime}", out DateTime openingDateTime))
-                        {
-                            fullCapsule.OpeningDate = openingDateTime;
-                        }
-                    }
-                    else if (DateTime.TryParse(OpenDate, out DateTime openingDate))
-                    {
-                        fullCapsule.OpeningDate = openingDate;
-                    }
-                }
-
-                HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
-            }
-            else
+            if (fullCapsule == null)
             {
                 TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
                 return RedirectToAction("Step1");
             }
+
+            DateTime openingDateTime = DateTime.UtcNow;
+
+            if (!string.IsNullOrEmpty(PredefinedPeriod))
+            {
+                if (PredefinedPeriod.EndsWith("m"))
+                {
+                    int months = int.Parse(PredefinedPeriod.TrimEnd('m'));
+                    openingDateTime = openingDateTime.AddMonths(months);
+                }
+                else if (PredefinedPeriod.EndsWith("y"))
+                {
+                    int years = int.Parse(PredefinedPeriod.TrimEnd('y'));
+                    openingDateTime = openingDateTime.AddYears(years);
+                }
+
+                openingDateTime = new DateTime(openingDateTime.Year, openingDateTime.Month, openingDateTime.Day, 12, 0, 0, DateTimeKind.Utc);
+            }
+            else if (!string.IsNullOrEmpty(OpenDate) && !string.IsNullOrEmpty(OpenTime))
+            {
+                if (DateTime.TryParse($"{OpenDate} {OpenTime}", out DateTime parsedDateTime))
+                {
+                    if (parsedDateTime <= DateTime.Now)
+                    {
+                        TempData["ErrorMessage"] = "Data otwarcia kapsuły musi być w przyszłości.";
+                        return RedirectToAction("Step7");
+                    }
+
+                    openingDateTime = parsedDateTime.ToUniversalTime();
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Nieprawidłowy format daty lub czasu.";
+                    return RedirectToAction("Step7");
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Wybierz datę i godzinę otwarcia kapsuły.";
+                return RedirectToAction("Step7");
+            }
+
+            fullCapsule.OpeningDate = openingDateTime;
+            HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
 
             return RedirectToAction("Step8");
         }
@@ -409,7 +435,7 @@ namespace TimeCapsule.Controllers
 
         [HttpGet]
         [Route("Step9")]
-        public IActionResult Step9()
+        public IActionResult Step9()   //ToDo zabić sesje
         {
             var capsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
             if (capsule != null)

@@ -5,70 +5,69 @@
     <div class="container-fluid p-0">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10 bg-light rounded shadow-sm p-4 my-5">
-
                 <div class="text-center">
                     <h1 class="display-6 mb-3">Krok 7 z 9: ustaw datę otwarcia</h1>
-
                     <p class="lead mb-3">
                         Wybierz datę otwarcia kapsuły:
                     </p>
                 </div>
 
-                <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
-                    <div class="mb-4">
-                        <h5>Za równo:</h5>
-
-                        <!-- Pierwszy rząd przycisków -->
-                        <div class="row mb-3">
-                            <div class="col-md-4 mb-2">
-                                <button type="button" class="btn btn-outline-secondary w-100 predefined-date"
-                                        data-months="1">
-                                    1 miesiąc
-                                </button>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <button type="button" class="btn btn-outline-secondary w-100 predefined-date"
-                                        data-months="6">
-                                    6 miesięcy
-                                </button>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <button type="button" class="btn btn-outline-secondary w-100 predefined-date"
-                                        data-years="1">
-                                    1 rok
-                                </button>
-                            </div>
+                <!-- Pierwszy sposób: predefiniowane okresy -->
+                <div class="mb-4">
+                    <h5>Za równo:</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-4 mb-2">
+                            <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
+                                <input type="hidden" name="PredefinedPeriod" value="1m" />
+                                <button type="submit" class="btn btn-outline-secondary w-100">1 miesiąc</button>
+                            </form>
                         </div>
-
-                        <!-- Drugi rząd przycisków -->
-                        <div class="row">
-                            <div class="col-md-4 mb-2">
-                                <button type="button" class="btn btn-secondary w-100 predefined-date"
-                                        data-years="3">
-                                    3 lata
-                                </button>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <button type="button" class="btn btn-secondary w-100 predefined-date"
-                                        data-years="5">
-                                    5 lat
-                                </button>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <button type="button" class="btn btn-secondary w-100 predefined-date"
-                                        data-years="8">
-                                    8 lat
-                                </button>
-                            </div>
+                        <div class="col-md-4 mb-2">
+                            <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
+                                <input type="hidden" name="PredefinedPeriod" value="6m" />
+                                <button type="submit" class="btn btn-outline-secondary w-100">6 miesięcy</button>
+                            </form>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
+                                <input type="hidden" name="PredefinedPeriod" value="1y" />
+                                <button type="submit" class="btn btn-outline-secondary w-100">1 rok</button>
+                            </form>
                         </div>
                     </div>
 
-                    <div class="mb-4">
-                        <h5>Lub o dowolnie wybranej dacie i godzinie:</h5>
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
+                                <input type="hidden" name="PredefinedPeriod" value="3y" />
+                                <button type="submit" class="btn btn-secondary w-100">3 lata</button>
+                            </form>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
+                                <input type="hidden" name="PredefinedPeriod" value="5y" />
+                                <button type="submit" class="btn btn-secondary w-100">5 lat</button>
+                            </form>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
+                                <input type="hidden" name="PredefinedPeriod" value="8y" />
+                                <button type="submit" class="btn btn-secondary w-100">8 lat</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Drugi sposób: konkretna data i czas -->
+                <div class="mb-4">
+                    <h5>Lub o dowolnie wybranej dacie i godzinie:</h5>
+                    <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="input-group">
-                                    <input type="date" class="form-control" id="openDate" name="OpenDate" aria-label="Data otwarcia">
+                                    <input type="date" class="form-control" id="openDate" name="OpenDate"
+                                           min="@DateTime.Today.ToString("yyyy-MM-dd")" required
+                                           aria-label="Data otwarcia">
                                     <span class="input-group-text">
                                         <i class="bi bi-calendar3"></i>
                                     </span>
@@ -76,22 +75,21 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="input-group">
-                                    <input type="time" class="form-control" id="openTime" name="OpenTime" aria-label="Godzina otwarcia">
+                                    <input type="time" class="form-control" id="openTime" name="OpenTime" required
+                                           value="12:00" aria-label="Godzina otwarcia">
                                     <span class="input-group-text">
                                         <i class="bi bi-clock"></i>
                                     </span>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <input type="hidden" id="fullOpenDateTime" name="OpenDateTime" />
-
-                    <div class="d-flex justify-content-between mt-5">
-                        <a asp-controller="TimeCapsule" asp-action="Step6" class="btn btn-secondary">Wstecz</a>
-                        <button type="submit" class="btn btn-success">Dalej</button>
-                    </div>
-                </form>
+                        <div class="d-flex justify-content-between mt-5">
+                            <a asp-controller="TimeCapsule" asp-action="Step6" class="btn btn-secondary">Wstecz</a>
+                            <button type="submit" class="btn btn-success">Dalej</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

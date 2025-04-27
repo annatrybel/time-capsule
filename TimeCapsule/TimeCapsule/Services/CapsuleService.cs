@@ -66,6 +66,16 @@ namespace TimeCapsule.Services
         {
             try
             {
+                if (capsuleDto.OpeningDate == default || capsuleDto.OpeningDate == DateTime.MinValue)
+                {
+                    return ServiceResult<int>.Failure("Data otwarcia kapsuły jest wymagana i musi być prawidłową datą w przyszłości.");
+                }
+
+                if (capsuleDto.OpeningDate <= DateTime.UtcNow)
+                {
+                    return ServiceResult<int>.Failure("Data otwarcia kapsuły musi być w przyszłości.");
+                }
+
                 var capsule = new Capsule
                 {
                     CreatedByUserId = userId,
@@ -75,7 +85,7 @@ namespace TimeCapsule.Services
                     Color = capsuleDto.Color,
                     Introduction = capsuleDto.Introduction,
                     MessageContent = capsuleDto.MessageContent,
-                    OpeningDate = capsuleDto.OpeningDate,
+                    OpeningDate = capsuleDto.OpeningDate.ToUniversalTime(),
                     Status = Status.Created
                 };
 
@@ -132,13 +142,13 @@ namespace TimeCapsule.Services
                     }
 
                     // Zapis odbiorców dla kapsuł parnych
-                    if (capsuleDto.Type == Models.DatabaseModels.CapsuleType.Parna &&
+                    if (capsuleDto.Type == CapsuleType.Parna &&
                         capsuleDto.Recipients != null &&
                         capsuleDto.Recipients.Any())
                     {
                         foreach (var email in capsuleDto.Recipients.Where(e => !string.IsNullOrWhiteSpace(e)))
                         {
-                            var recipient = new Models.DatabaseModels.CapsuleRecipient
+                            var recipient = new CapsuleRecipient
                             {
                                 CapsuleId = capsule.Id,
                                 Email = email
