@@ -264,6 +264,22 @@ namespace TimeCapsule.Controllers
             return RedirectToAction("Step1");
         }
 
+        [HttpGet]
+        [Route("DeleteImage")]
+        public IActionResult DeleteImage(int imageIndex, string returnStep = "Step6")
+        {
+            var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
+
+            if (fullCapsule != null && fullCapsule.UploadedImages != null &&
+                imageIndex >= 0 && imageIndex < fullCapsule.UploadedImages.Count)
+            {
+                fullCapsule.UploadedImages.RemoveAt(imageIndex);
+                HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
+            }
+
+            return RedirectToAction(returnStep);
+        }
+
         [HttpPost]
         [Route("SaveStep6")]
         public async Task<IActionResult> SaveStep6([FromForm] CreateCapsuleDto capsule, List<IFormFile> uploadedFiles)

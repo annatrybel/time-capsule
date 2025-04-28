@@ -34,11 +34,19 @@
                         <div class="mt-4">
                             <h5>Dodane zdjęcia:</h5>
                             <div class="row">
-                                @foreach (var image in Model.UploadedImages)
+                                @for (int i = 0; i < Model.UploadedImages.Count; i++)
                                 {
+                                    var image = Model.UploadedImages[i];
+                                    <!-- Zastąp formularz usuwania linkiem -->
                                     <div class="col-md-4 mb-3">
-                                        <div class="card">
-                                            <img src="data:@image.ContentType;base64,@image.Base64Content" class="card-img-top" alt="@image.FileName">
+                                        <div class="card image-card" style="position: relative;">
+                                            <a asp-controller="TimeCapsule" asp-action="DeleteImage"
+                                               asp-route-imageIndex="@i"
+                                               asp-route-returnStep="Step6"
+                                               class="btn btn-danger btn-sm delete-image-button">
+                                                <i class="bi bi-x"></i>
+                                            </a>
+                                            <img src="data:@image.ContentType;base64,@image.Base64Content" class="card-img-top" alt="@image.FileName" style="height: 180px; object-fit: cover;">
                                             <div class="card-body">
                                                 <p class="card-text small text-truncate">@image.FileName</p>
                                             </div>
