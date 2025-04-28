@@ -93,9 +93,20 @@
                                     </div>
                                 }
                             </div>
+
+                            <!-- Przycisk dodawania odbiorców -->
                             <button type="button" class="btn btn-outline-secondary mt-2" id="addRecipientBtn">
                                 <i class="bi bi-plus-lg"></i> Dodaj więcej odbiorców
                             </button>
+
+                            <div class="form-check mt-3">
+                                <input class="form-check-input" type="checkbox" value="true" id="notifyRecipients" name="NotifyRecipients"
+                                @(Model.NotifyRecipients ? "checked" : "")>
+                                <label class="form-check-label" for="notifyRecipients">
+                                    Powiadom odbiorców o utworzeniu kapsuły
+                                </label>
+                                <div class="form-text">Odbiorcy otrzymają email z informacją o utworzeniu kapsuły i datą jej otwarcia.</div>
+                            </div>
                         </div>
                     </div>
 

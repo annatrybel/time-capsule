@@ -150,7 +150,13 @@
                                     @foreach (var image in Model.UploadedImages)
                                     {
                                         <div class="col-md-4 mb-3">
-                                            <div class="card">
+                                            <div class="card image-card" style="position: relative;">
+                                                <a asp-controller="TimeCapsule" asp-action="DeleteImage"
+                                                   asp-route-imageIndex="@Model.UploadedImages.IndexOf(image)"
+                                                   asp-route-returnStep="Step8"
+                                                   class="btn btn-danger btn-sm delete-image-button">
+                                                    <i class="bi bi-x"></i>
+                                                </a>
                                                 <img src="data:@image.ContentType;base64,@image.Base64Content" class="card-img-top" alt="@image.FileName">
                                                 <div class="card-body">
                                                     <p class="card-text small text-truncate">@image.FileName</p>
@@ -206,10 +212,7 @@
                         </div>
                         <div class="card-body">
                             <div class="text-center">
-                                <h5>@Model.OpeningDate.ToString("dd MMMM yyyy") o godzinie @Model.OpeningDate.ToString("HH:mm")</h5>
-                                <p class="text-muted">
-                                    (za @((Model.OpeningDate - DateTime.Now).Days) dni)
-                                </p>
+                                <h5>@Model.OpeningDate.ToString("dd/MM/yyyy HH:mm")</h5>
                             </div>
                         </div>
                     </div>
@@ -223,7 +226,3 @@
         </div>
     </div>
 </div>
-
-@* @section Scripts { *@
-@*     <script src="~/js/capsuleAttachmentsEditor.js"></script> *@
-@* } *@

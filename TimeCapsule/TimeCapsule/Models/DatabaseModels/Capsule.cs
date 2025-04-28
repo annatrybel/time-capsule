@@ -13,7 +13,7 @@ namespace TimeCapsule.Models.DatabaseModels
         public string? MessageContent { get; set; }
         public DateTime OpeningDate { get; set; }
         public string CreatedByUserId { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public IdentityUser CreatedByUser { get; set; }
         public Status Status { get; set; }
 
