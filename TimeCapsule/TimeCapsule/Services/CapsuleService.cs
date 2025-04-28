@@ -4,6 +4,8 @@ using TimeCapsule.Models.Dto;
 using TimeCapsule.Services.Results;
 using TimeCapsule.Models.DatabaseModels;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace TimeCapsule.Services
 {
@@ -11,11 +13,13 @@ namespace TimeCapsule.Services
     {
         private readonly TimeCapsuleContext _context;
         private readonly ILogger<CapsuleService> _logger;
+        private readonly IEmailSender _emailSender;
 
-        public CapsuleService(TimeCapsuleContext context, ILogger<CapsuleService> logger)
+        public CapsuleService(TimeCapsuleContext context, ILogger<CapsuleService> logger, IEmailSender emailSender)
         {
             _context = context;
             _logger = logger;
+            _emailSender = emailSender;
         }
 
         public async Task<CreateCapsuleDto> GetSectionsWithQuestions(CreateCapsuleDto capsule)
@@ -62,7 +66,7 @@ namespace TimeCapsule.Services
             }
         }
 
-        public async Task<ServiceResult<int>> SaveCapsule(CreateCapsuleDto capsuleDto, string userId)
+        public async Task<ServiceResult<int>> SaveCapsule(CreateCapsuleDto capsuleDto, IdentityUser user)
         {
             try
             {
@@ -78,7 +82,7 @@ namespace TimeCapsule.Services
 
                 var capsule = new Capsule
                 {
-                    CreatedByUserId = userId,
+                    CreatedByUserId = user.Id,
                     Title = capsuleDto.Title,
                     Type = capsuleDto.Type,
                     Icon = capsuleDto.Icon,
@@ -142,40 +146,105 @@ namespace TimeCapsule.Services
                     }
 
                     // Zapis odbiorców dla kapsuł parnych
-                    if (capsuleDto.Type == CapsuleType.Parna &&
-                        capsuleDto.Recipients != null &&
-                        capsuleDto.Recipients.Any())
+                    if (capsuleDto.Type == CapsuleType.Parna && capsuleDto.Recipients != null &&  capsuleDto.Recipients.Any())
                     {
                         foreach (var email in capsuleDto.Recipients.Where(e => !string.IsNullOrWhiteSpace(e)))
                         {
                             var recipient = new CapsuleRecipient
                             {
                                 CapsuleId = capsule.Id,
-                                Email = email
+                                Email = email,
+                                EmailSent = false
                             };
                             _context.CapsuleRecipients.Add(recipient);
                         }
                         await _context.SaveChangesAsync();
+                        
+                        if (capsuleDto.NotifyRecipients && _emailSender != null)
+                        {
+                            await SendNotificationsToRecipients(capsule, capsuleDto, user);
+                        }
                     }
 
                     // Zatwierdzenie transakcji
                     await transaction.CommitAsync();
 
-                    _logger.LogInformation("Kapsuła {CapsuleId} utworzona pomyślnie przez użytkownika {UserId}", capsule.Id, userId);
+                    _logger.LogInformation("Kapsuła {CapsuleId} utworzona pomyślnie przez użytkownika {user.Id}", capsule.Id, user.Id);
                     return ServiceResult<int>.Success(capsule.Id);
                 }
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
-                    _logger.LogError(ex, "Błąd podczas zapisywania kapsuły dla użytkownika {UserId}", userId);
+                    _logger.LogError(ex, "Błąd podczas zapisywania kapsuły dla użytkownika {UserId}", user.Id);
                     return ServiceResult<int>.Failure("Wystąpił błąd podczas zapisywania kapsuły. Spróbuj ponownie później.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Nieoczekiwany błąd podczas zapisywania kapsuły dla użytkownika {UserId}", userId);
+                _logger.LogError(ex, "Nieoczekiwany błąd podczas zapisywania kapsuły dla użytkownika {UserId}", user.Id);
                 return ServiceResult<int>.Failure("Wystąpił nieoczekiwany błąd. Spróbuj ponownie później.");
             }
+        }
+
+        private async Task SendNotificationsToRecipients(Capsule capsule, CreateCapsuleDto capsuleDto, IdentityUser user)
+        {
+            foreach (var email in capsuleDto.Recipients.Where(e => !string.IsNullOrWhiteSpace(e)))
+            {
+                try
+                {
+                    string subject = $"Masz nową kapsułę czasu od {user.UserName ?? "znajomego"}!";
+                    string message = GenerateEmailTemplate(user.UserName, capsuleDto.Title, capsuleDto.OpeningDate);
+
+                    await _emailSender.SendEmailAsync(email, subject, message);
+
+                    var recipientInDb = await _context.CapsuleRecipients
+                        .FirstOrDefaultAsync(r => r.CapsuleId == capsule.Id && r.Email == email);
+                    if (recipientInDb != null)
+                    {
+                        recipientInDb.EmailSent = true;
+                        _context.CapsuleRecipients.Update(recipientInDb);
+                    }
+
+                    _logger.LogInformation("Wysłano powiadomienie o kapsule {CapsuleId} do odbiorcy {Email}",
+                        capsule.Id, email);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Błąd podczas wysyłania powiadomienia o kapsule {CapsuleId} do odbiorcy {Email}",
+                        capsule.Id, email);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        private string GenerateEmailTemplate(string senderName, string capsuleTitle, DateTime openingDate)
+        {
+            return $@"
+                    <html>
+                    <head>
+                        <style>
+                            body {{ font-family: Arial, sans-serif; color: #333; line-height: 1.6; }}
+                            .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+                            h1 {{ color: #3057B5; }}
+                            .date {{ font-weight: bold; color: #3057B5; }}
+                            .footer {{ margin-top: 30px; font-size: 12px; color: #777; }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class='container'>
+                            <h1>Masz nową kapsułę czasu!</h1>
+                            <p>Witaj!</p>
+                            <p>{senderName ?? "Znajomy"} utworzył(a) dla Ciebie kapsułę czasu o nazwie <strong>{capsuleTitle}</strong>.</p>
+                            <p>Kapsuła będzie dostępna do otwarcia w dniu: <span class='date'>{openingDate:dd/MM/yyyy HH:mm}</span></p>
+                            <p>O tym czasie otrzymasz powiadomienie z linkiem umożliwiającym jej otwarcie.</p>
+                            <p>Pozdrawiamy,<br>Zespół TimeCapsule</p>
+                            <div class='footer'>
+                                <p>To jest automatyczna wiadomość, prosimy na nią nie odpowiadać.</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>";
         }
     }
 }

@@ -43,13 +43,7 @@ namespace TimeCapsule.Models
                 .HasOne(cr => cr.Capsule)       
                 .WithMany(c => c.CapsuleRecipients)   
                 .HasForeignKey(cr => cr.CapsuleId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            //modelBuilder.Entity<CapsuleRecipient>()
-            //    .HasOne(cr => cr.RecipientUser)  
-            //    .WithMany()
-            //    .HasForeignKey(cr => cr.RecipientUserId)
-            //    .OnDelete(DeleteBehavior.Restrict);   
+                .OnDelete(DeleteBehavior.Cascade);  
 
             modelBuilder.Entity<CapsuleAnswer>()
                 .HasOne(ca => ca.Capsule)

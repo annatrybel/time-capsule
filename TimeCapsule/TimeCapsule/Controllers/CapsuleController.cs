@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -17,13 +18,12 @@ namespace TimeCapsule.Controllers
     {
         private readonly IEmailSender _emailSender;
         private readonly CapsuleService _capsuleService;
-        //private readonly AttachmentService _attachmentService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CapsuleController(IEmailSender emailSender, CapsuleService capsuleService)
+        public CapsuleController(CapsuleService capsuleService, UserManager<IdentityUser> userManager)
         {
-            _emailSender = emailSender;
             _capsuleService = capsuleService;
-            //_attachmentService = attachmentService;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -62,6 +62,7 @@ namespace TimeCapsule.Controllers
             if (fullCapsule != null)
             {
                 fullCapsule.Type = capsule.Type;
+                fullCapsule.NotifyRecipients = capsule.NotifyRecipients;
 
                 if (capsule.Type == CapsuleType.Parna)
                 {
@@ -433,7 +434,8 @@ namespace TimeCapsule.Controllers
                 return RedirectToAction("Login", "Account", new { area = "Identity" });
             }
 
-            var result = await _capsuleService.SaveCapsule(fullCapsule, userId);
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _capsuleService.SaveCapsule(fullCapsule, user);
 
             if (!result.IsSuccess)
             {
