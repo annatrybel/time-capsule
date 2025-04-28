@@ -6,6 +6,7 @@ using System.Security.Claims;
 using TimeCapsule.Extensions;
 using TimeCapsule.Models.DatabaseModels;
 using TimeCapsule.Models.Dto;
+using TimeCapsule.Models.ViewModels;
 using TimeCapsule.Services;
 
 namespace TimeCapsule.Controllers
@@ -344,9 +345,7 @@ namespace TimeCapsule.Controllers
                 {
                     int years = int.Parse(PredefinedPeriod.TrimEnd('y'));
                     openingDateTime = openingDateTime.AddYears(years);
-                }
-
-                openingDateTime = new DateTime(openingDateTime.Year, openingDateTime.Month, openingDateTime.Day, 12, 0, 0, DateTimeKind.Utc);
+                }                
             }
             else if (!string.IsNullOrEmpty(OpenDate) && !string.IsNullOrEmpty(OpenTime))
             {
@@ -426,8 +425,6 @@ namespace TimeCapsule.Controllers
                 return RedirectToAction("Step8");
             }
 
-            TempData["SuccessMessage"] = "Kapsuła została zapisana pomyślnie!";
-
             HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
 
             return RedirectToAction("Step9");
@@ -435,16 +432,28 @@ namespace TimeCapsule.Controllers
 
         [HttpGet]
         [Route("Step9")]
-        public IActionResult Step9()   //ToDo zabić sesje
+        public IActionResult Step9()
         {
             var capsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
-            if (capsule != null)
-            {
-                return View("~/Views/Capsule/CreateStep9.cshtml", capsule);
-            }
-            TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
 
-            return RedirectToAction("Step1");
+            if (capsule == null)
+            {
+                TempData["ErrorMessage"] = "Twoja sesja wygasła lub dane zostały utracone. Prosimy rozpocząć proces tworzenia kapsuły od początku.";
+                return RedirectToAction("Step1");
+            }
+
+            var timeRemaining = capsule.OpeningDate - DateTime.UtcNow;
+            var timeRemainingViewModel = new TimeRemainingViewModel
+            {
+                Years = timeRemaining.Days / 365,
+                Days = timeRemaining.Days % 365,
+                Hours = timeRemaining.Hours,
+                Minutes = timeRemaining.Minutes
+            };
+
+            HttpContext.Session.Remove("CurrentCapsule");
+
+            return View("~/Views/Capsule/CreateStep9.cshtml", timeRemainingViewModel);
         }
     }
 }
