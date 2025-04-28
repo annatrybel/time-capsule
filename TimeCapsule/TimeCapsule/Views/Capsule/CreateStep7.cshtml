@@ -1,6 +1,28 @@
 ﻿@using TimeCapsule.Models.Dto
 @model CreateCapsuleDto
 
+@{
+    bool hasDate = Model != null && Model.OpeningDate != default && Model.OpeningDate != DateTime.MinValue;
+
+    DateTime now = DateTime.UtcNow;
+    DateTime oneMonthLater = now.AddMonths(1);
+    DateTime sixMonthsLater = now.AddMonths(6);
+    DateTime oneYearLater = now.AddYears(1);
+    DateTime threeYearsLater = now.AddYears(3);
+    DateTime fiveYearsLater = now.AddYears(5);
+    DateTime eightYearsLater = now.AddYears(8);
+
+    bool isOneMonth = hasDate && Math.Abs((Model.OpeningDate - oneMonthLater).TotalDays) < 5;
+    bool isSixMonths = hasDate && Math.Abs((Model.OpeningDate - sixMonthsLater).TotalDays) < 10;
+    bool isOneYear = hasDate && Math.Abs((Model.OpeningDate - oneYearLater).TotalDays) < 15;
+    bool isThreeYears = hasDate && Math.Abs((Model.OpeningDate - threeYearsLater).TotalDays) < 30;
+    bool isFiveYears = hasDate && Math.Abs((Model.OpeningDate - fiveYearsLater).TotalDays) < 30;
+    bool isEightYears = hasDate && Math.Abs((Model.OpeningDate - eightYearsLater).TotalDays) < 30;
+
+    string dateValue = hasDate ? Model.OpeningDate.ToString("yyyy-MM-dd") : string.Empty;
+    string timeValue = hasDate ? Model.OpeningDate.ToString("HH:mm") : "12:00";
+}
+
 <div class="background-image-for-pages">
     <div class="container-fluid p-0">
         <div class="row justify-content-center">
@@ -10,6 +32,13 @@
                     <p class="lead mb-3">
                         Wybierz datę otwarcia kapsuły:
                     </p>
+
+                    @if (hasDate)
+                    {
+                        <div class="alert alert-info mb-4">
+                            Wybrana data otwarcia: <strong>@Model.OpeningDate.ToString("dd/MM/yyyy HH:mm")</strong>
+                        </div>
+                    }
                 </div>
 
                 <!-- Pierwszy sposób: predefiniowane okresy -->
@@ -19,19 +48,25 @@
                         <div class="col-md-4 mb-2">
                             <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
                                 <input type="hidden" name="PredefinedPeriod" value="1m" />
-                                <button type="submit" class="btn btn-outline-secondary w-100">1 miesiąc</button>
+                                <button type="submit" class="btn @(isOneMonth ? "btn-secondary" : "btn-outline-secondary") w-100">
+                                    1 miesiąc @(isOneMonth ? "✓" : "")
+                                </button>
                             </form>
                         </div>
                         <div class="col-md-4 mb-2">
                             <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
                                 <input type="hidden" name="PredefinedPeriod" value="6m" />
-                                <button type="submit" class="btn btn-outline-secondary w-100">6 miesięcy</button>
+                                <button type="submit" class="btn @(isSixMonths ? "btn-secondary" : "btn-outline-secondary") w-100">
+                                    6 miesięcy @(isSixMonths ? "✓" : "")
+                                </button>
                             </form>
                         </div>
                         <div class="col-md-4 mb-2">
                             <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
                                 <input type="hidden" name="PredefinedPeriod" value="1y" />
-                                <button type="submit" class="btn btn-outline-secondary w-100">1 rok</button>
+                                <button type="submit" class="btn @(isOneYear ? "btn-secondary" : "btn-outline-secondary") w-100">
+                                    1 rok @(isOneYear ? "✓" : "")
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -40,19 +75,25 @@
                         <div class="col-md-4 mb-2">
                             <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
                                 <input type="hidden" name="PredefinedPeriod" value="3y" />
-                                <button type="submit" class="btn btn-secondary w-100">3 lata</button>
+                                <button type="submit" class="btn @(isThreeYears ? "btn-secondary" : "btn-outline-secondary") w-100">
+                                    3 lata @(isThreeYears ? "✓" : "")
+                                </button>
                             </form>
                         </div>
                         <div class="col-md-4 mb-2">
                             <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
                                 <input type="hidden" name="PredefinedPeriod" value="5y" />
-                                <button type="submit" class="btn btn-secondary w-100">5 lat</button>
+                                <button type="submit" class="btn @(isFiveYears ? "btn-secondary" : "btn-outline-secondary") w-100">
+                                    5 lat @(isFiveYears ? "✓" : "")
+                                </button>
                             </form>
                         </div>
                         <div class="col-md-4 mb-2">
                             <form asp-controller="TimeCapsule" asp-action="SaveStep7" method="post">
                                 <input type="hidden" name="PredefinedPeriod" value="8y" />
-                                <button type="submit" class="btn btn-secondary w-100">8 lat</button>
+                                <button type="submit" class="btn @(isEightYears ? "btn-secondary" : "btn-outline-secondary") w-100">
+                                    8 lat @(isEightYears ? "✓" : "")
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -67,6 +108,7 @@
                                 <div class="input-group">
                                     <input type="date" class="form-control" id="openDate" name="OpenDate"
                                            min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                           value="@dateValue"
                                            aria-label="Data otwarcia">
                                     <span class="input-group-text">
                                         <i class="bi bi-calendar3"></i>
@@ -76,7 +118,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="input-group">
                                     <input type="time" class="form-control" id="openTime" name="OpenTime"
-                                           value="12:00" aria-label="Godzina otwarcia">
+                                           value="@timeValue" aria-label="Godzina otwarcia">
                                     <span class="input-group-text">
                                         <i class="bi bi-clock"></i>
                                     </span>
