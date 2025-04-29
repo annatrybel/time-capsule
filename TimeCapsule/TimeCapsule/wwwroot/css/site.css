@@ -9,27 +9,13 @@
 
 
 html {
-  font-size: 14px;
-
-
-.custom-navbar {
+    font-size: 14px;
 }
-    .custom-navbar a,
-    .custom-navbar .navbar-brand,
-    .custom-navbar .nav-link {
-        color: white !important;
-    }
 
 .logo-font {
     font-family: 'Leckerli One', cursive;
 }
-.logout-button {
-    color: white !important;
-}
 
-    .logout-button span {
-        color: white !important;
-    }
 
 @media (min-width: 768px) {
   html {
@@ -112,9 +98,9 @@ footer {
     font-size: 18px;
 }
 
-.footer-content a {
-  color: #fff;
-  text-decoration: underline;
+.footer-content-underline {
+    color: #fff;
+    text-decoration: underline;
 }
 
 .mail-icon {

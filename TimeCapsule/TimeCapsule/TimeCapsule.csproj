@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\css\Nowy folder\**" />
+    <Content Remove="wwwroot\css\Nowy folder\**" />
+    <EmbeddedResource Remove="wwwroot\css\Nowy folder\**" />
+    <None Remove="wwwroot\css\Nowy folder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Home\Contact.cshtml" />
     <Content Remove="wwwroot\css\MainPage\MainPageLogged.css" />
     <Content Remove="wwwroot\images\background-menu.svg" />
@@ -22,7 +29,6 @@
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
-    <Folder Include="wwwroot\css\Nowy folder\" />
   </ItemGroup>
 
   <ItemGroup>

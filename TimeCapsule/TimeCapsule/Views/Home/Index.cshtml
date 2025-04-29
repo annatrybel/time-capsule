@@ -1,4 +1,7 @@
-﻿@{
+﻿﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
     ViewData["Title"] = "Strona Główna";
 }
 @section Styles {
@@ -47,8 +50,18 @@
     </div>
 </section>
 
-<section class="cta text-center">
-    <a asp-controller="TimeCapsule" asp-action="Step1" class="btn cta-button">
-        Stwórz swoją kapsułę czasu już teraz!
-    </a>
-</section>
+@if (SignInManager.IsSignedIn(User)){
+    <section class="cta text-center">
+        <a asp-controller="TimeCapsule" asp-action="Step1" class="btn cta-button">
+            Stwórz swoją kapsułę czasu już teraz!
+        </a>
+    </section>
+}
+else
+{
+    <section class="cta text-center">
+        <a asp-area="Identity" asp-page="/Account/Login"  class="btn cta-button">
+            Zaloguj się, aby stworzyć własną kapsułę czasu
+        </a>
+    </section>
+}
