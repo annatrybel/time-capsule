@@ -1,13 +1,17 @@
-﻿<div class="container">
-    <div class="row mt-3">
-        <div class="col-6 text-center">
-            <p>
-                <strong>Panel administratora aktywny!</strong>
-            </p>
-            <p>Zachowaj ostrożność podczas zarządzania użytkownikami i kapsułami.</p>
-        </div>
-    </div>
+﻿@{
+    ViewData["Title"] = "Panel Administratora";
+}
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/MainPageAdminPanel.css" asp-append-version="true" />
+}
+
+<section class="hero">
+    <h1>
+        <b>Panel administratora aktywny!</b><br /> Zachowaj ostrożność podczas zarządzania użytkownikami i kapsułami.
+    </h1>
+
+</section>
     <!-- Main header -->
     <div class="row mt-4 mb-5">
         <div class="col-12 text-center">
@@ -18,6 +22,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Admin buttons -->
     <div class="row justify-content-center">
