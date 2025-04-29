@@ -5,7 +5,6 @@ using TimeCapsule.Models;
 
 namespace TimeCapsule.Controllers
 {
-    [Authorize]
     public class HomeController : TimeCapsuleBaseController
     {
         private readonly ILogger<HomeController> _logger;
@@ -35,6 +34,7 @@ namespace TimeCapsule.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult MainPageLogged()
         {
             return View();
