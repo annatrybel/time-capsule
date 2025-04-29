@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Home\Contact.cshtml" />
+    <Content Remove="wwwroot\css\MainPage\MainPageLogged.css" />
     <Content Remove="wwwroot\images\background-menu.svg" />
   </ItemGroup>
 

@@ -44,7 +44,8 @@ html, body {
 
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #384352;
+
 }
 
 html {
@@ -56,8 +57,9 @@ body {
     background: url('../images/top-background.svg') no-repeat center 20px;
     background-size: 100%;
     background-color: #E4E4E4;
-    background-position-y: 10px;
+    background-position-y: 20px;
     font-family: "Jost", sans-serif;
+    padding-top: 100px;
     display: flex;
     flex-direction: column;
 }
@@ -74,7 +76,7 @@ body {
     .hero h1 {
         color: white;
         position: absolute;
-        top: 70px !important;
+        top: 80px !important;
         right: 45%;
         transform: translateY(-50%);
         font-size: clamp(1rem, 2vw, 2.5rem) !important;
@@ -141,6 +143,7 @@ footer {
 
 .header-custom {
     background-color: #98a4b4 !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
 }
 
 .brand-custom {

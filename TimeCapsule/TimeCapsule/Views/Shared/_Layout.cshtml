@@ -20,16 +20,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/MainPage/Profile.css" asp-append-version="true" />
     @RenderSection("Styles", required: false)
 
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow header-custom">
+        <nav class="navbar fixed-top navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow header-custom">
             <div class="container-fluid">
                 <a class="navbar-brand brand-custom" asp-area="" asp-controller="Home" asp-action="Index">Time Capsule</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -47,7 +48,7 @@
                             </li>
                         }
                         <li class="nav-item mx-1">
-                            <a class="btn btn-sm btn-secondary" asp-area="" asp-controller="Home" asp-action="MainPageLogged">
+                            <a class="btn btn-sm btn-secondary" asp-area="" asp-controller="Home" asp-action="MyCapsules">
                                 <i class="bi bi-archive me-1"></i>Moje Kapsuły
                             </a>
                         </li>
@@ -58,7 +59,7 @@
                         </li>
                         <li class="nav-item mx-1">
                             <a class="btn btn-sm btn-secondary" asp-area="" asp-controller="Home" asp-action="Privacy">
-                                <i class="bi bi-lock me-1"></i>Privacy
+                                <i class="bi bi-lock me-1"></i>Polityka Prywatności
                             </a>
                         </li>
                     </ul>

@@ -1,14 +1,4 @@
 ﻿/*strona główna - user niezalogowany*/
-.hero {
-    position: relative;
-    min-height: 00px;
-    color: #fff; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    padding-left: 0px; 
-    pa
-}
 
 section.process {
     display: flex;
@@ -69,6 +59,7 @@ section.cta {
     border-radius: 0.5rem;
     transition: background-color 0.2s ease;
     margin-top: 40px;
+
 }
 
     .cta-button:hover {
