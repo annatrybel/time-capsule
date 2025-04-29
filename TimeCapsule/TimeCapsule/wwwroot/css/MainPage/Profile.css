@@ -1,0 +1,31 @@
+
+
+.nav-pills .nav-link {
+    background-color: transparent;
+    color: #4C5C71;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+    .nav-pills .nav-link.active {
+        background-color: #4f647a !important;
+        color: #fff !important;
+    }
+
+
+    .nav-pills .nav-link:hover {
+        background-color: rgba(79,100,122,0.1);
+        color: #4f647a;
+    }
+
+.nav-pills .nav-link {
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.nav-pills {
+  max-width: 220px;
+  width: 100%;
+}

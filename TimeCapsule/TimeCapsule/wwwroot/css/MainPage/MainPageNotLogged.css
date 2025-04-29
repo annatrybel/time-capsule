@@ -1,0 +1,64 @@
+﻿/*strona główna - user niezalogowany ~AW*/
+
+/*hero i description jest w globalnym cssie ~AW*/
+
+/*opis kroków tworzenia kapsuły razem z tytułem sekcji: ~AW*/
+section.process {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    section.process h2 {
+        color: #4C5C71;
+        width: 100%;
+        text-align: center;
+        margin: 80px 0 50px 0;
+        font-weight: 300;
+    }
+
+    section.process .steps {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+.step {
+    width: 250px;
+    text-align: center;
+    margin: 0 10px;
+}
+
+    .step img {
+        display: block;
+        margin: 0 auto 20px;
+        width: 250px;
+    }
+
+    .step h3 {
+        color: #4C5C71;
+        font-size: 1.3rem;
+        font-weight: 400;
+        margin: 0;
+    }
+
+/*przycisk - redirect do logowania: ~AW*/
+
+.cta-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #4f647a;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 300;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+    margin-top: 60px;
+}
+
+    .cta-button:hover {
+        background-color: #3e5061;
+        color: white;
+    }

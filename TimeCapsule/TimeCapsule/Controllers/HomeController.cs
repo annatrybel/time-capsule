@@ -35,7 +35,7 @@ namespace TimeCapsule.Controllers
         }
 
         [Authorize]
-        public IActionResult MainPageLogged()
+        public IActionResult MyCapsules()
         {
             return View();
         }

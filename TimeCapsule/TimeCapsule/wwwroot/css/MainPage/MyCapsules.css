@@ -1,0 +1,68 @@
+﻿/*strona główna - user niezalogowany*/
+
+section.process {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+section.cta {
+    text-align: center;
+    color: #4C5C71;
+}
+
+
+.no-capsules-section .no-capsule-box {
+    position: relative; 
+    max-width: 700px;
+    margin: 3rem auto 1rem;
+    padding: 2rem 2rem 2rem;
+    background-color: #D8D8D8;
+    border-radius: 1rem;
+    text-align: center;
+    color: #4C5C71;
+}
+
+    .no-capsules-section .no-capsule-box::before {
+        content: "!";
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 30px;
+        background-color: #8394a5;
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .no-capsules-section .no-capsule-box .cta-button {
+        margin-top: 1rem; 
+ 
+    }
+
+
+/*przycisk - redirect do logowania*/
+
+.cta-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #4f647a;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 300;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+    margin-top: 40px;
+
+}
+
+    .cta-button:hover {
+        background-color: #3e5061;
+        color: white;
+    }
