@@ -7,30 +7,14 @@
 }
 
 
-
 html {
-  font-size: 14px;
-/*globalny css dla wszystkich stron*/
-
-.custom-navbar {
-    background-color: 98A4B4;
+    font-size: 14px;
 }
-    .custom-navbar a,
-    .custom-navbar .navbar-brand,
-    .custom-navbar .nav-link {
-        color: white !important;
-    }
 
 .logo-font {
     font-family: 'Leckerli One', cursive;
 }
-.logout-button {
-    color: white !important;
-}
 
-    .logout-button span {
-        color: white !important;
-    }
 
 @media (min-width: 768px) {
   html {
@@ -106,9 +90,9 @@ footer {
     white-space: nowrap;
 }
 
-.footer-content a {
-  color: #fff;
-  text-decoration: underline;
+.footer-content-underline {
+    color: #fff;
+    text-decoration: underline;
 }
 
 .mail-icon {

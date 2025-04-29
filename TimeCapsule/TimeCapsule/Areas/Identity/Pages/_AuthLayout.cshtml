@@ -1,6 +1,4 @@
-﻿@* Areas/Identity/Pages/_AuthLayout.cshtml *@
-@{
-    // Wyłączamy dziedziczenie po innym layoucie
+﻿@{    
     Layout = null;
 }
 <!DOCTYPE html>
@@ -8,19 +6,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"] – Time Capsule</title>
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
-    <!-- globalne style -->
-    <link rel="stylesheet" href="~/css/site.css" />
-
-    <!-- Style specyficzne dla Auth (tło, modal itp.) -->
     <link rel="stylesheet" href="~/css/authLayout.css" />
 </head>
 <body class="auth-page">
-    <!-- logo w lewym górnym rogu -->
     <div class="auth-logo">Time Capsule</div>
 
     @RenderBody()
@@ -31,7 +21,7 @@
         <button type="button" class="help-btn">✉️</button>
     </div>
 
-    <!-- skrypty -->
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
