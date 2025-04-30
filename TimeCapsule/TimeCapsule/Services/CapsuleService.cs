@@ -146,7 +146,7 @@ namespace TimeCapsule.Services
                     }
 
                     // Zapis odbiorców dla kapsuł parnych
-                    if (capsuleDto.Type == CapsuleType.Parna && capsuleDto.Recipients != null &&  capsuleDto.Recipients.Any())
+                    if (capsuleDto.Type == CapsuleType.DlaKogos && capsuleDto.Recipients != null &&  capsuleDto.Recipients.Any())
                     {
                         foreach (var email in capsuleDto.Recipients.Where(e => !string.IsNullOrWhiteSpace(e)))
                         {
