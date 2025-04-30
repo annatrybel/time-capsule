@@ -1,0 +1,31 @@
+﻿<div class="modal fade" id="editSectionModal" tabindex="-1" aria-labelledby="editSectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSectionModalLabel">Edytuj sekcję</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editSectionForm" method="post" action="/AdminPanel/UpdateSection">
+                <div class="modal-body">
+                    <input type="hidden" id="editSectionId" name="SectionId" value="">
+                    <div class="mb-3">
+                        <label for="editSectionName" class="form-label">Nazwa sekcji</label>
+                        <input type="text" class="form-control" id="editSectionName" name="SectionName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCapsuleType" class="form-label">Typ kapsuły</label>
+                        <select class="form-select" id="editCapsuleType" name="CapsuleType" required>
+                            <option value="0">Indywidualna</option>
+                            <option value="1">Dla kogoś</option>
+                            <option value="2">Grupowa</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
