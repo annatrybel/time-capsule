@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
+    <Folder Include="Views\AdminPanel\Capsules\" />
   </ItemGroup>
 
   <ItemGroup>

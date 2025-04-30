@@ -7,7 +7,7 @@
         scrollCollapse: true,
         scrollX: true,
         ajax: {
-            url: '/AdminPanel/GetAllUsers',
+            url: '/AdminPanel/Users/GetAllUsers',
             type: "POST",
             dataType: "json"
         },
@@ -92,7 +92,7 @@
 
     $(document).on('click', '.dropdown-item.edit-user', function (event) {
         const userId = $(this).data('id');
-        const url = '/AdminPanel/GetUserById?userId=' + userId;
+        const url = '/AdminPanel/Users/GetUserById?userId=' + userId;
 
 
         $.ajax({

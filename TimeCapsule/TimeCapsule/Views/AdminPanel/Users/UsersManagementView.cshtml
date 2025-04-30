@@ -4,7 +4,7 @@
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a asp-controller="AdminPanel" asp-action="Index">Panel Administracyjny</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="UserManagement" asp-action="Index">Panel Administracyjny</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Zarządzanie użytkownikami</li>
                 </ol>
             </nav>
@@ -42,8 +42,8 @@
             </table>
         </div>
     </div>
-    <partial name="_UpdateUserModalForm" />
-    <partial name="_CreateUserModalForm.cshtml" />
+    <partial name="~/Views/AdminPanel/Users/_UpdateUserModalForm.cshtml"></partial>
+    <partial name="~/Views/AdminPanel/Users/_CreateUserModalForm.cshtml"></partial>
 </div>
 
 
