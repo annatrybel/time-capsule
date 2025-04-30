@@ -14,12 +14,12 @@ namespace TimeCapsule.Controllers.Admin
     [Route("AdminPanel/Users")]
     public class UserManagementController : TimeCapsuleBaseController
     {
-        private readonly AdminPanelService _adminPanelService;
+        private readonly UserManagementService _userManagementService;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserManagementController(AdminPanelService adminPanelService, RoleManager<IdentityRole> roleManager)
+        public UserManagementController(UserManagementService userManagementService, RoleManager<IdentityRole> roleManager)
         {
-            _adminPanelService = adminPanelService;
+            _userManagementService = userManagementService;
             _roleManager = roleManager;
         }
 
@@ -36,7 +36,7 @@ namespace TimeCapsule.Controllers.Admin
         [HttpPost("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers([FromForm] DataTableRequest request)
         {
-            var serviceResponse = await _adminPanelService.GetUsers(request);
+            var serviceResponse = await _userManagementService.GetUsers(request);
             return HandleStatusCodeServiceResult(serviceResponse);
         }
 
@@ -51,7 +51,7 @@ namespace TimeCapsule.Controllers.Admin
                        .ToList();
                 return BadRequest(ServiceResult.Failure("Invalid data:\n" + string.Join("\n", errors)));
             }
-            var result = await _adminPanelService.CreateUser(user);
+            var result = await _userManagementService.CreateUser(user);
             if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = $"User {user.UserName} created successfully";
@@ -75,7 +75,7 @@ namespace TimeCapsule.Controllers.Admin
                        .ToList();
                 return BadRequest(ServiceResult.Failure("Invalid data", string.Join("\n", errors)));
             }
-            var result = await _adminPanelService.UpdateUser(user);
+            var result = await _userManagementService.UpdateUser(user);
             if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = $"User {user.UserName} updated successfully";
@@ -104,7 +104,7 @@ namespace TimeCapsule.Controllers.Admin
                 return RedirectToAction("GetUsers");
             }
 
-            var result = await _adminPanelService.LockUser(userId);
+            var result = await _userManagementService.LockUser(userId);
 
             if (result.IsSuccess)
             {
@@ -127,7 +127,7 @@ namespace TimeCapsule.Controllers.Admin
                 return RedirectToAction("GetUsers");
             }
 
-            var result = await _adminPanelService.UnlockUser(userId);
+            var result = await _userManagementService.UnlockUser(userId);
 
             if (result.IsSuccess)
             {
@@ -149,7 +149,7 @@ namespace TimeCapsule.Controllers.Admin
                 return BadRequest(ServiceResult.Failure("Invalid parameter: User ID cannot be empty"));
             }
 
-            var result = await _adminPanelService.GetUserById(userId);
+            var result = await _userManagementService.GetUserById(userId);
             return HandleStatusCodeServiceResult(result);
         }
     }

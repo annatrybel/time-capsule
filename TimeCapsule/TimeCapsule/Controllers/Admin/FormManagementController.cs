@@ -10,16 +10,16 @@ namespace TimeCapsule.Controllers.Admin
     [Route("AdminPanel/Forms")]
     public class FormManagementController : TimeCapsuleBaseController
     {
-        private readonly AdminPanelService _adminPanelService;
+        private readonly FormManagementService _formManagementService;
 
-        public FormManagementController(AdminPanelService adminPanelService)
+        public FormManagementController(FormManagementService formManagementService)
         {
-            _adminPanelService = adminPanelService;
+            _formManagementService = formManagementService;
         }
 
         public async Task<IActionResult> GetForms()
         {
-            var sectionsResult = await _adminPanelService.GetFormSectionsWithQuestions();
+            var sectionsResult = await _formManagementService.GetFormSectionsWithQuestions();
 
             if (!sectionsResult.IsSuccess)
             {
@@ -38,7 +38,7 @@ namespace TimeCapsule.Controllers.Admin
                 return RedirectToAction("Forms");
             }
 
-            var result = await _adminPanelService.UpdateQuestion(QuestionId, QuestionText);
+            var result = await _formManagementService.UpdateQuestion(QuestionId, QuestionText);
             if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = "Pytanie zostało zaktualizowane pomyślnie.";
@@ -55,7 +55,7 @@ namespace TimeCapsule.Controllers.Admin
                 return BadRequest(ServiceResult.Failure("Invalid section data"));
             }
 
-            var result = await _adminPanelService.AddSection(model);
+            var result = await _formManagementService.AddSection(model);
             return RedirectToAction("Forms");
         }
 
@@ -67,7 +67,7 @@ namespace TimeCapsule.Controllers.Admin
                 return BadRequest(ServiceResult.Failure("Invalid q data"));
             }
 
-            var result = await _adminPanelService.AddQuestion(model);
+            var result = await _formManagementService.AddQuestion(model);
             return RedirectToAction("Forms");
         }
 
@@ -80,7 +80,7 @@ namespace TimeCapsule.Controllers.Admin
                 return RedirectToAction("Forms");
             }
 
-            var result = await _adminPanelService.DeleteQuestion(questionId);
+            var result = await _formManagementService.DeleteQuestion(questionId);
 
             if (result.IsSuccess)
             {
