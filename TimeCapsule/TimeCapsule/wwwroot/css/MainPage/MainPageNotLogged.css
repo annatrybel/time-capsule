@@ -43,6 +43,11 @@ section.process {
         margin: 0;
     }
 
+
+section.cta {
+    margin-bottom: 200px;
+}
+
 /*przycisk - redirect do logowania: ~AW*/
 
 .cta-button {

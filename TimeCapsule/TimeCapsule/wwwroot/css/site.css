@@ -40,7 +40,7 @@ html {
 }
 
 body {
-    background: url('../images/top-background.svg') no-repeat center 20px;
+    background: url('../images/top-background.svg') no-repeat center 30px;
     background-size: 100%;
     background-color: #E4E4E4;
     background-position-y: 20px;
@@ -49,9 +49,7 @@ body {
     display: flex;
     flex-direction: column;
 }
-.container {
-    flex: 1;
-}
+
 
 .hero {
     position: relative;
@@ -79,17 +77,17 @@ body {
 
 
 footer {
-    background: url('../images/footer-background.png') no-repeat center 200px/cover;
-    min-height: 400px;
+    background: url('../images/footer-background.png') no-repeat center 0px/cover;
+    min-height: 150px;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
-    padding: 60px;
+    padding: 30px;
     color: #fff;
 }
 
 .footer-content {
-    max-width: 400px;
+    max-width: 150px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
