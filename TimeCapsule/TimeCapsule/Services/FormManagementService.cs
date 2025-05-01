@@ -69,9 +69,14 @@ namespace TimeCapsule.Services
                 }
 
                 int newDisplayOrder = 1;
-                if (query.Any())
+                var maxOrderForType = await _context.CapsuleSections
+                    .Where(s => s.CapsuleType == model.CapsuleType)
+                    .Select(s => (int?)s.DisplayOrder)
+                    .MaxAsync() ?? 0;
+
+                if (maxOrderForType > 0)
                 {
-                    newDisplayOrder = query.Max(s => s.DisplayOrder) + 1;
+                    newDisplayOrder = maxOrderForType + 1;
                 }
 
                 var section = new CapsuleSection
@@ -348,5 +353,6 @@ namespace TimeCapsule.Services
                 return ServiceResult.Failure($"Nie udało się usunąć pytania: {ex.Message}");
             }
         }
+       
     }
 }
