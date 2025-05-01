@@ -1,5 +1,6 @@
 ﻿@using TimeCapsule.Models.Dto;
 @using TimeCapsule.Models.DatabaseModels;
+@using TimeCapsule.Extensions;
 @model List<CapsuleSectionDto>;
 
 <div class="container">
@@ -35,7 +36,7 @@
                             data-bs-toggle="collapse" data-bs-target="#collapse-type-@((int)capsuleType)"
                             aria-expanded="@(capsuleType == CapsuleType.Indywidualna ? "true" : "false")"
                             aria-controls="collapse-type-@((int)capsuleType)">
-                        <strong>Kapsuła: @capsuleType</strong>
+                        <strong>Kapsuła: @capsuleType.GetDisplayName()</strong>
                     </button>
                 </h2>
                 <div id="collapse-type-@((int)capsuleType)" class="accordion-collapse collapse @(capsuleType == CapsuleType.Indywidualna ? "show" : "")"
@@ -59,13 +60,42 @@
                                     var isFirstSection = sectionItem.DisplayOrder == sectionsForType.Min(s => s.DisplayOrder);
 
                                     <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading-section-@(sectionItem.Id)">
-                                            <button class="accordion-button @(isFirstSection ? "" : "collapsed")" type="button"
+                                        <h2 class="accordion-header d-flex align-items-center" id="heading-section-@(sectionItem.Id)">
+                                            <button class="accordion-button flex-grow-1 @(isFirstSection ? "" : "collapsed")" type="button"
                                                     data-bs-toggle="collapse" data-bs-target="#collapse-section-@(sectionItem.Id)"
                                                     aria-expanded="@(isFirstSection ? "true" : "false")"
                                                     aria-controls="collapse-section-@(sectionItem.Id)">
                                                 <strong>Sekcja @(sectionItem.DisplayOrder): @sectionItem.Name</strong>
                                             </button>
+
+                                            <div class="dropdown pe-2" style="z-index: 1050;">
+                                                <button class="btn btn-sm dropdown-toggle" type="button"
+                                                        id="dropdownMenu-@sectionItem.Id"
+                                                        data-bs-toggle="dropdown" aria-expanded="false"
+                                                        onclick="event.stopPropagation()">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu-@sectionItem.Id">
+                                                    <li>
+                                                        <button type="button" class="dropdown-item"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#editSectionModal"
+                                                                onclick="document.getElementById('editSectionId').value='@sectionItem.Id';
+                                                                     	document.getElementById('editSectionName').value='@sectionItem.Name';
+                                                                     	document.getElementById('editCapsuleType').value='@((int)sectionItem.CapsuleType)';">
+                                                            <i class="bi bi-pencil me-2"></i>Edytuj
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item text-danger"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#deleteConfirmModal"
+                                                                onclick="document.getElementById('deleteForm').action='/AdminPanel/DeleteSection/@sectionItem.Id'">
+                                                            <i class="bi bi-trash me-2"></i>Usuń
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </h2>
                                         <div id="collapse-section-@(sectionItem.Id)" class="accordion-collapse collapse @(isFirstSection ? "show" : "")"
                                              aria-labelledby="heading-section-@(sectionItem.Id)" data-bs-parent="#sectionsAccordion-@((int)capsuleType)">
@@ -133,9 +163,10 @@
     </div>
 </div>
 
-<partial name="~/Views/AdminPanel/_SectionModal.cshtml"></partial>
-<partial name="~/Views/AdminPanel/_QuestionModal.cshtml"></partial>
-<partial name="~/Views/AdminPanel/_UpdateQuesionModal.cshtml"></partial>
+<partial name="~/Views/AdminPanel/Forms/_SectionModal.cshtml"></partial>
+<partial name="~/Views/AdminPanel/Forms/_QuestionModal.cshtml"></partial>
+<partial name="~/Views/AdminPanel/Forms/_UpdateQuesionModal.cshtml"></partial>
+<partial name="~/Views/AdminPanel/Forms/_EditSectionModal.cshtml"></partial>
 <partial name="_DeleteConfirmModal"></partial>
 
 @section Scripts {
@@ -148,3 +179,4 @@
         });
     </script>
 }
+

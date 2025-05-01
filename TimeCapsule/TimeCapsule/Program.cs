@@ -3,7 +3,7 @@ using TimeCapsule;
 using TimeCapsule.Models;
 using Microsoft.AspNetCore.Identity;
 using TimeCapsule.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using TimeCapsule.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,9 +22,9 @@ builder.Services
 builder.Services.AddScoped<CapsuleService>();
 builder.Services.AddScoped<ContactService>();
 builder.Services.AddScoped<ProfileService>();
-builder.Services.AddScoped<AdminPanelService>();
-builder.Services.AddScoped<IEmailSender, EmailSender>();
-//builder.Services.AddScoped<AttachmentService>();
+builder.Services.AddScoped<IUserManagementService, UserManagementService>();
+builder.Services.AddScoped<IFormManagementService, FormManagementService>();
+builder.Services.AddScoped<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, EmailSender>();
 
 var connectionString = builder.Configuration.GetConnectionString("Database") ?? throw new ArgumentNullException("ConnectionString");
 

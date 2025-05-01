@@ -8,6 +8,11 @@
             success = TempData["SuccessMessage"],
             info = TempData["InfoMessage"],
             warning = TempData["WarningMessage"],
+
+            errorId = TempData["ErrorMessageId"],
+            successId = TempData["SuccessMessageId"],
+            infoId = TempData["InfoMessageId"],
+            warningId = TempData["WarningMessageId"]
         }));
 
         const Toast = Swal.mixin({
@@ -23,9 +28,12 @@
         });
 
         for (const type in notifications) {
+            if (type.endsWith('Id')) continue;
 
             if (notifications.hasOwnProperty(type) && notifications[type]) {
-                const messageId = `${type}_${notifications[type].replace(/\s+/g, '_')}`;
+                const messageTypeId = type + 'Id';
+                const messageId = notifications[messageTypeId] ||
+                                `${type}_${notifications[type].replace(/\s+/g, '_')}`;
 
                 if (!sessionStorage.getItem(messageId)) {
                     Toast.fire({
@@ -39,3 +47,4 @@
         }
     });
 </script>
+

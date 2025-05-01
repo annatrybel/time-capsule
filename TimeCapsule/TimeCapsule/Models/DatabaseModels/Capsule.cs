@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace TimeCapsule.Models.DatabaseModels
 {
@@ -25,8 +26,8 @@ namespace TimeCapsule.Models.DatabaseModels
     public enum CapsuleType
     {
         Indywidualna,
-        Parna,
-        Grupowa
+        [Display(Name = "Dla kogoś")]
+        DlaKogos
     }
 
     public enum Status

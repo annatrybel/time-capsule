@@ -16,7 +16,6 @@ namespace TimeCapsule.Controllers
     [Route("TimeCapsule")]
     public class CapsuleController : TimeCapsuleBaseController
     {
-        private readonly IEmailSender _emailSender;
         private readonly CapsuleService _capsuleService;
         private readonly UserManager<IdentityUser> _userManager;
 
@@ -64,7 +63,7 @@ namespace TimeCapsule.Controllers
                 fullCapsule.Type = capsule.Type;
                 fullCapsule.NotifyRecipients = capsule.NotifyRecipients;
 
-                if (capsule.Type == CapsuleType.Parna)
+                if (capsule.Type == CapsuleType.DlaKogos)
                 {
                     fullCapsule.Recipients = capsule.Recipients?.Where(r => !string.IsNullOrWhiteSpace(r)).ToList() ?? new List<string>();
 
