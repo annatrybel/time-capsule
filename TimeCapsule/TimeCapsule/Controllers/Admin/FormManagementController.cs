@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TimeCapsule.Models.Dto;
 using TimeCapsule.Services.Results;
-using TimeCapsule.Services;
 using Microsoft.AspNetCore.Authorization;
 using TimeCapsule.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace TimeCapsule.Controllers.Admin
 {
@@ -42,6 +40,12 @@ namespace TimeCapsule.Controllers.Admin
             }
 
             var result = await _formManagementService.AddSection(model);
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Sekcja została stworzona pomyślnie.";
+                TempData["SuccessMessageId"] = $"section_create_{model.SectionName}_{DateTime.UtcNow.Ticks}";
+            }
             return RedirectToAction("GetForms");
         }
 
@@ -69,10 +73,7 @@ namespace TimeCapsule.Controllers.Admin
             if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = "Sekcja została zaktualizowana pomyślnie.";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = result.Error.Description;
+                TempData["SuccessMessageId"] = $"section_update_{model.SectionId}_{DateTime.UtcNow.Ticks}";
             }
 
             return RedirectToAction("GetForms");
@@ -88,6 +89,11 @@ namespace TimeCapsule.Controllers.Admin
             }
 
             var result = await _formManagementService.AddQuestion(model);
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Pytanie została stworzone pomyślnie.";
+                TempData["SuccessMessageId"] = $"question_create_{model.Id}_{DateTime.UtcNow.Ticks}";
+            }
             return RedirectToAction("GetForms");
         }
 
@@ -115,6 +121,7 @@ namespace TimeCapsule.Controllers.Admin
             if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = "Pytanie zostało zaktualizowane pomyślnie.";
+                TempData["SuccessMessageId"] = $"question_update_{model.Id}_{DateTime.UtcNow.Ticks}";
             }
 
             return RedirectToAction("GetForms");

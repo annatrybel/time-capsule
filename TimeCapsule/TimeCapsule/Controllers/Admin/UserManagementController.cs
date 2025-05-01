@@ -103,6 +103,7 @@ namespace TimeCapsule.Controllers.Admin
             if (userId == currentUserId)
             {
                 TempData["ErrorMessage"] = "Nie można zablokować własnego konta";
+                TempData["SuccessMessageId"] = $"user_lock_{userId}_{DateTime.UtcNow.Ticks}";
                 return RedirectToAction("GetUsers");
             }
 
@@ -111,6 +112,7 @@ namespace TimeCapsule.Controllers.Admin
             if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = "Konto użytkownika zostało zablokowane";
+                TempData["SuccessMessageId"] = $"user_lock_{userId}_{DateTime.UtcNow.Ticks}";
             }
             else
             {
@@ -134,6 +136,7 @@ namespace TimeCapsule.Controllers.Admin
             if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = "Konto użytkownika zostało odblokowane";
+                TempData["SuccessMessageId"] = $"user_unlock_{userId}_{DateTime.UtcNow.Ticks}";
             }
             else
             {
