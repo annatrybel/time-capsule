@@ -4,6 +4,8 @@ using TimeCapsule.Models;
 using Microsoft.AspNetCore.Identity;
 using TimeCapsule.Services;
 using TimeCapsule.Interfaces;
+using TimeCapsule.Seeders;
+using TimeCapsule.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +27,10 @@ builder.Services.AddScoped<ProfileService>();
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddScoped<IFormManagementService, FormManagementService>();
 builder.Services.AddScoped<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, EmailSender>();
+builder.Services.AddScoped<SectionSeeder>();
+builder.Services.AddScoped<QuestionSeeder>();
+builder.Services.AddScoped<SeedManager>();
+
 
 var connectionString = builder.Configuration.GetConnectionString("Database") ?? throw new ArgumentNullException("ConnectionString");
 
@@ -45,6 +51,8 @@ builder.Services.AddSession(options =>
 
 
 var app = builder.Build();
+
+await app.UseSeeders();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
