@@ -13,5 +13,6 @@ namespace TimeCapsule.Interfaces
         Task<ServiceResult<CapsuleQuestionDto>> GetQuestionById(int questionId);
         Task<ServiceResult> UpdateQuestion(UpsertQuestionDto model);
         Task<ServiceResult> DeleteQuestion(int questionId);
+        Task<ServiceResult> DeleteSection(int sectionId);
     }
 }

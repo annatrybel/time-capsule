@@ -353,6 +353,67 @@ namespace TimeCapsule.Services
                 return ServiceResult.Failure($"Nie udało się usunąć pytania: {ex.Message}");
             }
         }
-       
+        public async Task<ServiceResult> DeleteSection(int sectionId)
+        {
+            try
+            {
+                var section = await _context.CapsuleSections
+                    .Include(s => s.Questions)
+                        .ThenInclude(q => q.CapsuleAnswers)
+                    .FirstOrDefaultAsync(s => s.Id == sectionId);
+
+                if (section == null)
+                {
+                    return ServiceResult.Failure("Sekcja nie została znaleziona");
+                }
+
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    foreach (var question in section.Questions)
+                    {
+                        if (question.CapsuleAnswers != null && question.CapsuleAnswers.Any())
+                        {
+                            _context.CapsuleAnswers.RemoveRange(question.CapsuleAnswers);
+                        }
+                    }
+
+                    if (section.Questions != null && section.Questions.Any())
+                    {
+                        _context.CapsuleQuestions.RemoveRange(section.Questions);
+                    }
+                    _context.CapsuleSections.Remove(section);
+
+                    var sectionsToUpdate = await _context.CapsuleSections
+                        .Where(s => s.CapsuleType == section.CapsuleType && s.DisplayOrder > section.DisplayOrder)
+                        .OrderBy(s => s.DisplayOrder)
+                        .ToListAsync();
+
+                    foreach (var s in sectionsToUpdate)
+                    {
+                        s.DisplayOrder--;
+                        _context.CapsuleSections.Update(s);
+                    }
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    _logger.LogInformation("Usunięto sekcję {SectionId} typu {CapsuleType}",
+                        sectionId, section.CapsuleType);
+
+                    return ServiceResult.Success();
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Błąd podczas usuwania sekcji {SectionId}", sectionId);
+                return ServiceResult.Failure($"Nie udało się usunąć sekcji: {ex.Message}");
+            }
+        }
     }
 }

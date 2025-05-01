@@ -145,5 +145,28 @@ namespace TimeCapsule.Controllers.Admin
 
             return RedirectToAction("GetForms");
         }
+
+        [HttpPost("DeleteSection/{sectionId}")]
+        public async Task<IActionResult> DeleteSection(int sectionId)
+        {
+            if (sectionId <= 0)
+            {
+                TempData["ErrorMessage"] = "Nieprawidłowy identyfikator sekcji.";
+                return RedirectToAction("GetForms");
+            }
+
+            var result = await _formManagementService.DeleteSection(sectionId);
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Sekcja została usunięta pomyślnie.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Error?.Description ?? "Wystąpił błąd podczas usuwania sekcji.";
+            }
+
+            return RedirectToAction("GetForms");
+        }
     }
 }
