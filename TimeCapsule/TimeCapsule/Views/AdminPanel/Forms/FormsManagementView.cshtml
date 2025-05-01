@@ -77,12 +77,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu-@sectionItem.Id">
                                                     <li>
-                                                        <button type="button" class="dropdown-item"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#editSectionModal"
-                                                                onclick="document.getElementById('editSectionId').value='@sectionItem.Id';
-                                                                     	document.getElementById('editSectionName').value='@sectionItem.Name';
-                                                                     	document.getElementById('editCapsuleType').value='@((int)sectionItem.CapsuleType)';">
+                                                        <button type="button" class="dropdown-item edit-section" data-id="@sectionItem.Id">
                                                             <i class="bi bi-pencil me-2"></i>Edytuj
                                                         </button>
                                                     </li>
@@ -123,10 +118,8 @@
                                                                     <td>@question.DisplayOrder</td>
                                                                     <td>@question.QuestionText</td>
                                                                     <td>
-                                                                        <button class="btn btn-sm btn-outline-secondary edit-question-btn"
-                                                                                data-bs-toggle="modal"
-                                                                                data-bs-target="#editQuestionModal"
-                                                                                onclick="document.getElementById('editQuestionId').value=@question.Id; document.getElementById('editQuestionText').value='@Html.Raw(question.QuestionText.Replace("'", "\\'"))';">
+                                                                        <button type="button" class="btn btn-sm btn-outline-secondary edit-question"
+                                                                                data-id="@question.Id">
                                                                             <i class="bi bi-pencil"></i>
                                                                         </button>
                                                                         <button type="button" class="btn btn-sm btn-outline-danger"
@@ -163,18 +156,65 @@
     </div>
 </div>
 
-<partial name="~/Views/AdminPanel/Forms/_SectionModal.cshtml"></partial>
-<partial name="~/Views/AdminPanel/Forms/_QuestionModal.cshtml"></partial>
+<partial name="~/Views/AdminPanel/Forms/_CreateSectionModal.cshtml"></partial>
+<partial name="~/Views/AdminPanel/Forms/_CreateSectionModal.cshtml"></partial>
 <partial name="~/Views/AdminPanel/Forms/_UpdateQuesionModal.cshtml"></partial>
-<partial name="~/Views/AdminPanel/Forms/_EditSectionModal.cshtml"></partial>
+<partial name="~/Views/AdminPanel/Forms/_UpdateSectionModal.cshtml"></partial>
 <partial name="_DeleteConfirmModal"></partial>
 
 @section Scripts {
     <script>
         $(document).ready(function() {
-            $('.add-question-btn').click(function() {
-                const sectionId = $(this).data('section-id');
-                $('#sectionId').val(sectionId);
+
+            //edit-section
+            $(document).on('click', '.edit-section', function(event) {
+                const sectionId = $(this).data('id');
+                const url = '/AdminPanel/Forms/GetSectionById/' + sectionId;
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(response) {
+                        const modal = $('#editSectionModal');
+
+                        modal.find('#editSectionId').val(response.id);
+                        console.log(response);
+                        modal.find('#editSectionName').val(response.name);
+                        modal.find('#editCapsuleType').val(response.capsuleType);
+
+                        const modalInstance = new bootstrap.Modal(document.getElementById('editSectionModal'));
+                        modalInstance.show();
+                    },
+                    error: function(error) {
+                        console.error('Error fetching section data:', error);
+                        alert('Nie udało się pobrać danych sekcji. Spróbuj ponownie.');
+                    }
+                });
+            });
+
+            //edit-question
+            $(document).on('click', '.edit-question', function(event) {
+                const questionId = $(this).data('id');
+                const url = '/AdminPanel/Forms/GetQuestionById/' + questionId;
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(response) {
+                        const modal = $('#editQuestionModal');
+
+                        modal.find('#editQuestionId').val(response.id);
+                        modal.find('#editQuestionText').val(response.questionText);
+
+                        const modalInstance = new bootstrap.Modal(document.getElementById('editQuestionModal'));
+                        modalInstance.show();
+                    
+                    },
+                    error: function(error) {
+                        console.error('Error fetching question data:', error);
+                        alert('Nie udało się pobrać danych pytania. Spróbuj ponownie.');
+                    }
+                });
             });
         });
     </script>

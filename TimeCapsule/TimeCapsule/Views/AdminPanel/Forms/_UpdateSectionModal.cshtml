@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="editSectionModalLabel">Edytuj sekcję</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="editSectionForm" method="post" action="/AdminPanel/UpdateSection">
+            <form id="editSectionForm" method="post" action="/AdminPanel/Forms/UpdateSection">
                 <div class="modal-body">
                     <input type="hidden" id="editSectionId" name="SectionId" value="">
                     <div class="mb-3">
@@ -17,7 +17,6 @@
                         <select class="form-select" id="editCapsuleType" name="CapsuleType" required>
                             <option value="0">Indywidualna</option>
                             <option value="1">Dla kogoś</option>
-                            <option value="2">Grupowa</option>
                         </select>
                     </div>
                 </div>

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TimeCapsule.Models.Dto;
 using TimeCapsule.Models;
 using TimeCapsule.Models.DatabaseModels;
@@ -107,7 +106,76 @@ namespace TimeCapsule.Services
             }
         }
 
-        public async Task<ServiceResult> AddQuestion(CreateQuestionDto model)
+        public async Task<ServiceResult<CapsuleSectionDto>> GetSectionById(int sectionId)
+        {
+            var section = await _context.CapsuleSections.FirstOrDefaultAsync(s => s.Id == sectionId);
+
+            if (section == null)
+            {
+                return ServiceResult<CapsuleSectionDto>.Failure("Sekcja nie została znaleziona");
+            }
+
+            var sectionDto = new CapsuleSectionDto
+            {
+                Id = section.Id,
+                Name = section.Name,
+                CapsuleType = section.CapsuleType
+            };
+            return ServiceResult<CapsuleSectionDto>.Success(sectionDto);
+        }
+
+
+        public async Task<ServiceResult> UpdateSection(UpdateSectionDto model)
+        {
+            try
+            {
+                var section = await _context.CapsuleSections
+                    .FirstOrDefaultAsync(s => s.Id == model.SectionId);
+
+                if (section == null)
+                {
+                    return ServiceResult.Failure("Sekcja nie została znaleziona");
+                }
+
+                var nameExists = await _context.CapsuleSections
+                    .AnyAsync(s => s.Id != model.SectionId &&
+                              s.Name.ToLower() == model.SectionName.ToLower() &&
+                              s.CapsuleType == model.CapsuleType);
+
+                if (nameExists)
+                {
+                    return ServiceResult.Failure("Sekcja o takiej nazwie już istnieje");
+                }
+
+                section.Name = model.SectionName;
+                section.CapsuleType = model.CapsuleType;
+
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    _context.CapsuleSections.Update(section);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    _logger.LogInformation("Zaktualizowano sekcję: {SectionId} na {SectionName}",
+                        model.SectionId, model.SectionName);
+
+                    return ServiceResult.Success();
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Błąd podczas aktualizacji sekcji: {SectionId}", model.SectionId);
+                return ServiceResult.Failure($"Nie udało się zaktualizować sekcji: {ex.Message}");
+            }
+        }
+
+        public async Task<ServiceResult> AddQuestion(UpsertQuestionDto model)
         {
             try
             {
@@ -157,7 +225,7 @@ namespace TimeCapsule.Services
             }
         }
 
-        public async Task<ServiceResult> UpdateQuestion(int questionId, string questionText)
+        public async Task<ServiceResult<CapsuleQuestionDto>> GetQuestionById(int questionId)
         {
             try
             {
@@ -166,10 +234,38 @@ namespace TimeCapsule.Services
 
                 if (question == null)
                 {
+                    return ServiceResult<CapsuleQuestionDto>.Failure("Pytanie nie zostało znalezione");
+                }
+
+                var questionDto = new CapsuleQuestionDto
+                {
+                    Id = question.Id,
+                    QuestionText = question.QuestionText,
+                    DisplayOrder = question.DisplayOrder
+                };
+
+                return ServiceResult<CapsuleQuestionDto>.Success(questionDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Błąd podczas pobierania pytania {QuestionId}", questionId);
+                return ServiceResult<CapsuleQuestionDto>.Failure($"Błąd: {ex.Message}");
+            }
+        }
+
+        public async Task<ServiceResult> UpdateQuestion(UpsertQuestionDto model)
+        {
+            try
+            {
+                var question = await _context.CapsuleQuestions
+                    .FirstOrDefaultAsync(q => q.Id == model.Id);
+
+                if (question == null)
+                {
                     return ServiceResult.Failure("Nie znaleziono pytania");
                 }
 
-                question.QuestionText = questionText;
+                question.QuestionText = model.QuestionText;
 
                 using var transaction = await _context.Database.BeginTransactionAsync();
                 try
@@ -179,7 +275,7 @@ namespace TimeCapsule.Services
                     await transaction.CommitAsync();
 
                     _logger.LogInformation("Zaktualizowano pytanie {QuestionId}: {QuestionText}",
-                        questionId, questionText);
+                        model.Id, model.QuestionText);
 
                     return ServiceResult.Success();
                 }
@@ -191,7 +287,7 @@ namespace TimeCapsule.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Błąd podczas aktualizacji pytania {QuestionId}", questionId);
+                _logger.LogError(ex, "Błąd podczas aktualizacji pytania {QuestionId}", model.Id);
                 return ServiceResult.Failure($"Nie udało się zaktualizować pytania: {ex.Message}");
             }
         }
