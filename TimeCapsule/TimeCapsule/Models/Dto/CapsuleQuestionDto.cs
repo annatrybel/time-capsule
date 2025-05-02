@@ -11,7 +11,7 @@ namespace TimeCapsule.Models.Dto
         public int DisplayOrder { get; set; }
     }
 
-    public class CreateQuestionDto
+    public class UpsertQuestionDto
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Sekcja jest wymagana")]

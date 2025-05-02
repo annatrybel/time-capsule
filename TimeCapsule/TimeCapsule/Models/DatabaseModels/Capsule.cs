@@ -25,9 +25,9 @@ namespace TimeCapsule.Models.DatabaseModels
     }
     public enum CapsuleType
     {
-        Indywidualna,
+        Indywidualna = 0,
         [Display(Name = "Dla kogoś")]
-        DlaKogos
+        DlaKogos = 1
     }
 
     public enum Status

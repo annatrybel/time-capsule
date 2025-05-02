@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TimeCapsule.Models.Dto;
 using TimeCapsule.Services.Results;
-using TimeCapsule.Services;
 using Microsoft.AspNetCore.Authorization;
+using TimeCapsule.Interfaces;
 
 namespace TimeCapsule.Controllers.Admin
 {
@@ -10,13 +10,14 @@ namespace TimeCapsule.Controllers.Admin
     [Route("AdminPanel/Forms")]
     public class FormManagementController : TimeCapsuleBaseController
     {
-        private readonly FormManagementService _formManagementService;
+        private readonly IFormManagementService _formManagementService;
 
-        public FormManagementController(FormManagementService formManagementService)
+        public FormManagementController(IFormManagementService formManagementService)
         {
             _formManagementService = formManagementService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetForms()
         {
             var sectionsResult = await _formManagementService.GetFormSectionsWithQuestions();
@@ -29,46 +30,101 @@ namespace TimeCapsule.Controllers.Admin
             return View("~/Views/AdminPanel/Forms/FormsManagementView.cshtml", sectionsResult.Data);
         }
 
-        [HttpPost("UpdateQuestion")]
-        public async Task<IActionResult> UpdateQuestion(int QuestionId, string QuestionText)
-        {
-            if (QuestionId <= 0 || string.IsNullOrWhiteSpace(QuestionText))
-            {
-                TempData["ErrorMessage"] = "Należy podać poprawny identyfikator pytania i treść.";
-                return RedirectToAction("Forms");
-            }
-
-            var result = await _formManagementService.UpdateQuestion(QuestionId, QuestionText);
-            if (result.IsSuccess)
-            {
-                TempData["SuccessMessage"] = "Pytanie zostało zaktualizowane pomyślnie.";
-            }
-
-            return RedirectToAction("Forms");
-        }
-
+        
         [HttpPost("AddSection")]
         public async Task<IActionResult> AddSection([FromForm] CreateSectionDto model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ServiceResult.Failure("Invalid section data"));
+                return BadRequest(ServiceResult.Failure("Nieprawidłowe dane sekcji"));
             }
 
             var result = await _formManagementService.AddSection(model);
-            return RedirectToAction("Forms");
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Sekcja została stworzona pomyślnie.";
+                TempData["SuccessMessageId"] = $"section_create_{model.SectionName}_{DateTime.UtcNow.Ticks}";
+            }
+            return RedirectToAction("GetForms");
         }
 
-        [HttpPost("AddQuestion")]
-        public async Task<IActionResult> AddQuestion([FromForm] CreateQuestionDto model)
+        [HttpGet("GetSectionById/{sectionId}")]
+        public async Task<IActionResult> GetSectionById(int sectionId)
+        {
+            if (sectionId <= 0)
+            {
+                return BadRequest(ServiceResult.Failure("Nieprawidłowy parametr: ID sekcji musi być większe od zera"));
+            }
+            var result = await _formManagementService.GetSectionById(sectionId);
+            return HandleStatusCodeServiceResult(result);
+        }
+
+        [HttpPost("UpdateSection")]
+        public async Task<IActionResult> UpdateSection([FromForm] UpdateSectionDto model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ServiceResult.Failure("Invalid q data"));
+                return BadRequest(ServiceResult.Failure("Nieprawidłowe dane sekcji"));
+            }
+
+            var result = await _formManagementService.UpdateSection(model);
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Sekcja została zaktualizowana pomyślnie.";
+                TempData["SuccessMessageId"] = $"section_update_{model.SectionId}_{DateTime.UtcNow.Ticks}";
+            }
+
+            return RedirectToAction("GetForms");
+        }
+
+
+        [HttpPost("AddQuestion")]
+        public async Task<IActionResult> AddQuestion([FromForm] UpsertQuestionDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ServiceResult.Failure("Nieprawidłowe dane"));
             }
 
             var result = await _formManagementService.AddQuestion(model);
-            return RedirectToAction("Forms");
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Pytanie została stworzone pomyślnie.";
+                TempData["SuccessMessageId"] = $"question_create_{model.Id}_{DateTime.UtcNow.Ticks}";
+            }
+            return RedirectToAction("GetForms");
+        }
+
+        [HttpGet("GetQuestionById/{questionId}")]
+        public async Task<IActionResult> GetQuestionById(int questionId)
+        {
+            if (questionId <= 0)
+            {
+                return BadRequest(ServiceResult.Failure("Nieprawidłowy parametr: ID pytania musi być większe od zera"));
+            }
+
+            var question = await _formManagementService.GetQuestionById(questionId);
+            return HandleStatusCodeServiceResult(question);
+        }
+
+        [HttpPost("UpdateQuestion")]
+        public async Task<IActionResult> UpdateQuestion([FromForm] UpsertQuestionDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ServiceResult.Failure("Nieprawidłowe dane"));
+            }
+
+            var result = await _formManagementService.UpdateQuestion(model);
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Pytanie zostało zaktualizowane pomyślnie.";
+                TempData["SuccessMessageId"] = $"question_update_{model.Id}_{DateTime.UtcNow.Ticks}";
+            }
+
+            return RedirectToAction("GetForms");
         }
 
         [HttpPost("DeleteQuestion/{questionId}")]
@@ -77,7 +133,7 @@ namespace TimeCapsule.Controllers.Admin
             if (questionId <= 0)
             {
                 TempData["ErrorMessage"] = "Nieprawidłowy identyfikator pytania.";
-                return RedirectToAction("Forms");
+                return RedirectToAction("GetForms");
             }
 
             var result = await _formManagementService.DeleteQuestion(questionId);
@@ -87,7 +143,30 @@ namespace TimeCapsule.Controllers.Admin
                 TempData["SuccessMessage"] = "Pytanie zostało usunięte pomyślnie.";
             }
 
-            return RedirectToAction("Forms");
+            return RedirectToAction("GetForms");
+        }
+
+        [HttpPost("DeleteSection/{sectionId}")]
+        public async Task<IActionResult> DeleteSection(int sectionId)
+        {
+            if (sectionId <= 0)
+            {
+                TempData["ErrorMessage"] = "Nieprawidłowy identyfikator sekcji.";
+                return RedirectToAction("GetForms");
+            }
+
+            var result = await _formManagementService.DeleteSection(sectionId);
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Sekcja została usunięta pomyślnie.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Error?.Description ?? "Wystąpił błąd podczas usuwania sekcji.";
+            }
+
+            return RedirectToAction("GetForms");
         }
     }
 }

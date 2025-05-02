@@ -21,4 +21,18 @@ namespace TimeCapsule.Models.Dto
         [Required(ErrorMessage = "Typ kapsuły jest wymagany")]
         public CapsuleType CapsuleType { get; set; }
     }
+
+    public class UpdateSectionDto
+    {
+        [Required(ErrorMessage = "Identyfikator sekcji jest wymagany")]
+        public int SectionId { get; set; }
+
+        [Required(ErrorMessage = "Nazwa sekcji jest wymagana")]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "Nazwa sekcji musi mieć od 3 do 100 znaków")]
+        public string SectionName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Typ kapsuły jest wymagany")]
+        public CapsuleType CapsuleType { get; set; }
+    }
+
 }

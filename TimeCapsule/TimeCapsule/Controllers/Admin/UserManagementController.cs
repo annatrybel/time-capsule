@@ -7,6 +7,7 @@ using TimeCapsule.Services.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using TimeCapsule.Interfaces;
 
 namespace TimeCapsule.Controllers.Admin
 {
@@ -14,15 +15,16 @@ namespace TimeCapsule.Controllers.Admin
     [Route("AdminPanel/Users")]
     public class UserManagementController : TimeCapsuleBaseController
     {
-        private readonly UserManagementService _userManagementService;
+        private readonly IUserManagementService _userManagementService;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserManagementController(UserManagementService userManagementService, RoleManager<IdentityRole> roleManager)
+        public UserManagementController(IUserManagementService userManagementService, RoleManager<IdentityRole> roleManager)
         {
             _userManagementService = userManagementService;
             _roleManager = roleManager;
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
             var roles = await _roleManager.Roles.ToListAsync();
@@ -101,6 +103,7 @@ namespace TimeCapsule.Controllers.Admin
             if (userId == currentUserId)
             {
                 TempData["ErrorMessage"] = "Nie można zablokować własnego konta";
+                TempData["SuccessMessageId"] = $"user_lock_{userId}_{DateTime.UtcNow.Ticks}";
                 return RedirectToAction("GetUsers");
             }
 
@@ -109,6 +112,7 @@ namespace TimeCapsule.Controllers.Admin
             if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = "Konto użytkownika zostało zablokowane";
+                TempData["SuccessMessageId"] = $"user_lock_{userId}_{DateTime.UtcNow.Ticks}";
             }
             else
             {
@@ -132,6 +136,7 @@ namespace TimeCapsule.Controllers.Admin
             if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = "Konto użytkownika zostało odblokowane";
+                TempData["SuccessMessageId"] = $"user_unlock_{userId}_{DateTime.UtcNow.Ticks}";
             }
             else
             {
@@ -146,7 +151,7 @@ namespace TimeCapsule.Controllers.Admin
         {
             if (string.IsNullOrEmpty(userId))
             {
-                return BadRequest(ServiceResult.Failure("Invalid parameter: User ID cannot be empty"));
+                return BadRequest(ServiceResult.Failure("Nieprawidłowy parametr: ID użytkownika nie może być puste\r\n"));
             }
 
             var result = await _userManagementService.GetUserById(userId);

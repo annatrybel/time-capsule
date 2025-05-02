@@ -46,28 +46,6 @@
     <partial name="~/Views/AdminPanel/Users/_CreateUserModalForm.cshtml"></partial>
 </div>
 
-
-<!-- Modal potwierdzenia usunięcia -->
-<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmModalLabel">Potwierdź usunięcie</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Czy na pewno chcesz usunąć użytkownika <strong id="deleteUserName"></strong>?</p>
-                <p class="text-danger">Tej operacji nie można cofnąć!</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Usuń</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 @section Scripts {
     <script src="~/js/userDataTable.js"></script>
 }

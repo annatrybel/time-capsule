@@ -55,11 +55,6 @@
                                 	</button>
                             	</li>
                             	<li>
-                                	<a class="dropdown-item delete-button" data-id="${data}" data-url="/AdminPanel/DeleteUser">
-                                    	<i class="fas fa-trash"></i> Delete
-                                	</a>
-                            	</li>
-                            	<li>
                                 	${row.isLocked ?
                             `<form method="post" action="/AdminPanel/UnlockUser/${data}" style="margin:0">
                                         	<button type="submit" class="dropdown-item unlock-user">
