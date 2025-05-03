@@ -100,6 +100,16 @@ footer {
     color: #FFFFFF !important;
 }
 
+.navbar .btn-secondary {
+    background-color: #6b7887;
+    color: #ffffff;
+    border: none;
+}
+
+    .navbar .btn-secondary:hover {
+        background-color: #4b5562;
+        color: #fff;
+    }
 
 /* styles for CreateStep2.cshtml */
 .color-btn {

@@ -7,18 +7,16 @@
 }
 
     .hero h1 {
-        margin-top: 2rem !important;
         color: white;
         position: absolute;
         top: 100px;
-        left: -40%;
+        left: -40% !important;
         transform: translateX(-50%);
         font-size: clamp(1rem, 2vw, 2.5rem);
         font-weight: 300;
         text-align: center;
         margin: 0;
     }
-
 
 .no-capsules-section .no-capsule-box {
     position: relative;
