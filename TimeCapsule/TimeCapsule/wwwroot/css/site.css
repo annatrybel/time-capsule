@@ -43,11 +43,12 @@ body {
     background: url('../images/top-background.svg') no-repeat center 30px;
     background-size: 100%;
     background-color: #E4E4E4;
-    background-position-y: 30px;
+    background-position-y: 40px;
     font-family: "Jost", sans-serif;
     padding-top: 100px;
     display: flex;
     flex-direction: column;
+
 }
 
 
@@ -60,6 +61,7 @@ footer {
     justify-content: flex-end;
     padding: 30px;
     color: #fff;
+    margin-top: auto;
 }
 
 .footer-content {

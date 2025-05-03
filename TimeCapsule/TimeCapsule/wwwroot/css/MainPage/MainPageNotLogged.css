@@ -9,11 +9,11 @@
 }
 
     .hero h1 {
-        margin-top: 2rem !important;
+        margin-top: 1rem !important;
         color: white;
         top: 80px !important;
         right: 45%;
-        left: -10%;
+        left: -20% !important;
         transform: translateY(-50%);
         font-size: clamp(1rem, 2vw, 2.5rem) !important;
         font-weight: 300;

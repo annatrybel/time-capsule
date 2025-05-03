@@ -7,39 +7,30 @@
 }
 
     .hero h1 {
+        margin-top: 2rem !important;
         color: white;
         position: absolute;
-        top: 80px !important;
-        right: 45%;
-        transform: translateY(-50%);
-        font-size: clamp(1rem, 2vw, 2.5rem) !important;
+        top: 100px;
+        left: -40%;
+        transform: translateX(-50%);
+        font-size: clamp(1rem, 2vw, 2.5rem);
         font-weight: 300;
         text-align: center;
         margin: 0;
     }
-section.process {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    flex-wrap: wrap;
-}
-
-section.cta {
-    text-align: center;
-    color: #4C5C71;
-}
 
 
 .no-capsules-section .no-capsule-box {
-    position: relative; 
+    position: relative;
     max-width: 700px;
-    margin: 3rem auto 1rem;
-    padding: 2rem 2rem 2rem;
+    margin: -3rem auto 1rem;
+    padding: 2rem;
     background-color: #D8D8D8;
     border-radius: 1rem;
     text-align: center;
     color: #4C5C71;
 }
+
 
     .no-capsules-section .no-capsule-box::before {
         content: "!";
@@ -63,7 +54,7 @@ section.cta {
     }
 
 
-/*przycisk - redirect do logowania*/
+/*przycisk - redirect do tworzenia kapsuły*/
 
 .cta-button {
     display: inline-block;
