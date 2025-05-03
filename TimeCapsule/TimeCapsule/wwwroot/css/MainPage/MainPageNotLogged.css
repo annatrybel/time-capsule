@@ -47,7 +47,7 @@ section.process {
         color: #4C5C71;
         width: 100%;
         text-align: center;
-        margin: 80px 0 50px 0;
+        margin: 40px 0 40px 0;
         font-weight: 300;
     }
 
@@ -67,7 +67,7 @@ section.process {
     .step img {
         display: block;
         margin: 0 auto 20px;
-        width: 250px;
+        width: 200px;
     }
 
     .step h3 {
@@ -76,11 +76,6 @@ section.process {
         font-weight: 400;
         margin: 0;
     }
-
-
-section.cta {
-    margin-bottom: 200px;
-}
 
 /*przycisk - redirect do logowania: ~AW*/
 
