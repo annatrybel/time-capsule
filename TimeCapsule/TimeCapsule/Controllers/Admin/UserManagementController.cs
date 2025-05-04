@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using TimeCapsule.Services;
 using TimeCapsule.Models;
 using TimeCapsule.Models.Dto;
 using TimeCapsule.Services.Results;
@@ -99,8 +98,8 @@ namespace TimeCapsule.Controllers.Admin
                 return RedirectToAction("GetUsers");
             }
 
-            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == currentUserId)
+            string? currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (currentUserId != null && userId == currentUserId)
             {
                 TempData["ErrorMessage"] = "Nie można zablokować własnego konta";
                 TempData["SuccessMessageId"] = $"user_lock_{userId}_{DateTime.UtcNow.Ticks}";

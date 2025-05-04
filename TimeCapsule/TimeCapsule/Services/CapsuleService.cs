@@ -3,7 +3,6 @@ using TimeCapsule.Models;
 using TimeCapsule.Models.Dto;
 using TimeCapsule.Services.Results;
 using TimeCapsule.Models.DatabaseModels;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 
@@ -84,7 +83,7 @@ namespace TimeCapsule.Services
                 {
                     CreatedByUserId = user.Id,
                     Title = capsuleDto.Title,
-                    Type = capsuleDto.Type,
+                    Type = capsuleDto.Type!.Value,
                     Icon = capsuleDto.Icon,
                     Color = capsuleDto.Color,
                     Introduction = capsuleDto.Introduction,
@@ -193,7 +192,7 @@ namespace TimeCapsule.Services
                 try
                 {
                     string subject = $"Masz nową kapsułę czasu od {user.UserName ?? "znajomego"}!";
-                    string message = GenerateEmailTemplate(user.UserName, capsuleDto.Title, capsuleDto.OpeningDate);
+                    string message = GenerateEmailTemplate(user.UserName ?? "znajomego", capsuleDto.Title, capsuleDto.OpeningDate);
 
                     await _emailSender.SendEmailAsync(email, subject, message);
 

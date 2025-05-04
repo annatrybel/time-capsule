@@ -178,7 +178,7 @@ namespace TimeCapsule.Controllers
 
         [HttpPost]
         [Route("SaveStep3")]
-        public async Task<IActionResult> SaveStep3([FromForm] CreateCapsuleDto capsule)
+        public IActionResult SaveStep3([FromForm] CreateCapsuleDto capsule)
         {
             var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
 
@@ -223,7 +223,7 @@ namespace TimeCapsule.Controllers
 
         [HttpPost]
         [Route("SaveStep4")]
-        public async Task<IActionResult> SaveStep4([FromForm] CreateCapsuleDto capsule)
+        public IActionResult SaveStep4([FromForm] CreateCapsuleDto capsule)
         {
             var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
 
@@ -460,8 +460,13 @@ namespace TimeCapsule.Controllers
             }
 
             var user = await _userManager.FindByIdAsync(userId);
-            var result = await _capsuleService.SaveCapsule(fullCapsule, user);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "Nie znaleziono konta użytkownika. Prosimy zalogować się ponownie.";
+                return RedirectToAction("Login", "Account", new { area = "Identity" });
+            }
 
+            var result = await _capsuleService.SaveCapsule(fullCapsule, user);
             if (!result.IsSuccess)
             {
                 TempData["ErrorMessage"] = result.Error?.Description ?? "Wystąpił błąd podczas zapisywania kapsuły.";

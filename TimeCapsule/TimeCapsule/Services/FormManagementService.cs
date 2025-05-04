@@ -98,7 +98,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;
@@ -167,7 +167,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;
@@ -217,7 +217,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;
@@ -284,7 +284,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;
@@ -341,7 +341,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;
@@ -403,7 +403,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;

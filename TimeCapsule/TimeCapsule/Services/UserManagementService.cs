@@ -105,6 +105,9 @@ namespace TimeCapsule.Services
                 if (role == null)
                     return ServiceResult<UserDto>.Failure($"Role with ID {user.RoleId} not found");
 
+                if (string.IsNullOrEmpty(role.Name))
+                    return ServiceResult<UserDto>.Failure($"Role with ID {user.RoleId} has no name specified");
+
                 var newUser = new IdentityUser
                 {
                     Email = user.Email,
@@ -154,6 +157,9 @@ namespace TimeCapsule.Services
                 var role = await _context.Roles.FindAsync(model.RoleId);
                 if (role == null)
                     return ServiceResult.Failure($"Role with ID {model.RoleId} not found");
+
+                if (string.IsNullOrEmpty(role.Name))
+                    return ServiceResult.Failure($"Role with ID {model.RoleId} has no name specified");
 
                 user.UserName = model.UserName;
                 user.Email = model.Email;
@@ -210,10 +216,10 @@ namespace TimeCapsule.Services
                 var userDto = new UserDto
                 {
                     UserId = userData.User.Id,
-                    UserName = userData.User.UserName,
-                    Email = userData.User.Email,
+                    UserName = userData.User.UserName ?? string.Empty,
+                    Email = userData.User.Email ?? string.Empty,
                     RoleId = userData.Role.Id,
-                    RoleName = userData.Role.Name
+                    RoleName = userData.Role.Name ?? string.Empty
                 };
 
                 return ServiceResult<UserDto>.Success(userDto);

@@ -7,7 +7,7 @@ namespace TimeCapsule.Models.Dto
     public class CreateCapsuleDto
     {
         public int? Id { get; set; }
-        public CapsuleType Type { get; set; }
+        public CapsuleType? Type { get; set; }
         public string Title { get; set; } = string.Empty;
         public List<string> Recipients { get; set; } = new List<string>();
         public bool NotifyRecipients { get; set; }
@@ -21,7 +21,7 @@ namespace TimeCapsule.Models.Dto
         public List<UploadedImageDto>? UploadedImages { get; set; } = new List<UploadedImageDto>();
         public DateTime OpeningDate { get; set; }
         public string? CreatedByUserId { get; set; }
-        public IdentityUser CreatedByUser { get; set; } 
+        public IdentityUser? CreatedByUser { get; set; } 
         public Status Status { get; set; }
 
     }
