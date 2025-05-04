@@ -136,3 +136,7 @@ input.form-control.form-control-sm:focus {
 .bi-list {
     color: #4C5C71;
 }
+
+.dataTables_scrollHeadInner th {
+    font-weight: 500;
+}

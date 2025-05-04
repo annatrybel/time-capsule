@@ -61,7 +61,6 @@
 .accordion-button {
     color: #4C5C71;
     font-weight: 300;
-    border: none;
     width: 100%;
 }
 
@@ -154,3 +153,20 @@ button.btn.dropdown-toggle:focus {
     .btn-outline-danger:hover i.bi-trash {
         color: white !important;
     }
+
+#capsuleTypesAccordion {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.accordion-item:has(.accordion-collapse.show) {
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+}
+
+.accordion-item:has(.accordion-collapse:not(.show)) {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+}
