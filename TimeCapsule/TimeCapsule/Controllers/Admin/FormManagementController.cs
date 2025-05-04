@@ -81,7 +81,7 @@ namespace TimeCapsule.Controllers.Admin
 
 
         [HttpPost("AddQuestion")]
-        public async Task<IActionResult> AddQuestion([FromForm] UpsertQuestionDto model)
+        public async Task<IActionResult> AddQuestion([FromForm] CreateQuestionDto model)
         {
             if (!ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace TimeCapsule.Controllers.Admin
             if (result.IsSuccess)
             {
                 TempData["SuccessMessage"] = "Pytanie została stworzone pomyślnie.";
-                TempData["SuccessMessageId"] = $"question_create_{model.Id}_{DateTime.UtcNow.Ticks}";
+                TempData["SuccessMessageId"] = $"question_create_{DateTime.UtcNow.Ticks}";
             }
             return RedirectToAction("GetForms");
         }
@@ -110,7 +110,7 @@ namespace TimeCapsule.Controllers.Admin
         }
 
         [HttpPost("UpdateQuestion")]
-        public async Task<IActionResult> UpdateQuestion([FromForm] UpsertQuestionDto model)
+        public async Task<IActionResult> UpdateQuestion([FromForm] UpdateQuestionDto model)
         {
             if (!ModelState.IsValid)
             {

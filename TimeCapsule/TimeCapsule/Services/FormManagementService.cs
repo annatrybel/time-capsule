@@ -180,7 +180,7 @@ namespace TimeCapsule.Services
             }
         }
 
-        public async Task<ServiceResult> AddQuestion(UpsertQuestionDto model)
+        public async Task<ServiceResult> AddQuestion(CreateQuestionDto model)
         {
             try
             {
@@ -258,7 +258,7 @@ namespace TimeCapsule.Services
             }
         }
 
-        public async Task<ServiceResult> UpdateQuestion(UpsertQuestionDto model)
+        public async Task<ServiceResult> UpdateQuestion(UpdateQuestionDto model)
         {
             try
             {
