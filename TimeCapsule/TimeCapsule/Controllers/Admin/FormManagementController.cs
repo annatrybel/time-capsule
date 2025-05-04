@@ -34,11 +34,6 @@ namespace TimeCapsule.Controllers.Admin
         [HttpPost("AddSection")]
         public async Task<IActionResult> AddSection([FromForm] CreateSectionDto model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ServiceResult.Failure("Nieprawidłowe dane sekcji"));
-            }
-
             var result = await _formManagementService.AddSection(model);
 
             return HandleFormResult(result, model, "Sekcja została stworzona pomyślnie.");
