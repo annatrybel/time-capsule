@@ -69,11 +69,10 @@
     background-color: #a06e63;
     color: #fff;
 }
-
-#tableUser td:nth-child(1),
-#tableUser th:nth-child(1) {
-    width: 110px;
-    word-break: break-all;
-    font-size: 0.8rem;
+.dropdown-toggle::after {
+    display: none !important;
 }
 
+.bi bi-list {
+    width:20px;
+}

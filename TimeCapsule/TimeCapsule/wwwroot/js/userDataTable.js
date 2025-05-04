@@ -12,15 +12,9 @@
             dataType: "json"
         },
         columns: [
-            {
-                data: "userId",
-                name: "ID",
-                render: function (data) {
-                    return data ? `${data.slice(0, 4)}...${data.slice(-5)}` : '';
-                }
-            },
-            { data: "email", name: "Email" },
-            { data: "userName", name: "Nazwa użytkownika" },
+            { data: "userId", name: "ID", },
+            { data: "email", name: "Email", },
+            { data: "userName", name: "Nazwa użytkownika", },
             {
                 data: "roleName",
                 name: "Rola",
@@ -50,32 +44,32 @@
                 className: "actions",
                 render: function (data, type, row) {
                     return `
-                        <div class="dropdown text-center">
-                            <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-${data}" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-${data}">
-                                <li>
-                                    <button class="dropdown-item edit-user" data-id="${data}" type="button">
-                                        <i class="fas fa-edit"></i> Edit user
-                                    </button>
-                                </li>
-                                <li>
-                                    ${row.isLocked ?
+                    	<div class="dropdown text-center">
+                        	<button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-${data}" data-bs-toggle="dropdown" aria-expanded="false">
+                            	<i class="bi bi-list  fs-4"></i>
+                        	</button>
+                        	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-${data}">
+                            	<li>
+                                	<button class="dropdown-item edit-user" data-id="${data}" type="button">
+                                    	<i class="fas fa-edit"></i> Edytuj użytkownika
+                                	</button>
+                            	</li>
+                            	<li>
+                                	${row.isLocked ?
                             `<form method="post" action="/AdminPanel/UnlockUser/${data}" style="margin:0">
-                                            <button type="submit" class="dropdown-item unlock-user">
-                                                <i class="fas fa-unlock"></i> Unlock user
-                                            </button>
-                                        </form>` :
+                                        	<button type="submit" class="dropdown-item unlock-user">
+                                            	<i class="fas fa-unlock"></i> Odblokuj użytkownika
+                                        	</button>
+                                    	</form>` :
                             `<form method="post" action="/AdminPanel/LockUser/${data}" style="margin:0">
-                                            <button type="submit" class="dropdown-item lock-user">
-                                                <i class="fas fa-lock"></i> Lock user
-                                            </button>
-                                        </form>`
+                                        	<button type="submit" class="dropdown-item lock-user">
+                                            	<i class="fas fa-lock"></i> Zablokuj użytkownika
+                                        	</button>
+                                     	</form>`
                         }
-                                </li>
-                            </ul>
-                        </div>`;
+                            	</li>
+                        	</ul>
+                    	</div>`;
                 }
             }
         ],
@@ -90,9 +84,11 @@
         order: [[0, "asc"]]
     });
 
-    $(document).on('click', '.dropdown-item.edit-user', function () {
+
+    $(document).on('click', '.dropdown-item.edit-user', function (event) {
         const userId = $(this).data('id');
         const url = '/AdminPanel/Users/GetUserById?userId=' + userId;
+
 
         $.ajax({
             url: url,
@@ -115,3 +111,4 @@
         });
     });
 });
+
