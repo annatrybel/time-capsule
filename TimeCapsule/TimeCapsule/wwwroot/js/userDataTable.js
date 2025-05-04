@@ -12,7 +12,14 @@
             dataType: "json"
         },
         columns: [
-            { data: "userId", name: "ID", },
+            {
+                data: "userId",
+                name: "ID",
+                render: function (data) {
+                    if (data.length <= 6) return data;
+                    return data.slice(0, 3) + '...' + data.slice(-3);
+                }
+            },
             { data: "email", name: "Email", },
             { data: "userName", name: "Nazwa użytkownika", },
             {

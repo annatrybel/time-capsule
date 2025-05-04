@@ -13,7 +13,6 @@
 
     .hero h1 {
         color: white;
-        top: 80px !important;
         right: 45%;
         left: -20% !important;
         transform: translateY(-50%);
@@ -73,3 +72,51 @@
     display: none !important;
 }
 
+li.paginate_button.page-item.active a {
+    background-color: #4C5C71;
+    color: white;
+    border-color: #4C5C71;
+}
+
+.col-sm-12.col-md-7 {
+    margin-top: 10px;
+}
+
+.dataTables_scrollBody {
+    overflow: visible !important;
+    position: relative;
+    z-index: auto;
+}
+.dropdown-menu {
+    z-index: 2000;
+}
+
+select.form-select-sm {
+    border-color: #4C5C71;
+}
+
+    select.form-select-sm:hover {
+        border-color: #4C5C71;
+    }
+
+    select.form-select-sm:focus {
+        outline: none;
+        border-color: #4C5C71;
+        box-shadow: 0 0 0 0.2rem rgba(76, 92, 113, 0.4);
+    }
+
+button.btn.dropdown-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(76, 92, 113, 0.4);
+    border-color: #4C5C71;
+}
+
+input.form-control.form-control-sm:hover {
+    border-color: #4C5C71;
+}
+
+input.form-control.form-control-sm:focus {
+    outline: none;
+    border-color: #4C5C71;
+    box-shadow: 0 0 0 0.2rem rgba(76, 92, 113, 0.4);
+}
