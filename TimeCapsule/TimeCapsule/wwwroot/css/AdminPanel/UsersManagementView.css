@@ -52,21 +52,25 @@
 .badge-admin {
     background-color: #4a668b;
     color: #fff;
+    font-weight: 400;
 }
 
 .badge-user {
     background-color: #7d8790;
     color: #fff;
+    font-weight: 400;
 }
 
 .badge-active {
     background-color: #6ba063;
     color: #fff;
+    font-weight: 400;
 }
 
 .badge-locked {
     background-color: #a06e63;
     color: #fff;
+    font-weight: 400;
 }
 .dropdown-toggle::after {
     display: none !important;
@@ -119,4 +123,16 @@ input.form-control.form-control-sm:focus {
     outline: none;
     border-color: #4C5C71;
     box-shadow: 0 0 0 0.2rem rgba(76, 92, 113, 0.4);
+}
+
+#tableUser_wrapper table tr,
+#tableUser_wrapper .dataTables_info,
+#tableUser_wrapper .dataTables_paginate,
+#tableUser_wrapper .dataTables_length,
+#tableUser_wrapper .dataTables_filter {
+    color: #4C5C71;
+}
+
+.bi-list {
+    color: #4C5C71;
 }
