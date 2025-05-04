@@ -17,7 +17,6 @@ namespace TimeCapsule.Models.Dto
         public int SectionId { get; set; }
 
         [Required(ErrorMessage = "Treść pytania jest wymagana")]
-        [StringLength(500, MinimumLength = 3, ErrorMessage = "Treść pytania musi mieć od 3 do 500 znaków")]
         public string QuestionText { get; set; } = string.Empty;
     }
     public class UpdateQuestionDto
@@ -25,7 +24,6 @@ namespace TimeCapsule.Models.Dto
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Treść pytania jest wymagana")]
-        [StringLength(500, MinimumLength = 3, ErrorMessage = "Treść pytania musi mieć od 3 do 500 znaków")]
         public string QuestionText { get; set; } = string.Empty;
     }
 }
