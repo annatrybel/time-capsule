@@ -43,37 +43,14 @@ body {
     background: url('../images/top-background.svg') no-repeat center 30px;
     background-size: 100%;
     background-color: #E4E4E4;
-    background-position-y: 20px;
+    background-position-y: 40px;
     font-family: "Jost", sans-serif;
     padding-top: 100px;
     display: flex;
     flex-direction: column;
+
 }
 
-
-.hero {
-    position: relative;
-    background-size: contain;
-    padding-bottom: 32%;
-}
-
-    .hero h1 {
-        color: white;
-        position: absolute;
-        top: 80px !important;
-        right: 45%;
-        transform: translateY(-50%);
-        font-size: clamp(1rem, 2vw, 2.5rem) !important;
-        font-weight: 300;
-        text-align: center;
-        margin: 0;
-    }
-
-.description p {
-    color: #4C5C71;
-    font-size: 22px;
-    margin-top: -9rem !important;
-}
 
 
 footer {
@@ -84,6 +61,7 @@ footer {
     justify-content: flex-end;
     padding: 30px;
     color: #fff;
+    margin-top: auto;
 }
 
 .footer-content {
@@ -122,6 +100,16 @@ footer {
     color: #FFFFFF !important;
 }
 
+.navbar .btn-secondary {
+    background-color: #6b7887;
+    color: #ffffff;
+    border: none;
+}
+
+    .navbar .btn-secondary:hover {
+        background-color: #4b5562;
+        color: #fff;
+    }
 
 /* styles for CreateStep2.cshtml */
 .color-btn {

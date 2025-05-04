@@ -20,9 +20,9 @@
                 name: "Rola",
                 render: function (data) {
                     if (data === "Admin") {
-                        return '<span class="badge bg-primary">Administrator</span>';
+                        return '<span class="badge badge-admin">Administrator</span>';
                     } else {
-                        return '<span class="badge bg-secondary">Użytkownik</span>';
+                        return '<span class="badge badge-user">Użytkownik</span>';
                     }
                 }
             },
@@ -31,9 +31,9 @@
                 name: "Status",
                 render: function (data) {
                     if (data === true) {
-                        return '<span class="badge bg-danger">Zablokowany</span>';
+                        return '<span class="badge badge-locked">Zablokowany</span>';
                     } else {
-                        return '<span class="badge bg-success">Aktywny</span>';
+                        return '<span class="badge badge-active">Aktywny</span>';
                     }
                 }
             },
@@ -46,24 +46,24 @@
                     return `
                     	<div class="dropdown text-center">
                         	<button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-${data}" data-bs-toggle="dropdown" aria-expanded="false">
-                            	<i class="fas fa-ellipsis-v"></i>
+                            	<i class="bi bi-list  fs-4"></i>
                         	</button>
                         	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-${data}">
                             	<li>
                                 	<button class="dropdown-item edit-user" data-id="${data}" type="button">
-                                    	<i class="fas fa-edit"></i> Edit user
+                                    	<i class="fas fa-edit"></i> Edytuj użytkownika
                                 	</button>
                             	</li>
                             	<li>
                                 	${row.isLocked ?
                             `<form method="post" action="/AdminPanel/UnlockUser/${data}" style="margin:0">
                                         	<button type="submit" class="dropdown-item unlock-user">
-                                            	<i class="fas fa-unlock"></i> Unlock user
+                                            	<i class="fas fa-unlock"></i> Odblokuj użytkownika
                                         	</button>
                                     	</form>` :
                             `<form method="post" action="/AdminPanel/LockUser/${data}" style="margin:0">
                                         	<button type="submit" class="dropdown-item lock-user">
-                                            	<i class="fas fa-lock"></i> Lock user
+                                            	<i class="fas fa-lock"></i> Zablokuj użytkownika
                                         	</button>
                                      	</form>`
                         }

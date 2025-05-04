@@ -1,8 +1,42 @@
 ﻿/*strona główna - user niezalogowany ~AW*/
 
-/*hero i description jest w globalnym cssie ~AW*/
-
 /*opis kroków tworzenia kapsuły razem z tytułem sekcji: ~AW*/
+
+.hero {
+    position: relative;
+    background-size: contain;
+    padding-bottom: 32%;
+}
+
+    .hero h1 {
+        margin-top: 1rem !important;
+        color: white;
+        top: 80px !important;
+        right: 45%;
+        left: -20% !important;
+        transform: translateY(-50%);
+        font-size: clamp(1rem, 2vw, 2.5rem) !important;
+        font-weight: 300;
+        text-align: center;
+        margin: 0;
+        z-index: 1;
+        position: relative;
+    }
+
+
+.description p {
+    margin-top: -5rem !important;
+    color: #4C5C71;
+    font-size: 22px;
+    text-align: justify;
+    position: relative;
+    z-index: 2;
+}
+.description b {
+    display: inline !important;
+    text-align: inherit !important;
+}
+
 section.process {
     display: flex;
     flex-direction: column;
@@ -13,7 +47,7 @@ section.process {
         color: #4C5C71;
         width: 100%;
         text-align: center;
-        margin: 80px 0 50px 0;
+        margin: 40px 0 40px 0;
         font-weight: 300;
     }
 
@@ -33,7 +67,7 @@ section.process {
     .step img {
         display: block;
         margin: 0 auto 20px;
-        width: 250px;
+        width: 200px;
     }
 
     .step h3 {
@@ -43,11 +77,6 @@ section.process {
         margin: 0;
     }
 
-
-section.cta {
-    margin-bottom: 200px;
-}
-
 /*przycisk - redirect do logowania: ~AW*/
 
 .cta-button {
@@ -55,7 +84,7 @@ section.cta {
     padding: 0.75rem 1.5rem;
     background-color: #4f647a;
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     font-weight: 300;
     text-decoration: none;
     border-radius: 0.5rem;
