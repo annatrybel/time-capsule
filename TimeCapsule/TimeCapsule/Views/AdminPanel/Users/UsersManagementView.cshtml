@@ -1,27 +1,33 @@
-﻿<div class="container">
+﻿@section Styles {
+    <link rel="stylesheet" href="~/css/AdminPanel/UsersManagementView.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+}
+
+
+    <section class="hero">
+        <h1><b>Zarządzanie użytkownikami</b><br />Przeglądaj, edytuj, dodawaj i usuwaj użytkowników systemu</h1>
+    </section>
+
+
+<div class="container mb-4 mt-adjusted">
     <!-- Breadcrumb -->
-    <div class="row mt-3 mb-4">
-        <div class="col-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a asp-controller="UserManagement" asp-action="Index">Panel Administracyjny</a></li>
+    <div class="row align-items-center justify-content-between">
+        <div class="col-md-8">
+            <nav aria-label="breadcrumb" class="breadcrumb-wrapper">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-controller="AdminPanel" asp-action="Index">Panel Administracyjny</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Zarządzanie użytkownikami</li>
                 </ol>
             </nav>
         </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-md-8">
-            <h2>Zarządzanie użytkownikami</h2>
-            <p class="text-muted">Przeglądaj, edytuj, dodawaj i usuwaj użytkowników systemu</p>
-        </div>
-        <div class="col-md-4 text-md-end">
-            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+        <!-- przycisk Dodaj uzytkownika -->
+        <div class="col-md-4 text-end">
+            <button type="button" class="btn btn-secondary add-user-button" data-bs-toggle="modal" data-bs-target="#addUserModal">
                 <i class="bi bi-person-plus-fill me-2"></i>Dodaj użytkownika
             </button>
         </div>
     </div>
+</div>
 
     <!-- Tabela użytkowników z DataTables -->
     <div class="card shadow-sm mb-4">
@@ -44,7 +50,6 @@
     </div>
     <partial name="~/Views/AdminPanel/Users/_UpdateUserModalForm.cshtml"></partial>
     <partial name="~/Views/AdminPanel/Users/_CreateUserModalForm.cshtml"></partial>
-</div>
 
 @section Scripts {
     <script src="~/js/userDataTable.js"></script>

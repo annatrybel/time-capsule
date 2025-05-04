@@ -3,47 +3,26 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/MainPageAdminPanel.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/AdminPanel/MainPageAdminPanel.css" asp-append-version="true" />
 }
 
-<section class="hero">
-    <h1>
-        <b>Panel administratora aktywny!</b><br /> Zachowaj ostrożność podczas zarządzania użytkownikami i kapsułami.
-    </h1>
-
+    <section class="hero">
+        <h1><b>Panel administratora aktywny!</b><br /> Zachowaj ostrożność podczas zarządzania użytkownikami i kapsułami.</h1>
+    </section>
 </section>
+
     <!-- Main header -->
-<div>
-    <div class="row mt-4 mb-5">
-        <div class="col-12 text-center">
-            <div class="d-flex align-items-center justify-content-center">
-                <hr class="flex-grow-1 me-3" style="width: 30%;">
-                <h2 class="display-6 text-center m-0">Panel Administracyjny</h2>
-                <hr class="flex-grow-1 ms-3" style="width: 30%;">
-            </div>
-        </div>
+<div class="admin-panel">
+    <div class="admin-title">
+        <hr class="line" />
+        <h2>Panel Administracyjny</h2>
+        <hr class="line" />
     </div>
 
-
-    <!-- Admin buttons -->
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-            <div class="d-grid gap-4">
-                <a asp-controller="AdminPanel" asp-action="Users" class="btn btn-outline-secondary btn-lg p-3">
-                    <i class="bi bi-people-fill me-2"></i>
-                    Zarządzanie użytkownikami
-                </a>
-
-                <a asp-controller="AdminPanel" asp-action="Forms" class="btn btn-outline-secondary btn-lg p-3">
-                    <i class="bi bi-file-text-fill me-2"></i>
-                    Zarządzanie formularzem
-                </a>
-
-                <a asp-controller="AdminPanel" asp-action="Capsules" class="btn btn-outline-secondary btn-lg p-3">
-                    <i class="bi bi-archive-fill me-2"></i>
-                    Zarządzanie kapsułami
-                </a>
-            </div>
-        </div>
+    <div class="admin-buttons">
+        <a asp-controller="AdminPanel" asp-action="Users">zarządzanie użytkownikami</a>
+        <a asp-controller="AdminPanel" asp-action="Forms">zarządzanie formularzem</a>
+        <a asp-controller="AdminPanel" asp-action="Capsules">zarządzanie kapsułami</a>
+        <a asp-controller="AdminPanel" asp-action="Stats">analiza i statystyki</a>
     </div>
 </div>
