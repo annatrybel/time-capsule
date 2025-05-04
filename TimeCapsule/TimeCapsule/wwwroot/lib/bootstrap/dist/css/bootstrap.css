@@ -5445,7 +5445,12 @@ textarea.form-control-lg {
 .modal-dialog-scrollable {
   height: calc(100% - 1rem);
 }
-.modal-dialog-scrollable .modal-content {
+.modal-dialog-scrollable .
+
+
+
+
+{
   max-height: 100%;
   overflow: hidden;
 }

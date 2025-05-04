@@ -47,3 +47,33 @@
     .breadcrumb a:hover {
         color: #162440;
     }
+
+/* TABELA UŻYTKOWNIKÓW*/
+
+.badge-admin {
+    background-color: #4a668b;
+    color: #fff;
+}
+
+.badge-user {
+    background-color: #7d8790;
+    color: #fff;
+}
+
+.badge-active {
+    background-color: #6ba063;
+    color: #fff;
+}
+
+.badge-locked {
+    background-color: #a06e63;
+    color: #fff;
+}
+
+#tableUser td:nth-child(1),
+#tableUser th:nth-child(1) {
+    width: 110px;
+    word-break: break-all;
+    font-size: 0.8rem;
+}
+
