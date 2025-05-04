@@ -71,5 +71,44 @@ namespace TimeCapsule.Controllers
 
             return ValidationProblem(vpd);
         }
+
+        protected IActionResult HandleFormResult<T>(
+            ServiceResult result,
+            T model,
+            string successMessage,
+            string errorPrefix = "Nieprawidłowe dane: ",
+            string actionName = "GetForms")
+            where T : class
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = string.Join(", ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+
+                TempData["ErrorMessage"] = errorPrefix + errors;
+                var idProperty = typeof(T).GetProperty("Id");
+                var id = idProperty?.GetValue(model)?.ToString() ?? "unknown";
+                TempData["ErrorMessageId"] = $"error_{typeof(T).Name.ToLower()}_{id}_{DateTime.UtcNow.Ticks}";
+                return RedirectToAction(actionName);
+            }
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = successMessage;
+                var idProperty = typeof(T).GetProperty("Id");
+                var id = idProperty?.GetValue(model)?.ToString() ?? "unknown";
+                TempData["SuccessMessageId"] = $"{typeof(T).Name.ToLower()}_update_{id}_{DateTime.UtcNow.Ticks}";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Error?.Description ?? "Wystąpił błąd podczas przetwarzania.";
+                var idProperty = typeof(T).GetProperty("Id");
+                var id = idProperty?.GetValue(model)?.ToString() ?? "unknown";
+                TempData["ErrorMessageId"] = $"error_{typeof(T).Name.ToLower()}_{id}_{DateTime.UtcNow.Ticks}";
+            }
+
+            return RedirectToAction(actionName);
+        }
     }
 }
