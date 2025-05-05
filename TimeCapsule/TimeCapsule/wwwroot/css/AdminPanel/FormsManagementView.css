@@ -63,7 +63,10 @@
     font-weight: 300;
     width: 100%;
 }
-
+    .accordion-button:focus {
+        outline: none;
+        box-shadow: none;
+    }
 
     .accordion-button::after {
         filter: brightness(0) invert(1);
@@ -123,6 +126,7 @@ button.btn.dropdown-toggle:focus {
     border-color: #4C5C71;
 }
 
+
 .edit-question.btn-outline-secondary:hover {
     background-color: #4C5C71;
     border-color: #4C5C71;
@@ -136,12 +140,12 @@ button.btn.dropdown-toggle:focus {
 
 .btn-outline-danger {
     background-color: white !important;
-    border-color: #8B1F2F !important;
+    border-color: #a4182d !important;
     color: white !important;
 }
 
     .btn-outline-danger i.bi-trash {
-        color: #8B1F2F !important;
+        color: #a4182d !important;
     }
 
 .btn-outline-danger:hover {
@@ -159,6 +163,8 @@ button.btn.dropdown-toggle:focus {
     overflow: hidden;
 }
 
+
+
 .accordion-item:has(.accordion-collapse.show) {
     border-radius: 12px 12px 0 0;
     overflow: hidden;
@@ -170,4 +176,3 @@ button.btn.dropdown-toggle:focus {
     overflow: hidden;
     margin-bottom: 0.8rem;
 }
-

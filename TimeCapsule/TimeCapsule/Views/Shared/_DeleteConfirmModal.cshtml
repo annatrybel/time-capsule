@@ -1,5 +1,9 @@
-﻿<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+﻿@section Styles {
+<link rel="stylesheet" href="~/css/Modal.css" asp-append-version="true" />
+}
+
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteConfirmModalLabel">Potwierdź usunięcie</h5>
@@ -7,11 +11,11 @@
             </div>
             <form id="deleteForm" method="post" action="">
                 <div class="modal-body">
-                    <p>Czy na pewno chcesz usunąć ten element?</p>
-                    <p class="text-danger">Tej operacji nie można cofnąć!</p>
+                    <p class="delete-info">Czy na pewno chcesz usunąć ten element?</p>
+                    <p class="text-danger"><b>Tej operacji nie można cofnąć!</b></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Anuluj</button>
                     <button type="submit" class="btn btn-danger">Usuń</button>
                 </div>
             </form>

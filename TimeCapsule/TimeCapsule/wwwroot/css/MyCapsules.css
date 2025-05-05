@@ -1,4 +1,4 @@
-﻿/*strona główna - user niezalogowany*/
+﻿/*kapsuły*/
 
 .hero {
     position: relative;
@@ -69,6 +69,77 @@
 }
 
     .cta-button:hover {
+        background-color: #3e5061;
+        color: white;
+    }
+
+
+/*ma kapsuły*/
+
+.capsule-timer-wrapper {
+    margin-top: -6rem !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+
+.capsule-info {
+    font-size: 26px;
+    margin-bottom: 1rem;
+    color: #4C5C71;
+}
+
+.countdown-circle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #D9D9D9;
+    border-radius: 50%;
+    width: 370px;
+    height: 370px;
+    margin: 0 auto;
+    gap: 0.8rem;
+}
+
+
+.countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.countdown-value {
+    font-size: 40px;
+    font-weight: bold;
+    color: #4C5C71;
+    line-height: 1.1;
+}
+
+.countdown-label {
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #4C5C71;
+}
+
+.cta-button-capsules {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #4f647a;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 300;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+    margin-top: 15px;
+}
+
+    .cta-button-capsules:hover {
         background-color: #3e5061;
         color: white;
     }

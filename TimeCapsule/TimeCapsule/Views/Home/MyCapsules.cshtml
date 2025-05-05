@@ -1,5 +1,4 @@
-﻿@model List<TimeCapsule.Models.ViewModels.TimeRemainingViewModel>;
-
+﻿@model List<TimeCapsule.Models.ViewModels.TimeRemainingViewModel>
 
 @{
     ViewData["Title"] = "Moje Kapsuły";
@@ -27,42 +26,37 @@
     else
     {
         <section class="capsules has-capsules-section">
-            <div class="row">
-                @foreach (var capsule in Model)
-                {
-                    <div class="col-md-4 mb-4">
-                        <div class="capsule-card">
-                            <h3 class="capsule-title">@capsule.Title</h3>
-                            <div class="time-remaining">
-                                <div class="time-block">
-                                    <span class="time-value">@capsule.Years</span>
-                                    <span class="time-label">@(capsule.Years == 1 ? "rok" : (capsule.Years >= 2 && capsule.Years <= 4 ? "lata" : "lat"))</span>
-                                </div>
-                                <div class="time-block">
-                                    <span class="time-value">@capsule.Days</span>
-                                    <span class="time-label">@(capsule.Days == 1 ? "dzień" : "dni")</span>
-                                </div>
-                                <div class="time-block">
-                                    <span class="time-value">@capsule.Hours</span>
-                                    <span class="time-label">@(capsule.Hours == 1 ? "godzina" : (capsule.Hours >= 2 && capsule.Hours <= 4 ? "godziny" : "godzin"))</span>
-                                </div>
-                                <div class="time-block">
-                                    <span class="time-value">@capsule.Minutes</span>
-                                    <span class="time-label">@(capsule.Minutes == 1 ? "minuta" : (capsule.Minutes >= 2 && capsule.Minutes <= 4 ? "minuty" : "minut"))</span>
-                                </div>
-                            </div>
+            @foreach (var capsule in Model)
+            {
+                <div class="capsule-timer-wrapper">
+                    <p class="capsule-info">Do otwarcia kapsuły <strong>@capsule.Title</strong> pozostało:</p>
+
+                    <div class="countdown-circle">
+                        <div class="countdown-unit">
+                            <div class="countdown-value">@capsule.Years</div>
+                            <div class="countdown-label">@(capsule.Years == 1 ? "rok" : (capsule.Years >= 2 && capsule.Years <= 4 ? "lata" : "lat"))</div>
+                        </div>
+                        <div class="countdown-unit">
+                            <div class="countdown-value">@capsule.Days</div>
+                            <div class="countdown-label">dni</div>
+                        </div>
+                        <div class="countdown-unit">
+                            <div class="countdown-value">@capsule.Hours</div>
+                            <div class="countdown-label">@(capsule.Hours == 1 ? "godzina" : (capsule.Hours >= 2 && capsule.Hours <= 4 ? "godziny" : "godzin"))</div>
+                        </div>
+                        <div class="countdown-unit">
+                            <div class="countdown-value">@capsule.Minutes</div>
+                            <div class="countdown-label">@(capsule.Minutes == 1 ? "minuta" : (capsule.Minutes >= 2 && capsule.Minutes <= 4 ? "minuty" : "minut"))</div>
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+            }
 
             <div class="text-center mt-4">
-                <a asp-controller="TimeCapsule" asp-action="Step1" class="cta-button">
+                <a asp-controller="TimeCapsule" asp-action="Step1" class="cta-button-capsules">
                     Stwórz nową kapsułę czasu
                 </a>
             </div>
         </section>
     }
 </div>
-
-

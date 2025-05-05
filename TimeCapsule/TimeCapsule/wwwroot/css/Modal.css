@@ -1,0 +1,85 @@
+﻿.modal-content {
+    color: #4C5C71;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 20px !important;
+}
+.modal-title {
+    text-align: center;
+    width: 100%;
+    font-size: 30px;
+}
+.btn-save {
+    background-color: #4C5C71;
+    border-color: #4C5C71;
+    color: white;
+}
+
+    .btn-save:hover {
+        background-color: #3d4b5d;
+        border-color: #3d4b5d;
+        color: white;
+    }
+.btn-cancel {
+    background-color: #d1d1d1;
+    border-color: #d1d1d1;
+    color: #333;
+}
+
+    .btn-cancel:hover {
+        background-color: #bcbcbc;
+        border-color: #bcbcbc;
+        color: #000;
+    }
+
+.btn-danger {
+    background-color: #d1d1d1;
+    border-color: #d1d1d1;
+    color: #333;
+}
+
+    .btn-danger:hover {
+        background-color: #bcbcbc;
+        border-color: #bcbcbc;
+        color: #000;
+    }
+
+input.form-control:focus {
+    background-color: #eef3f7;
+    border-color: #4C5C71;
+    box-shadow: 0 0 0 0.2rem rgba(76, 92, 113, 0.25);
+}
+select.form-control:focus {
+    background-color: #eef3f7;
+    border-color: #4C5C71;
+    box-shadow: 0 0 0 0.2rem rgba(76, 92, 113, 0.25);
+}
+
+select.form-select:focus {
+    background-color: #eef3f7;
+    border-color: #4C5C71;
+    box-shadow: 0 0 0 0.2rem rgba(76, 92, 113, 0.25);
+}
+.btn-danger {
+    background-color: #a4182d;
+    color: white;
+    border-color: #8b1527;
+}
+
+    .btn-danger:hover {
+        background-color: #7c1424;
+        color: white;
+        border-color: #7c1424;
+    }
+
+.text-danger {
+    color: #8b1527 !important;
+    text-align: center;
+    margin-bottom: -10px;
+}
+
+.delete-info {
+    color: #4C5C71 !important;
+    text-align: center;
+    margin-bottom: 5px;
+}
