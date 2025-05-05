@@ -2,6 +2,7 @@
 {
     public class TimeRemainingViewModel
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public int Years { get; set; }
         public int Days { get; set; }
