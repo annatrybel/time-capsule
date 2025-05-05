@@ -93,7 +93,7 @@
                                                         <button type="button" class="dropdown-item text-danger"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#deleteConfirmModal"
-                                                                onclick="document.getElementById('deleteForm').action='/AdminPanel/DeleteSection/@sectionItem.Id'">
+                                                                onclick="document.getElementById('deleteForm').action='/AdminPanel/Forms/DeleteSection/@sectionItem.Id'">
                                                             <i class="bi bi-trash me-2"></i>Usuń
                                                         </button>
                                                     </li>
@@ -133,7 +133,7 @@
                                                                         <button type="button" class="btn btn-sm btn-outline-danger"
                                                                                 data-bs-toggle="modal"
                                                                                 data-bs-target="#deleteConfirmModal"
-                                                                                onclick="document.getElementById('deleteForm').action='/AdminPanel/DeleteQuestion/@question.Id'">
+                                                                                onclick="document.getElementById('deleteForm').action='/AdminPanel/Forms/DeleteQuestion/@question.Id'">
                                                                             <i class="bi bi-trash"></i>
                                                                         </button>
                                                                     </td>
@@ -165,7 +165,7 @@
 </div>
 
 <partial name="~/Views/AdminPanel/Forms/_CreateSectionModal.cshtml"></partial>
-<partial name="~/Views/AdminPanel/Forms/_CreateSectionModal.cshtml"></partial>
+<partial name="~/Views/AdminPanel/Forms/_CreateQuestionModal.cshtml"></partial>
 <partial name="~/Views/AdminPanel/Forms/_UpdateQuesionModal.cshtml"></partial>
 <partial name="~/Views/AdminPanel/Forms/_UpdateSectionModal.cshtml"></partial>
 <partial name="_DeleteConfirmModal"></partial>
@@ -224,7 +224,14 @@
                     }
                 });
             });
+
+             //add-question
+            $(document).on('click', '.add-question-btn', function(event) {
+                const sectionId = $(this).data('section-id');
+                $('#addQuestionModal').find('#sectionId').val(sectionId);
+            });
         });
     </script>
+
 }
 

@@ -116,7 +116,7 @@
 
             $('#pairCapsuleOptions').toggle($('#typePair').is(':checked'));
 
-            let emailCounter = @(Model.Recipients != null && Model.Recipients.Any() ? Model.Recipients.Count : 1);
+            let emailCounter = @(Model.Recipients != null && Model.Recipients.Any() ? Model.Recipients.Count : 1)
 
             $('#addRecipientBtn').on('click', function() {
                 const idx = emailCounter++;

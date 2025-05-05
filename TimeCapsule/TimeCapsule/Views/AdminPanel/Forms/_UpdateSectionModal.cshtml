@@ -1,4 +1,7 @@
-﻿<div class="modal fade" id="editSectionModal" tabindex="-1" aria-labelledby="editSectionModalLabel" aria-hidden="true">
+﻿@using TimeCapsule.Models.DatabaseModels;
+@using TimeCapsule.Extensions;
+
+<div class="modal fade" id="editSectionModal" tabindex="-1" aria-labelledby="editSectionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -15,8 +18,10 @@
                     <div class="mb-3">
                         <label for="editCapsuleType" class="form-label">Typ kapsuły</label>
                         <select class="form-select" id="editCapsuleType" name="CapsuleType" required>
-                            <option value="0">Indywidualna</option>
-                            <option value="1">Dla kogoś</option>
+                            @foreach (CapsuleType type in Enum.GetValues(typeof(CapsuleType)))
+                            {
+                                <option value="@((int)type)">@type.GetDisplayName()</option>
+                            }
                         </select>
                     </div>
                 </div>

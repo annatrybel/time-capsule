@@ -1,4 +1,7 @@
-﻿@{
+﻿@model List<TimeCapsule.Models.ViewModels.TimeRemainingViewModel>;
+
+
+@{
     ViewData["Title"] = "Moje Kapsuły";
 }
 @section Styles {
@@ -10,15 +13,56 @@
 </section>
 
 <div class="container">
-<section class="cta no-capsules-section">
-    <div class="no-capsule-box">
-        <h2>Obecnie nie posiadasz żadnej kapsuły</h2>
-        <a asp-controller="TimeCapsule" asp-action="Step1" class="cta-button">
-            Stwórz swoją kapsułę czasu już teraz!
-        </a>
-    </div>
-</section>
-</div>
-<section class="capsules has-capsules-section">
+    @if (Model == null || !Model.Any())
+    {
+        <section class="cta no-capsules-section">
+            <div class="no-capsule-box">
+                <h2>Obecnie nie posiadasz żadnej kapsuły</h2>
+                <a asp-controller="TimeCapsule" asp-action="Step1" class="cta-button">
+                    Stwórz swoją kapsułę czasu już teraz!
+                </a>
+            </div>
+        </section>
+    }
+    else
+    {
+        <section class="capsules has-capsules-section">
+            <div class="row">
+                @foreach (var capsule in Model)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="capsule-card">
+                            <h3 class="capsule-title">@capsule.Title</h3>
+                            <div class="time-remaining">
+                                <div class="time-block">
+                                    <span class="time-value">@capsule.Years</span>
+                                    <span class="time-label">@(capsule.Years == 1 ? "rok" : (capsule.Years >= 2 && capsule.Years <= 4 ? "lata" : "lat"))</span>
+                                </div>
+                                <div class="time-block">
+                                    <span class="time-value">@capsule.Days</span>
+                                    <span class="time-label">@(capsule.Days == 1 ? "dzień" : "dni")</span>
+                                </div>
+                                <div class="time-block">
+                                    <span class="time-value">@capsule.Hours</span>
+                                    <span class="time-label">@(capsule.Hours == 1 ? "godzina" : (capsule.Hours >= 2 && capsule.Hours <= 4 ? "godziny" : "godzin"))</span>
+                                </div>
+                                <div class="time-block">
+                                    <span class="time-value">@capsule.Minutes</span>
+                                    <span class="time-label">@(capsule.Minutes == 1 ? "minuta" : (capsule.Minutes >= 2 && capsule.Minutes <= 4 ? "minuty" : "minut"))</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
 
-</section>
+            <div class="text-center mt-4">
+                <a asp-controller="TimeCapsule" asp-action="Step1" class="cta-button">
+                    Stwórz nową kapsułę czasu
+                </a>
+            </div>
+        </section>
+    }
+</div>
+
+

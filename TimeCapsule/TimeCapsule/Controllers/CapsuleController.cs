@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using TimeCapsule.Extensions;
 using TimeCapsule.Models.DatabaseModels;
@@ -49,12 +47,11 @@ namespace TimeCapsule.Controllers
         [Route("SaveStep1")]
         public IActionResult SaveStep1([FromForm] CreateCapsuleDto capsule)
         {
-            //if (!capsule.Type.HasValue || !Enum.IsDefined(typeof(CapsuleType), capsule.Type.Value))
-            //{
-            //    ModelState.AddModelError("Type", "Wybór typu kapsuły jest wymagany");
-            //    TempData["ErrorMessage"] = "Wybór typu kapsuły jest niezbędny do kontynuowania procesu.";
-            //    return View("~/Views/Capsule/CreateStep1.cshtml", capsule);
-            //}
+            if (capsule.Type == null || !Enum.IsDefined(typeof(CapsuleType), capsule.Type))
+            {
+                TempData["ErrorMessage"] = "Wybór typu kapsuły jest niezbędny do kontynuowania procesu.";
+                return View("~/Views/Capsule/CreateStep1.cshtml", capsule);
+            }
 
             var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
 
@@ -65,14 +62,35 @@ namespace TimeCapsule.Controllers
 
                 if (capsule.Type == CapsuleType.DlaKogos)
                 {
-                    fullCapsule.Recipients = capsule.Recipients?.Where(r => !string.IsNullOrWhiteSpace(r)).ToList() ?? new List<string>();
+                    var validEmails = new List<string>();
+                    var invalidEmails = new List<string>();
 
-                    if (!fullCapsule.Recipients.Any())
+                    if (capsule.Recipients != null)
                     {
-                        ModelState.AddModelError("Recipients", "Należy podać co najmniej jednego odbiorcę");
-                        TempData["ErrorMessage"] = "Dla kapsuły parnej należy podać co najmniej jednego odbiorcę.";
+                        foreach (var recipient in capsule.Recipients)
+                        {
+                            if (string.IsNullOrWhiteSpace(recipient))
+                                continue;
+
+                            if (IsValidEmail(recipient))
+                                validEmails.Add(recipient);
+                            else
+                                invalidEmails.Add(recipient);
+                        }
+                    }
+
+                    if (!validEmails.Any())
+                    {
+                        ModelState.AddModelError("Recipients", "Należy podać co najmniej jeden poprawny adres email");
+                        TempData["ErrorMessage"] = "Dla kapsuły typu 'Dla kogoś' należy podać co najmniej jeden poprawny adres email.";
                         return View("~/Views/Capsule/CreateStep1.cshtml", capsule);
                     }
+                    if (invalidEmails.Any())
+                    {
+                        TempData["WarningMessage"] = $"Pominięto niepoprawne adresy email: {string.Join(", ", invalidEmails)}";
+                    }
+
+                    fullCapsule.Recipients = validEmails;
                 }
 
                 HttpContext.Session.SetObject("CurrentCapsule", fullCapsule);
@@ -85,6 +103,20 @@ namespace TimeCapsule.Controllers
 
             return RedirectToAction("Step2");
         }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         [HttpGet]
         [Route("Step2")]
@@ -105,11 +137,6 @@ namespace TimeCapsule.Controllers
         [Route("SaveStep2")]
         public IActionResult SaveStep2([FromForm] CreateCapsuleDto capsule)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //	return View("~/Views/Capsule/CreateStep2.cshtml", capsule);
-            //}
-
             if (string.IsNullOrWhiteSpace(capsule.Title))
             {
                 ModelState.AddModelError("Title", "Tytuł jest wymagany");
@@ -151,7 +178,7 @@ namespace TimeCapsule.Controllers
 
         [HttpPost]
         [Route("SaveStep3")]
-        public async Task<IActionResult> SaveStep3([FromForm] CreateCapsuleDto capsule)
+        public IActionResult SaveStep3([FromForm] CreateCapsuleDto capsule)
         {
             var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
 
@@ -181,11 +208,11 @@ namespace TimeCapsule.Controllers
                 return RedirectToAction("Step1");
             }
 
-            //if (!capsule.Type.HasValue || !Enum.IsDefined(typeof(CapsuleType), capsule.Type.Value))
-            //{
-            //    TempData["ErrorMessage"] = "Wybór typu kapsuły jest niezbędny do kontynuowania procesu. Prosimy wybrać typ kapsuły.";
-            //    return RedirectToAction("Step1");
-            //}
+            if (capsule.Type == null || !Enum.IsDefined(typeof(CapsuleType), capsule.Type))
+            {
+                TempData["ErrorMessage"] = "Wybór typu kapsuły jest niezbędny do kontynuowania procesu. Prosimy wybrać typ kapsuły.";
+                return RedirectToAction("Step1");
+            }
 
             var capsuleWithSections = await _capsuleService.GetSectionsWithQuestions(capsule);
 
@@ -196,7 +223,7 @@ namespace TimeCapsule.Controllers
 
         [HttpPost]
         [Route("SaveStep4")]
-        public async Task<IActionResult> SaveStep4([FromForm] CreateCapsuleDto capsule)
+        public IActionResult SaveStep4([FromForm] CreateCapsuleDto capsule)
         {
             var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
 
@@ -419,12 +446,11 @@ namespace TimeCapsule.Controllers
                 return RedirectToAction("Step1");
             }
 
-            //// Walidacja niezbędnych danych
-            //if (!fullCapsule.Type.HasValue || string.IsNullOrWhiteSpace(fullCapsule.Title) || fullCapsule.OpeningDate == default)
-            //{
-            //    TempData["ErrorMessage"] = "Brakuje niektórych wymaganych danych. Prosimy uzupełnić wszystkie wymagane pola.";
-            //    return RedirectToAction("Step8");
-            //}
+            if (fullCapsule.Type == null || string.IsNullOrWhiteSpace(fullCapsule.Title) || fullCapsule.OpeningDate == default)
+            {
+                TempData["ErrorMessage"] = "Brakuje niektórych wymaganych danych. Prosimy uzupełnić wszystkie wymagane pola.";
+                return RedirectToAction("Step8");
+            }
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
@@ -434,8 +460,13 @@ namespace TimeCapsule.Controllers
             }
 
             var user = await _userManager.FindByIdAsync(userId);
-            var result = await _capsuleService.SaveCapsule(fullCapsule, user);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "Nie znaleziono konta użytkownika. Prosimy zalogować się ponownie.";
+                return RedirectToAction("Login", "Account", new { area = "Identity" });
+            }
 
+            var result = await _capsuleService.SaveCapsule(fullCapsule, user);
             if (!result.IsSuccess)
             {
                 TempData["ErrorMessage"] = result.Error?.Description ?? "Wystąpił błąd podczas zapisywania kapsuły.";

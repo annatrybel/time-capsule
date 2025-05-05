@@ -49,7 +49,7 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item mx-1">
-                                <a class="btn btn-sm btn-secondary" asp-area="" asp-controller="Home" asp-action="MyCapsules">
+                                <a class="btn btn-sm btn-secondary" asp-area="" asp-controller="Profile" asp-action="MyCapsules">
                                     <i class="bi bi-archive me-1"></i>Moje Kapsuły
                                 </a>
                             </li>
@@ -124,7 +124,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <script src="~/js/validation.js"></script>
     <script>
         $(document).ready(function() {
         $('.summernote').summernote({

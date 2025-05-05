@@ -9,9 +9,9 @@ namespace TimeCapsule.Interfaces
         Task<ServiceResult> AddSection(CreateSectionDto model);
         Task<ServiceResult> UpdateSection(UpdateSectionDto model);
         Task<ServiceResult<CapsuleSectionDto>> GetSectionById(int sectionId);
-        Task<ServiceResult> AddQuestion(UpsertQuestionDto model);
+        Task<ServiceResult> AddQuestion(CreateQuestionDto model);
         Task<ServiceResult<CapsuleQuestionDto>> GetQuestionById(int questionId);
-        Task<ServiceResult> UpdateQuestion(UpsertQuestionDto model);
+        Task<ServiceResult> UpdateQuestion(UpdateQuestionDto model);
         Task<ServiceResult> DeleteQuestion(int questionId);
         Task<ServiceResult> DeleteSection(int sectionId);
     }

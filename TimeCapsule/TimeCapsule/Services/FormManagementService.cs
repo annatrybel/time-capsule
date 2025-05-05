@@ -98,7 +98,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;
@@ -167,7 +167,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;
@@ -180,7 +180,7 @@ namespace TimeCapsule.Services
             }
         }
 
-        public async Task<ServiceResult> AddQuestion(UpsertQuestionDto model)
+        public async Task<ServiceResult> AddQuestion(CreateQuestionDto model)
         {
             try
             {
@@ -217,7 +217,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;
@@ -258,7 +258,7 @@ namespace TimeCapsule.Services
             }
         }
 
-        public async Task<ServiceResult> UpdateQuestion(UpsertQuestionDto model)
+        public async Task<ServiceResult> UpdateQuestion(UpdateQuestionDto model)
         {
             try
             {
@@ -284,7 +284,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;
@@ -341,7 +341,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;
@@ -403,7 +403,7 @@ namespace TimeCapsule.Services
 
                     return ServiceResult.Success();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync();
                     throw;
