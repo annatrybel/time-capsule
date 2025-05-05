@@ -163,6 +163,8 @@ button.btn.dropdown-toggle:focus {
     overflow: hidden;
 }
 
+
+
 .accordion-item:has(.accordion-collapse.show) {
     border-radius: 12px 12px 0 0;
     overflow: hidden;
@@ -174,4 +176,3 @@ button.btn.dropdown-toggle:focus {
     overflow: hidden;
     margin-bottom: 0.8rem;
 }
-
