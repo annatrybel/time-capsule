@@ -11,7 +11,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="contactForm" method="post" action="/AdminPanel/SubmitMessage">
+                <form id="contactForm" method="post" asp-controller="Home" asp-action="SubmitMessage">
                     <div class="mb-3">
                         <label for="contactName" class="form-label">Imię i Nazwisko <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="contactName" name="Name" placeholder="Imię i Nazwisko" required>

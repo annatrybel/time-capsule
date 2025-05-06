@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using TimeCapsule.Models.DatabaseModels;
 using Microsoft.AspNetCore.Identity;
 using TimeCapsule.Models.Dto;
+using TimeCapsule.Models.ViewModels;
 
 namespace TimeCapsule.Models
 {
@@ -14,7 +15,6 @@ namespace TimeCapsule.Models
         public DbSet<CapsuleImage> CapsuleImages { get; set; }
         public DbSet<CapsuleQuestion> CapsuleQuestions { get; set; }
         public DbSet<CapsuleAnswer> CapsuleAnswers { get; set; }
-        public DbSet<ContactMessage> ContactMessages { get; set; }
         public DbSet<CapsuleSection> CapsuleSections { get; set; }
         public DbSet<CapsuleLink> CapsuleLinks { get; set; }
         public DbSet<CapsuleRecipient> CapsuleRecipients { get; set; }
@@ -28,11 +28,7 @@ namespace TimeCapsule.Models
 
             modelBuilder.Entity<Capsule>()
                 .HasIndex(c => c.Title);
-
-            modelBuilder.Entity<ContactMessage>()
-                .HasIndex(cm => cm.Email)
-                .IsUnique();
-
+                        
             modelBuilder.Entity<Capsule>()
                 .HasOne(c => c.CreatedByUser) 
                 .WithMany() 

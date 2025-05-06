@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TimeCapsule.Models;
-using TimeCapsule.Models.DatabaseModels;
+using TimeCapsule.Models.ViewModels;
 using TimeCapsule.Services;
 
 namespace TimeCapsule.Controllers
@@ -28,9 +28,9 @@ namespace TimeCapsule.Controllers
             return View();
         }
 
-        [Route("Contact")]
+    
         [HttpPost]
-        public async Task<IActionResult> SubmitMessage([FromForm] ContactMessage message)
+        public async Task<IActionResult> SubmitMessage([FromForm] ContactMessageViewModel message)
         {
             if (!ModelState.IsValid)
             {
