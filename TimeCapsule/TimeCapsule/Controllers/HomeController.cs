@@ -2,16 +2,20 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TimeCapsule.Models;
+using TimeCapsule.Models.DatabaseModels;
+using TimeCapsule.Services;
 
 namespace TimeCapsule.Controllers
 {
     public class HomeController : TimeCapsuleBaseController
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ContactService _contactService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ContactService contactService)
         {
             _logger = logger;
+            _contactService = contactService;
         }
 
         public IActionResult Index()
@@ -24,21 +28,35 @@ namespace TimeCapsule.Controllers
             return View();
         }
 
-        public IActionResult Contact()
+        [Route("Contact")]
+        [HttpPost]
+        public async Task<IActionResult> SubmitMessage([FromForm] ContactMessage message)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                TempData["ContactError"] = "Proszê wype³niæ wszystkie wymagane pola.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var result = await _contactService.SubmitMessage(message);
+
+            if (result)
+            {
+                TempData["ContactSuccess"] = "Twoja wiadomoœæ zosta³a wys³ana. Dziêkujemy za kontakt!";    
+            }
+            else
+            {
+                TempData["ContactError"] = "Wyst¹pi³ b³¹d podczas wysy³ania wiadomoœci. Spróbuj ponownie póŸniej.";
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult FAQ()
         {
             return View();
         }
-
-        [Authorize]
-        public IActionResult MyCapsules()
-        {
-            return View();
-        }
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
