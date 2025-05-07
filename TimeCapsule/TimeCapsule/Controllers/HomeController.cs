@@ -30,7 +30,7 @@ namespace TimeCapsule.Controllers
 
     
         [HttpPost]
-        public async Task<IActionResult> SubmitMessage([FromForm] ContactMessageViewModel message)
+        public async Task<IActionResult> SubmitMessage([FromForm] ContactMessageViewModel msg)
         {
             if (!ModelState.IsValid)
             {
@@ -38,7 +38,7 @@ namespace TimeCapsule.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var result = await _contactService.SubmitMessage(message);
+            var result = await _contactService.SubmitMessage(msg);
 
             if (result)
             {
