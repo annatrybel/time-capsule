@@ -375,7 +375,7 @@ namespace TimeCapsule.Controllers
                 return RedirectToAction("Step1");
             }
 
-            DateTime openingDateTime = DateTime.UtcNow;
+            DateTime openingDateTime = DateTime.Now;
 
             if (!string.IsNullOrEmpty(PredefinedPeriod))
             {
@@ -400,7 +400,7 @@ namespace TimeCapsule.Controllers
                         return RedirectToAction("Step7");
                     }
 
-                    openingDateTime = parsedDateTime.ToUniversalTime();
+                    openingDateTime = parsedDateTime;
                 }
                 else
                 {

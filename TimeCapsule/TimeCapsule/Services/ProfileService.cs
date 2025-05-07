@@ -28,16 +28,18 @@ namespace TimeCapsule.Services
 
                 foreach (var capsule in capsules)
                 {
-                    var timeRamaining = capsule.OpeningDate - DateTime.UtcNow;
+                    var timeRemaining = capsule.OpeningDate - DateTime.UtcNow;
+                    bool canOpen = timeRemaining.TotalSeconds <= 0;
 
                     var myCapsule = new TimeRemainingViewModel
                     {
                         Id = capsule.Id,
                         Title = capsule.Title,
-                        Years = timeRamaining.Days / 365,
-                        Days = timeRamaining.Days % 365,
-                        Hours = timeRamaining.Hours,
-                        Minutes = timeRamaining.Minutes
+                        Years = Math.Max(0, timeRemaining.Days / 365),
+                        Days = Math.Max(0, timeRemaining.Days % 365),
+                        Hours = Math.Max(0, timeRemaining.Hours),
+                        Minutes = Math.Max(0, timeRemaining.Minutes),
+                        CanOpen = canOpen
                     };
                     result.Add(myCapsule);
                 }
@@ -51,5 +53,7 @@ namespace TimeCapsule.Services
         }
     }
 }
+
+
 
 

@@ -29,26 +29,46 @@
             @foreach (var capsule in Model)
             {
                 <div class="capsule-timer-wrapper">
-                    <p class="capsule-info">Do otwarcia kapsuły <strong>@capsule.Title</strong> pozostało:</p>
-
-                    <div class="countdown-circle">
-                        <div class="countdown-unit">
-                            <div class="countdown-value">@capsule.Years</div>
-                            <div class="countdown-label">@(capsule.Years == 1 ? "rok" : (capsule.Years >= 2 && capsule.Years <= 4 ? "lata" : "lat"))</div>
+                    <p class="capsule-info">
+                        Do otwarcia kapsuły <strong>@capsule.Title</strong>
+                        @if (capsule.CanOpen)
+                        {
+                            <span class="badge bg-success">Gotowa do otwarcia!</span>
+                        }
+                        else
+                        {
+                            <span> pozostało:</span>
+                        }
+                    </p>
+                    @if (capsule.CanOpen)
+                    {
+                        <div class="text-center my-4">
+                            <a asp-controller="Capsule" asp-action="Open" asp-route-id="@capsule.Id" class="btn btn-primary btn-lg">
+                                <i class="bi bi-unlock me-2"></i>Otwórz kapsułę
+                            </a>
                         </div>
-                        <div class="countdown-unit">
-                            <div class="countdown-value">@capsule.Days</div>
-                            <div class="countdown-label">dni</div>
+                    }
+                    else
+                    {
+                        <div class="countdown-circle">
+                            <div class="countdown-unit">
+                                <div class="countdown-value">@capsule.Years</div>
+                                <div class="countdown-label">@(capsule.Years == 1 ? "rok" : (capsule.Years >= 2 && capsule.Years <= 4 ? "lata" : "lat"))</div>
+                            </div>
+                            <div class="countdown-unit">
+                                <div class="countdown-value">@capsule.Days</div>
+                                <div class="countdown-label">dni</div>
+                            </div>
+                            <div class="countdown-unit">
+                                <div class="countdown-value">@capsule.Hours</div>
+                                <div class="countdown-label">@(capsule.Hours == 1 ? "godzina" : (capsule.Hours >= 2 && capsule.Hours <= 4 ? "godziny" : "godzin"))</div>
+                            </div>
+                            <div class="countdown-unit">
+                                <div class="countdown-value">@capsule.Minutes</div>
+                                <div class="countdown-label">@(capsule.Minutes == 1 ? "minuta" : (capsule.Minutes >= 2 && capsule.Minutes <= 4 ? "minuty" : "minut"))</div>
+                            </div>
                         </div>
-                        <div class="countdown-unit">
-                            <div class="countdown-value">@capsule.Hours</div>
-                            <div class="countdown-label">@(capsule.Hours == 1 ? "godzina" : (capsule.Hours >= 2 && capsule.Hours <= 4 ? "godziny" : "godzin"))</div>
-                        </div>
-                        <div class="countdown-unit">
-                            <div class="countdown-value">@capsule.Minutes</div>
-                            <div class="countdown-label">@(capsule.Minutes == 1 ? "minuta" : (capsule.Minutes >= 2 && capsule.Minutes <= 4 ? "minuty" : "minut"))</div>
-                        </div>
-                    </div>
+                    }
                 </div>
             }
 
@@ -60,3 +80,5 @@
         </section>
     }
 </div>
+
+
