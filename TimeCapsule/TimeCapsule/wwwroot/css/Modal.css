@@ -83,3 +83,9 @@ select.form-select:focus {
     text-align: center;
     margin-bottom: 5px;
 }
+
+textarea.form-control:focus {
+    background-color: #eef3f7;
+    border-color: #4C5C71;
+    box-shadow: 0 0 0 0.2rem rgba(76, 92, 113, 0.25);
+}
