@@ -69,6 +69,28 @@
                         </li>
                     </ul>
 
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="languageDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-globe"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                            <li>
+                                <a class="dropdown-item" asp-controller="Home" asp-action="SetLanguage"
+                                   asp-route-culture="pl-PL" asp-route-returnUrl="@Context.Request.Path">
+                                    Polski
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" asp-controller="Home" asp-action="SetLanguage"
+                                   asp-route-culture="en-US" asp-route-returnUrl="@Context.Request.Path">
+                                    English
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
                     <!-- Sekcja użytkownika -->
                     @if (SignInManager.IsSignedIn(User))
                     {
