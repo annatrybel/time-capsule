@@ -117,11 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LoginToCreateCapsule" xml:space="preserve">
+    <value>Zaloguj się, aby stworzyć własną kapsułę czasu!</value>
+  </data>
+  <data name="CreateCapsuleNow" xml:space="preserve">
+    <value>Stwórz swoją kapsułę czasu już teraz!</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Czy marzyłeś kiedyś, by wysłać wiadomość w przyszłość? Dzięki naszej platformie możesz &lt;b&gt;stworzyć spersonalizowany list, który stanie się wyjątkową kapsułą czasu.&lt;/b&gt; Napisz co chcesz – wspomnienia, marzenia, podziękowania lub życzenia – i wybierz datę, w której list ma zostać odczytany. Może to być za rok, 5 lat, a nawet dekadę! &lt;br/&gt;To idealny sposób na zatrzymanie emocji, podarowanie wyjątkowego prezentu lub po prostu rozmowę z przyszłym sobą.&lt;b&gt;Twoje słowa zostaną bezpiecznie zapisane i dostarczone w wybranym przez Ciebie momencie.&lt;/b&gt;
 </value>
   </data>
+  <data name="HowItWorks" xml:space="preserve">
+    <value>Jak to działa?</value>
+  </data>
   <data name="MainHeading" xml:space="preserve">
     <value>Zatrzymaj Chwilę, Stwórz Kapsułę Czasu – Twoja Wiadomość dla Przyszłości!</value>
+  </data>
+  <data name="Step1" xml:space="preserve">
+    <value>Zarejestruj się lub zaloguj</value>
+  </data>
+  <data name="Step2" xml:space="preserve">
+    <value>Stwórz kapsułę czasu</value>
+  </data>
+  <data name="Step3" xml:space="preserve">
+    <value>Wybierz datę otwarcia</value>
+  </data>
+  <data name="Step4" xml:space="preserve">
+    <value>Odczytaj wiadomość, gdy czas minie!</value>
   </data>
 </root>

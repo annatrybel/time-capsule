@@ -20,24 +20,24 @@
 </section>
 
 <section class="process">
-    <h2><b>Jak to działa?</b></h2>
+    <h2><b>@Localizer["HowItWorks"]</b></h2>
 
     <div class="steps">
         <div class="step">
             <img src="~/images/step1.svg" alt="Krok 1: Zarejestruj się lub zaloguj" />
-            <h3>1. Zarejestruj się lub zaloguj</h3>
+            <h3>@Localizer["Step1"]</h3>
         </div>
         <div class="step">
             <img src="~/images/step2.svg" alt="Krok 2: Stwórz kapsułę czasu" />
-            <h3>2. Stwórz kapsułę czasu</h3>
+            <h3>@Localizer["Step2"]</h3>
         </div>
         <div class="step">
             <img src="~/images/step3.svg" alt="Krok 3: Wybierz datę otwarcia" />
-            <h3>3. Wybierz datę otwarcia</h3>
+            <h3>@Localizer["Step3"]</h3>
         </div>
         <div class="step">
             <img src="~/images/step4.svg" alt="Krok 4: Odczytaj wiadomość" />
-            <h3>4. Odczytaj wiadomość, gdy czas minie!</h3>
+            <h3>@Localizer["Step4"]</h3>
         </div>
     </div>
 </section>
@@ -45,7 +45,7 @@
 @if (SignInManager.IsSignedIn(User)){
     <section class="cta text-center">
         <a asp-controller="TimeCapsule" asp-action="Step1" class="btn cta-button">
-            Stwórz swoją kapsułę czasu już teraz!
+            @Localizer["CreateCapsuleNow"]
         </a>
     </section>
 }
@@ -53,7 +53,7 @@ else
 {
     <section class="cta text-center">
         <a asp-area="Identity" asp-page="/Account/Login"  class="btn cta-button">
-            Zaloguj się, aby stworzyć własną kapsułę czasu!
+            @Localizer["LoginToCreateCapsule"]
         </a>
     </section>
 }

@@ -117,12 +117,33 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LoginToCreateCapsule" xml:space="preserve">
+    <value>Log in to create your own time capsule!</value>
+  </data>
+  <data name="CreateCapsuleNow" xml:space="preserve">
+    <value>Create your time capsule now!</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Have you ever dreamed of sending a message to the future? With our platform, you can &lt;b&gt;create a personalized letter that becomes a unique time capsule.&lt;/b&gt; Write whatever you want - memories, dreams, thanks, or wishes - and choose the date when the letter should be read. It can be in a year, 5 years, or even a decade! &lt;br/&gt;It's the perfect way to capture emotions, give a special gift, or simply talk to your future self. &lt;b&gt;Your words will be safely stored and delivered at the moment of your choice.&lt;/b&gt;
 </value>
   </data>
+  <data name="HowItWorks" xml:space="preserve">
+    <value>How It Works?</value>
+  </data>
   <data name="MainHeading" xml:space="preserve">
     <value>Capture the Moment, Create a Time Capsule - Your Message for the Future!
 </value>
+  </data>
+  <data name="Step1" xml:space="preserve">
+    <value>Register or log in</value>
+  </data>
+  <data name="Step2" xml:space="preserve">
+    <value>Create a time capsule</value>
+  </data>
+  <data name="Step3" xml:space="preserve">
+    <value>Choose an opening date</value>
+  </data>
+  <data name="Step4" xml:space="preserve">
+    <value>Read the message when time passes!</value>
   </data>
 </root>
