@@ -42,7 +42,7 @@ namespace TimeCapsule.Controllers.Admin
         }
 
         [HttpPost("CreateUser")]
-        public async Task<IActionResult> CreateUser(UserDto user)
+        public async Task<IActionResult> CreateUser([FromForm] UserDto user)
         {
             if (!ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace TimeCapsule.Controllers.Admin
         }
 
         [HttpPost("UpdateUser")]
-        public async Task<IActionResult> UpdateUser(UserDto user)
+        public async Task<IActionResult> UpdateUser([FromForm] UserDto user)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace TimeCapsule.Controllers.Admin
         }
 
         [HttpPost("LockUser/{userId}")]
-        public async Task<IActionResult> LockUser(string userId)
+        public async Task<IActionResult> LockUser([FromRoute] string userId)
         {
             if (string.IsNullOrEmpty(userId))
             {
@@ -122,7 +122,7 @@ namespace TimeCapsule.Controllers.Admin
         }
 
         [HttpPost("UnlockUser/{userId}")]
-        public async Task<IActionResult> UnlockUser(string userId)
+        public async Task<IActionResult> UnlockUser([FromRoute] string userId)
         {
             if (string.IsNullOrEmpty(userId))
             {
@@ -158,3 +158,5 @@ namespace TimeCapsule.Controllers.Admin
         }
     }
 }
+
+

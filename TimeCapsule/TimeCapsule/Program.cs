@@ -53,6 +53,12 @@ builder.Services.AddScoped<SectionSeeder>();
 builder.Services.AddScoped<QuestionSeeder>();
 builder.Services.AddScoped<SeedManager>();
 
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
+    {
+        options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    });
 
 var connectionString = builder.Configuration.GetConnectionString("Database") ?? throw new ArgumentNullException("ConnectionString");
 
@@ -119,5 +125,7 @@ using (var scope = app.Services.CreateScope())
     ctx.Database.Migrate();
 }
 app.Run();
+
+
 
 
