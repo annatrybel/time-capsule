@@ -6,6 +6,9 @@ using TimeCapsule.Services;
 using TimeCapsule.Interfaces;
 using TimeCapsule.Seeders;
 using TimeCapsule.Extensions;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using Microsoft.Extensions.Options;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +16,26 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<TimeCapsuleContext>().AddDefaultTokenProviders().AddDefaultUI();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization();
+
+
+var supportedCultures = new[]
+{
+    new CultureInfo("pl-PL"),
+    new CultureInfo("en-US")
+};
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("pl-PL");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
 
 builder.Services
     .AddOptions<PortalSettings>()
@@ -31,6 +53,12 @@ builder.Services.AddScoped<SectionSeeder>();
 builder.Services.AddScoped<QuestionSeeder>();
 builder.Services.AddScoped<SeedManager>();
 
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
+    {
+        options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    });
 
 var connectionString = builder.Configuration.GetConnectionString("Database") ?? throw new ArgumentNullException("ConnectionString");
 
@@ -62,6 +90,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+//middleware
+var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
+app.UseRequestLocalization(localizationOptions.Value);
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -92,5 +125,7 @@ using (var scope = app.Services.CreateScope())
     ctx.Database.Migrate();
 }
 app.Run();
+
+
 
 
