@@ -68,6 +68,9 @@ builder.Services.AddDbContext<TimeCapsuleContext>(options =>
     options.EnableDetailedErrors();
 });
 
+
+builder.Services.AddMemoryCache();
+
 //Session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
