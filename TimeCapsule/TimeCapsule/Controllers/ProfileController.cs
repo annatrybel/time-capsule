@@ -13,10 +13,7 @@ namespace TimeCapsule.Controllers
         private readonly ProfileService _profileService;
         private readonly IMemoryCache _cache;
 
-        public ProfileController(
-            ILogger<HomeController> logger,
-            ProfileService profileService,
-            IMemoryCache cache)
+        public ProfileController(ILogger<HomeController> logger, ProfileService profileService, IMemoryCache cache)
         {
             _profileService = profileService;
             _cache = cache;
