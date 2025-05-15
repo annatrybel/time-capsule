@@ -19,6 +19,8 @@ namespace TimeCapsule.Controllers
             _cache = cache;
         }
 
+        [HttpGet]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> MyCapsules()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
