@@ -14,6 +14,9 @@ namespace TimeCapsule.Controllers
         {
             _profileService = profileService;
         }
+
+        [HttpGet]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> MyCapsules()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
