@@ -1,4 +1,6 @@
 ﻿@using TimeCapsule.Models.Dto
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model CreateCapsuleDto
 
 <div class="background-image-for-pages">
@@ -7,10 +9,10 @@
             <div class="col-lg-8 col-md-10 bg-light rounded shadow-sm p-4 my-5">
                 <form asp-controller="TimeCapsule" asp-action="SaveStep4" method="post">
                     <div class="text-center">
-                        <h1 class="display-6 mb-3">Krok 4 z 9: odpowiedz na pytania</h1>
+                        <h1 class="display-6 mb-3">@Localizer["StepTitle"]</h1>
 
                         <p class="lead mb-3">
-                            Kilka pytań, które pomogą Ci stworzyć wyjątkową kapsułę:
+                            @Localizer["StepDescription"]
                         </p>
                     </div>
 
@@ -62,7 +64,7 @@
                                             else
                                             {
                                                 <div class="alert alert-info">
-                                                    Brak pytań w tej sekcji.
+                                                    @Localizer["NoQuestionsInSection"]
                                                 </div>
                                             }
                                         </div>
@@ -75,14 +77,14 @@
                         else
                         {
                             <div class="alert alert-info">
-                                Brak pytań dostępnych dla tego typu kapsuły.
+                                @Localizer["NoQuestionsForCapsuleType"]
                             </div>
                         }
                     </div>
 
                     <div class="d-flex justify-content-between mt-5">
-                        <a asp-controller="TimeCapsule" asp-action="Step3" class="btn btn-secondary">Wstecz</a>
-                        <button type="submit" class="btn btn-success">Dalej</button>
+                        <a asp-controller="TimeCapsule" asp-action="Step3" class="btn btn-secondary">@Localizer["Back"]</a>
+                        <button type="submit" class="btn btn-success">@Localizer["Next"]</button>
                     </div>
                 </form>
             </div>
