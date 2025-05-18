@@ -3,6 +3,15 @@
 @using TimeCapsule.Models.Dto
 @model CreateCapsuleDto
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/steps.css" asp-append-version="true" />
+    <style>
+        body {
+            background: none !important;
+            background-color: #E4E4E4 !important;
+        }
+    </style>
+}
 <div class="background-image-for-pages">
     <div class="container-fluid p-0">
         <div class="row justify-content-center">
@@ -11,7 +20,17 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="text-center">
                         <h1 class="display-6 mb-3"> @Localizer["StepTitle"]</h1>
-
+                        <div class="step-indicator">
+                            <span class="step-progress active"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                        </div>
                         <p class="lead mb-3">
                             @Localizer["StepDescription"]
                         </p>
@@ -31,28 +50,27 @@
                         <!-- Rząd 1 ikon -->
                         <div class="row mb-2">
                             <div class="col-3 text-center">
-                                <input type="radio" class="btn-check" name="Icon" id="icon-box-seam" value="bi-box-seam" @(Model.Icon == "bi-box-seam" || Model.Icon == null ? "checked" : "")>
-                                <label for="icon-box-seam" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-box-seam" style="font-size: 2rem;"></i>
+                                <input type="radio" class="btn-check" name="Icon" id="icon-floppy" value="bi-floppy" @(Model.Icon == "bi-floppy" || Model.Icon == null ? "checked" : "")>
+                                <label for="icon-floppy" class="btn border p-3 w-100 icon-btn">
+                                    <i class="bi bi-floppy"></i>
                                 </label>
                             </div>
                             <div class="col-3 text-center">
                                 <input type="radio" class="btn-check" name="Icon" id="icon-gift" value="bi-gift" @(Model.Icon == "bi-gift" ? "checked" : "")>
                                 <label for="icon-gift" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-gift" style="font-size: 2rem;"></i>
+                                    <i class="bi bi-gift"></i>
                                 </label>
                             </div>
                             <div class="col-3 text-center">
-                                <input type="radio" class="btn-check" name="Icon" id="icon-envelope-heart" value="bi-envelope-fill" @(Model.Icon == "bi-envelope-fill" ? "checked" : "")>
-                                <label for="icon-envelope-heart" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-envelope-fill" style="font-size: 2rem;"></i>
+                                <input type="radio" class="btn-check" name="Icon" id="icon-house" value="bi-house" @(Model.Icon == "bi-house" ? "checked" : "")>
+                                <label for="icon-house" class="btn border p-3 w-100 icon-btn">
+                                    <i class="bi bi-house"></i>
                                 </label>
                             </div>
                             <div class="col-3 text-center">
-                                <input type="radio" class="btn-check" name="Icon" id="icon-capsule" value="bi-file-medical"
-                                @(Model.Icon == "bi-pill" || Model.Icon == "bi-capsule" || Model.Icon == "bi-bandaid" || Model.Icon == "bi-file-medical" ? "checked" : "")>
-                                <label for="icon-capsule" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-file-medical" style="font-size: 2rem;"></i>
+                                <input type="radio" class="btn-check" name="Icon" id="icon-cake2" value="bi-cake2" @(Model.Icon == "bi-cake2" ? "checked" : "")>
+                                <label for="icon-cake2" class="btn border p-3 w-100 icon-btn">
+                                    <i class="bi bi-cake2"></i>
                                 </label>
                             </div>
                         </div>
@@ -62,25 +80,25 @@
                             <div class="col-3 text-center">
                                 <input type="radio" class="btn-check" name="Icon" id="icon-balloon" value="bi-cloud" @(Model.Icon == "bi-cloud" ? "checked" : "")>
                                 <label for="icon-balloon" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-cloud" style="font-size: 2rem;"></i>
+                                    <i class="bi bi-cloud"></i>
                                 </label>
                             </div>
                             <div class="col-3 text-center">
                                 <input type="radio" class="btn-check" name="Icon" id="icon-stars" value="bi-stars" @(Model.Icon == "bi-stars" ? "checked" : "")>
                                 <label for="icon-stars" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-stars" style="font-size: 2rem;"></i>
+                                    <i class="bi bi-stars"></i>
                                 </label>
                             </div>
                             <div class="col-3 text-center">
                                 <input type="radio" class="btn-check" name="Icon" id="icon-hourglass-split" value="bi-hourglass-split" @(Model.Icon == "bi-hourglass-split" ? "checked" : "")>
                                 <label for="icon-hourglass-split" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-hourglass-split" style="font-size: 2rem;"></i>
+                                    <i class="bi bi-hourglass-split"></i>
                                 </label>
                             </div>
                             <div class="col-3 text-center">
-                                <input type="radio" class="btn-check" name="Icon" id="icon-patch-check" value="bi-patch-check" @(Model.Icon == "bi-patch-check" ? "checked" : "")>
-                                <label for="icon-patch-check" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-patch-check" style="font-size: 2rem;"></i>
+                                <input type="radio" class="btn-check" name="Icon" id="icon-feather" value="bi-feather" @(Model.Icon == "bi-feather" ? "checked" : "")>
+                                <label for="icon-feather" class="btn border p-3 w-100 icon-btn">
+                                    <i class="bi bi-feather"></i>
                                 </label>
                             </div>
                         </div>
@@ -88,27 +106,27 @@
                         <!-- Rząd 3 ikon -->
                         <div class="row mb-2">
                             <div class="col-3 text-center">
-                                <input type="radio" class="btn-check" name="Icon" id="icon-emoji-smile" value="bi-emoji-smile" @(Model.Icon == "bi-emoji-smile" ? "checked" : "")>
-                                <label for="icon-emoji-smile" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-emoji-smile" style="font-size: 2rem;"></i>
+                                <input type="radio" class="btn-check" name="Icon" id="icon-chat-square-heart" value="bi-chat-square-heart" @(Model.Icon == "bi-chat-square-heart" ? "checked" : "")>
+                                <label for="icon-chat-square-heart" class="btn border p-3 w-100 icon-btn">
+                                    <i class="bi bi-chat-square-heart"></i>
                                 </label>
                             </div>
                             <div class="col-3 text-center">
                                 <input type="radio" class="btn-check" name="Icon" id="icon-heart" value="bi-heart" @(Model.Icon == "bi-heart" ? "checked" : "")>
                                 <label for="icon-heart" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-heart" style="font-size: 2rem;"></i>
+                                    <i class="bi bi-heart"></i>
                                 </label>
                             </div>
                             <div class="col-3 text-center">
                                 <input type="radio" class="btn-check" name="Icon" id="icon-archive" value="bi-archive" @(Model.Icon == "bi-archive" ? "checked" : "")>
                                 <label for="icon-archive" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-archive" style="font-size: 2rem;"></i>
+                                    <i class="bi bi-archive"></i>
                                 </label>
                             </div>
                             <div class="col-3 text-center">
                                 <input type="radio" class="btn-check" name="Icon" id="icon-gem" value="bi-gem" @(Model.Icon == "bi-gem" ? "checked" : "")>
                                 <label for="icon-gem" class="btn border p-3 w-100 icon-btn">
-                                    <i class="bi bi-gem" style="font-size: 2rem;"></i>
+                                    <i class="bi bi-gem"></i>
                                 </label>
                             </div>
                         </div>
@@ -120,7 +138,7 @@
 
                         <!-- Rząd 1 kolorów -->
                         <div class="row mb-2">
-                            @foreach (var color in new[] { "#007bff", "#dc3545", "#28a745", "#ffc107", "#17a2b8", "#6f42c1" })
+                            @foreach (var color in new[] { "#D29F80", "#EACE84", "#BAB9E1", "#D9A1C0", "#CBDCEB", "#8EACCD" })
                             {
                                 <div class="col-2 text-center">
                                     <input type="radio" class="btn-check" name="Color" id="color-@(color.Substring(1))" value="@color"
@@ -135,7 +153,7 @@
 
                         <!-- Rząd 2 kolorów -->
                         <div class="row">
-                            @foreach (var color in new[] { "#fd7e14", "#e83e8c", "#20c997", "#6c757d", "#343a40", "#f8f9fa" })
+                            @foreach (var color in new[] { "#B0C5A4", "#DDE4BE", "#FFF5CD", "#E7CCCC", "#EFB7A7", "#DE8F5F" })
                             {
                                 <div class="col-2 text-center mb-2">
                                     <input type="radio" class="btn-check" name="Color" id="color-@(color.Substring(1))" value="@color"
@@ -150,8 +168,8 @@
                     </div>
 
                     <div class="d-flex justify-content-between mt-5">
-                        <a asp-controller="TimeCapsule" asp-action="Step1" class="btn btn-secondary">@Localizer["Back"]</a>
-                        <button type="submit" class="btn btn-success">@Localizer["Next"]</button>
+                        <a asp-controller="TimeCapsule" asp-action="Step1" class="btn btn-cancel">@Localizer["Back"]</a>
+                        <button type="submit" class="btn btn-save">@Localizer["Next"]</button>
                     </div>
                 </form>
             </div>
