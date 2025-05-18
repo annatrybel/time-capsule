@@ -1,6 +1,23 @@
 ﻿@using TimeCapsule.Models.Dto
 @model CreateCapsuleDto
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/steps.css" asp-append-version="true" />
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        body {
+            background: none !important;
+            background-color: #E4E4E4 !important;
+        }
+        .ql-toolbar.ql-snow {
+            border-radius: 0.25rem 0.25rem 0 0;
+        }
+        .ql-container.ql-snow {
+            border-radius: 0 0 0.25rem 0.25rem;
+        }
+    </style>
+}
+
 <div class="background-image-for-pages">
     <div class="container-fluid p-0">
         <div class="row justify-content-center">
@@ -8,24 +25,63 @@
                 <form asp-controller="TimeCapsule" asp-action="SaveStep3" method="post">
                     <div class="text-center">
                         <h1 class="display-6 mb-3">Krok 3 z 9: Napisz wstęp</h1>
-
+                        <div class="step-indicator">
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                        </div>
                         <p class="lead mb-3">
-                            Nadaj kapsule kontekst - opisz, co w niej umieszczasz i dlaczego:
+                            Nadaj kapsule kontekst – opisz, co w niej umieszczasz i dlaczego:
                         </p>
                     </div>
 
                     <div class="mb-3">
                         <label asp-for="Introduction" class="form-label text-center w-100">Wstęp</label>
-                        <textarea asp-for="Introduction" class="summernote">@Model?.Introduction</textarea>
+                        <input type="hidden" name="Introduction" id="Introduction" value="@Model?.Introduction" />
+                        <div id="editor-container"></div>
                         <span asp-validation-for="Introduction" class="text-danger"></span>
                     </div>
 
                     <div class="d-flex justify-content-between mt-5">
-                        <a asp-controller="TimeCapsule" asp-action="Step2" class="btn btn-secondary">Wstecz</a>
-                        <button type="submit" class="btn btn-success">Dalej</button>
+                        <a asp-controller="TimeCapsule" asp-action="Step2" class="btn btn-cancel">Wstecz</a>
+                        <button type="submit" class="btn btn-save">Dalej</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script>
+        var quill = new Quill('#editor-container', {
+            theme: 'snow',
+            placeholder: 'Wpisz swój wstęp...',
+            modules: {
+                toolbar: [
+                    [{ 'font': [] }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    ['bold', 'italic', 'underline'],
+                    [{ 'color': [] }],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }]
+                ]
+            }
+        });
+
+        document.querySelector('form').onsubmit = function () {
+            document.querySelector('#Introduction').value = quill.root.innerHTML;
+        };
+
+        var initial = document.querySelector('#Introduction').value;
+        if (initial) {
+            quill.root.innerHTML = initial;
+        }
+    </script>
+}
