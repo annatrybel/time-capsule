@@ -1,4 +1,6 @@
 ﻿@using TimeCapsule.Models.Dto
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model CreateCapsuleDto
 
 <div class="background-image-for-pages">
@@ -7,25 +9,21 @@
             <div class="col-lg-8 col-md-10 bg-light rounded shadow-sm p-4 my-5">
                 <form asp-controller="TimeCapsule" asp-action="SaveStep5" method="post">
                     <div class="text-center">
-                        <h1 class="display-6 mb-3">Krok 5 z 9: Napisz list</h1>
+                        <h1 class="display-6 mb-3">@Localizer["StepTitle"]</h1>
 
                         <p class="lead mb-3">
-                            To miejsce, gdzie możesz przelać swoje myśli, emocje i marzenia.
-                            Napisz do siebie lub do kogoś bliskiego - opowiedz o swoim życiu,
-                            swoich planach, nadziejach i tym, co jest teraz dla Ciebie ważne.
-                            Może chcesz zostawić radę dla przyszłego siebie lub podzielić się
-                            historią, którą warto zapamiętać?
+                            @Localizer["StepDescription"]
                         </p>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="MessageContent" class="form-label text-center w-100">Treść listu:</label>
+                        <label asp-for="MessageContent" class="form-label text-center w-100">@Localizer["MessageLabel"]</label>
                         <textarea asp-for="MessageContent" class="summernote">@Model?.MessageContent</textarea>
                     </div>
 
                     <div class="d-flex justify-content-between mt-5">
-                        <a asp-controller="TimeCapsule" asp-action="Step4" class="btn btn-secondary">Wstecz</a>
-                        <button type="submit" class="btn btn-success">Dalej</button>
+                        <a asp-controller="TimeCapsule" asp-action="Step4" class="btn btn-secondary">@Localizer["Back"]</a>
+                        <button type="submit" class="btn btn-success">@Localizer["Next"]</button>
                     </div>
                 </form>
             </div>
