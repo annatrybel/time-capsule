@@ -3,32 +3,29 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/steps.css" asp-append-version="true" />
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <style>
         body {
             background: none !important;
             background-color: #E4E4E4 !important;
+            color: #4C5C71;
         }
+
+        .checkmark {
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        #selectedDateAlert {
+            background-color: #7b8fa9 !important;
+            color: white;
+            border: none;
+        }
+
     </style>
 }
 
 @{
     bool hasDate = Model != null && Model.OpeningDate != default && Model.OpeningDate != DateTime.MinValue;
-
-    DateTime now = DateTime.UtcNow;
-    DateTime oneMonthLater = now.AddMonths(1);
-    DateTime sixMonthsLater = now.AddMonths(6);
-    DateTime oneYearLater = now.AddYears(1);
-    DateTime threeYearsLater = now.AddYears(3);
-    DateTime fiveYearsLater = now.AddYears(5);
-    DateTime eightYearsLater = now.AddYears(8);
-
-    bool isOneMonth = hasDate && Math.Abs((Model.OpeningDate - oneMonthLater).TotalDays) < 5;
-    bool isSixMonths = hasDate && Math.Abs((Model.OpeningDate - sixMonthsLater).TotalDays) < 10;
-    bool isOneYear = hasDate && Math.Abs((Model.OpeningDate - oneYearLater).TotalDays) < 15;
-    bool isThreeYears = hasDate && Math.Abs((Model.OpeningDate - threeYearsLater).TotalDays) < 30;
-    bool isFiveYears = hasDate && Math.Abs((Model.OpeningDate - fiveYearsLater).TotalDays) < 30;
-    bool isEightYears = hasDate && Math.Abs((Model.OpeningDate - eightYearsLater).TotalDays) < 30;
 
     string dateValue = hasDate ? Model.OpeningDate.ToString("yyyy-MM-dd") : string.Empty;
     string timeValue = hasDate ? Model.OpeningDate.ToString("HH:mm") : "12:00";
@@ -58,12 +55,9 @@
                             Wybierz datę otwarcia kapsuły:
                         </p>
 
-                        @if (hasDate)
-                        {
-                            <div class="alert alert-info mb-4">
-                                Wybrana data otwarcia: <strong>@Model.OpeningDate.ToString("dd/MM/yyyy HH:mm")</strong>
-                            </div>
-                        }
+                        <div id="selectedDateAlert" class="alert alert-info mb-4 d-none">
+                            Wybrana data otwarcia: <strong id="selectedDateDisplay"></strong>
+                        </div>
                     </div>
 
                     <!-- Pastylki -->
@@ -71,72 +65,61 @@
                         <h5>Za równo:</h5>
                         <div class="row mb-3">
                             <div class="col-md-4 mb-2">
-                                <button type="button" class="btn @(isOneMonth ? "btn-secondary" : "btn-outline-secondary") w-100 predefined-btn" data-value="1m">
-                                    1 miesiąc @(isOneMonth ? "✓" : "")
+                                <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="1m">
+                                    1 miesiąc <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                             <div class="col-md-4 mb-2">
-                                <button type="button" class="btn @(isSixMonths ? "btn-secondary" : "btn-outline-secondary") w-100 predefined-btn" data-value="6m">
-                                    6 miesięcy @(isSixMonths ? "✓" : "")
+                                <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="6m">
+                                    6 miesięcy <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                             <div class="col-md-4 mb-2">
-                                <button type="button" class="btn @(isOneYear ? "btn-secondary" : "btn-outline-secondary") w-100 predefined-btn" data-value="1y">
-                                    1 rok @(isOneYear ? "✓" : "")
+                                <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="1y">
+                                    1 rok <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-4 mb-2">
-                                <button type="button" class="btn @(isThreeYears ? "btn-secondary" : "btn-outline-secondary") w-100 predefined-btn" data-value="3y">
-                                    3 lata @(isThreeYears ? "✓" : "")
+                                <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="3y">
+                                    3 lata <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                             <div class="col-md-4 mb-2">
-                                <button type="button" class="btn @(isFiveYears ? "btn-secondary" : "btn-outline-secondary") w-100 predefined-btn" data-value="5y">
-                                    5 lat @(isFiveYears ? "✓" : "")
+                                <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="5y">
+                                    5 lat <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                             <div class="col-md-4 mb-2">
-                                <button type="button" class="btn @(isEightYears ? "btn-secondary" : "btn-outline-secondary") w-100 predefined-btn" data-value="8y">
-                                    8 lat @(isEightYears ? "✓" : "")
+                                <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="8y">
+                                    8 lat <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Data ręczna -->
+                    <!-- Ręczna data -->
                     <div class="mb-4">
                         <h5>Lub o dowolnie wybranej dacie i godzinie:</h5>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <div class="input-group">
-                                    <input type="date" class="form-control" id="openDate" name="OpenDate"
-                                           min="@DateTime.Today.ToString("yyyy-MM-dd")"
-                                           value="@dateValue"
-                                           aria-label="Data otwarcia">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-calendar3"></i>
-                                    </span>
-                                </div>
+                                <input type="date" class="form-control" id="openDate" name="OpenDate"
+                                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                       value="@dateValue"
+                                       aria-label="Data otwarcia">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <div class="input-group">
-                                    <input type="time" class="form-control" id="openTime" name="OpenTime"
-                                           value="@timeValue" aria-label="Godzina otwarcia">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-clock"></i>
-                                    </span>
-                                </div>
+                                <input type="time" class="form-control" id="openTime" name="OpenTime"
+                                       value="@timeValue" aria-label="Godzina otwarcia">
                             </div>
                         </div>
                     </div>
 
                     <!-- Nawigacja -->
                     <div class="d-flex justify-content-between mt-5">
-                        <a asp-controller="TimeCapsule" asp-action="Step6" class="btn btn-secondary">Wstecz</a>
-                        <button type="submit" class="btn btn-success">Dalej</button>
+                        <a asp-controller="TimeCapsule" asp-action="Step6" class="btn btn-cancel">Wstecz</a>
+                        <button type="submit" class="btn btn-save">Dalej</button>
                     </div>
                 </form>
             </div>
@@ -146,19 +129,73 @@
 
 @section Scripts {
     <script>
+        const dateInput = document.getElementById("openDate");
+        const timeInput = document.getElementById("openTime");
+        const alertBox = document.getElementById("selectedDateAlert");
+        const alertText = document.getElementById("selectedDateDisplay");
+
+        function formatDateToDisplay(dateStr, timeStr) {
+            const d = new Date(`${dateStr}T${timeStr}`);
+            if (isNaN(d)) return "";
+            const day = d.getDate().toString().padStart(2, '0');
+            const month = (d.getMonth() + 1).toString().padStart(2, '0');
+            const year = d.getFullYear();
+            const hours = d.getHours().toString().padStart(2, '0');
+            const minutes = d.getMinutes().toString().padStart(2, '0');
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
+        }
+
+        function clearPredefinedSelection() {
+            document.getElementById('PredefinedPeriod').value = "";
+            document.querySelectorAll('.predefined-btn').forEach(b => {
+                b.classList.remove('btn-secondary');
+                b.classList.add('btn-outline-secondary');
+                b.querySelector('.checkmark')?.classList.add('d-none');
+            });
+        }
+
+        function updateAlert() {
+            if (dateInput.value && timeInput.value) {
+                alertText.textContent = formatDateToDisplay(dateInput.value, timeInput.value);
+                alertBox.classList.remove("d-none");
+            }
+        }
         document.querySelectorAll('.predefined-btn').forEach(button => {
             button.addEventListener('click', () => {
-                // Ustaw wartość ukrytą
-                document.getElementById('PredefinedPeriod').value = button.dataset.value;
+                const value = button.dataset.value;
+                document.getElementById('PredefinedPeriod').value = value;
 
-                // Stylowanie aktywnego przycisku
-                document.querySelectorAll('.predefined-btn').forEach(b => {
-                    b.classList.remove('btn-secondary');
-                    b.classList.add('btn-outline-secondary');
-                });
+                clearPredefinedSelection();
                 button.classList.remove('btn-outline-secondary');
                 button.classList.add('btn-secondary');
+                button.querySelector('.checkmark')?.classList.remove('d-none');
+                const now = new Date();
+                let newDate = new Date();
+                switch (value) {
+                    case "1m": newDate.setMonth(now.getMonth() + 1); break;
+                    case "6m": newDate.setMonth(now.getMonth() + 6); break;
+                    case "1y": newDate.setFullYear(now.getFullYear() + 1); break;
+                    case "3y": newDate.setFullYear(now.getFullYear() + 3); break;
+                    case "5y": newDate.setFullYear(now.getFullYear() + 5); break;
+                    case "8y": newDate.setFullYear(now.getFullYear() + 8); break;
+                }
+
+                dateInput.value = newDate.toISOString().slice(0, 10);
+                timeInput.value = "12:00";
+                updateAlert();
             });
         });
+        dateInput.addEventListener('change', () => {
+            clearPredefinedSelection();
+            updateAlert();
+        });
+
+        timeInput.addEventListener('change', () => {
+            clearPredefinedSelection();
+            updateAlert();
+        });
+        if (dateInput.value && timeInput.value) {
+            updateAlert();
+        }
     </script>
 }

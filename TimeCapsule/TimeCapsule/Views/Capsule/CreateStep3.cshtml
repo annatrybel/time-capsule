@@ -9,9 +9,11 @@
             background: none !important;
             background-color: #E4E4E4 !important;
         }
+
         .ql-toolbar.ql-snow {
             border-radius: 0.25rem 0.25rem 0 0;
         }
+
         .ql-container.ql-snow {
             border-radius: 0 0 0.25rem 0.25rem;
         }
@@ -75,13 +77,13 @@
             }
         });
 
-        document.querySelector('form').onsubmit = function () {
-            document.querySelector('#Introduction').value = quill.root.innerHTML;
-        };
-
-        var initial = document.querySelector('#Introduction').value;
-        if (initial) {
-            quill.root.innerHTML = initial;
+        const introInput = document.querySelector('#Introduction');
+        if (introInput && introInput.value) {
+            quill.root.innerHTML = introInput.value;
         }
+
+        document.querySelector('form').addEventListener('submit', function () {
+            introInput.value = quill.root.innerHTML;
+        });
     </script>
 }

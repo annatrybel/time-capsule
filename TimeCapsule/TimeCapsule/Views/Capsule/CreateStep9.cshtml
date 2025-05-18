@@ -3,8 +3,15 @@
 
 <style>
     .display-1 {
-        font-size: 5rem;
+        font-size: 4rem;
         line-height: 1;
+        margin-bottom: 0.25rem;
+    }
+
+
+    body {
+        background: none !important;
+        background-color: #E4E4E4 !important;
     }
 </style>
 <div class="background-image-for-pages">
@@ -13,7 +20,17 @@
             <div class="col-lg-8 col-md-10 bg-light rounded shadow-sm p-4 my-5 text-center">
                 <div class="my-5">
                     <h1 class="display-6 mb-3">Krok 9 z 9: Podtwierdzenie zapisu</h1>
-
+                    <div class="step-indicator">
+                        <span class="step-progress active"></span>
+                        <span class="step-progress active"></span>
+                        <span class="step-progress active"></span>
+                        <span class="step-progress active"></span>
+                        <span class="step-progress active"></span>
+                        <span class="step-progress active"></span>
+                        <span class="step-progress active"></span>
+                        <span class="step-progress active"></span>
+                        <span class="step-progress active"></span>
+                    </div>
                     <p class="lead mb-3">
                         Twoja kapsuła czasu została pomyślnie zapisana! Do jej otwarcia pozostało:
                     </p>
@@ -45,7 +62,7 @@
                     </div>
 
                     <div class="d-grid gap-2 col-6 mx-auto mt-5">
-                        <a asp-controller="Profile" asp-action="MyCapsules" class="btn btn-secondary btn-lg">
+                        <a asp-controller="Profile" asp-action="MyCapsules" class="btn btn-save btn-lg">
                            Przejdź do profilu
                         </a>
                     </div>
