@@ -1,4 +1,6 @@
 ﻿@using TimeCapsule.Models.Dto
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model CreateCapsuleDto
 
 <div class="background-image-for-pages">
@@ -7,24 +9,23 @@
             <div class="col-lg-8 col-md-10 bg-light rounded shadow-sm p-4 my-5">
                 <form asp-controller="TimeCapsule" asp-action="SaveStep6" method="post" enctype="multipart/form-data">
                     <div class="text-center">
-                        <h1 class="display-6 mb-3">Krok 6 z 9: Dodaj załączniki</h1>
+                        <h1 class="display-6 mb-3">@Localizer["StepTitle"]</h1>
 
                         <p class="lead mb-3">
-                            Tekst nie przekazuje w pełni tego, co chcesz zawrzeć w kapsule?
-                            Dodaj zdjęcie oraz linki, aby wzbogacić jego zawartość!
+                            @Localizer["StepDescription"]
                         </p>
                     </div>
 
                     <!-- Sekcja przesyłania plików -->
                     <div class="mt-4" id="imagesSection">
-                        <h5>Dodaj zdjęcia:</h5>
+                        <h5>@Localizer["AddImages"]</h5>
                         <div id="imageInputsContainer">
                             <div class="input-group mb-3" id="imageGroup-0">
                                 <input type="file" class="form-control" id="imageInput-0" name="uploadedFiles" accept="image/*">
                             </div>
                         </div>
                         <button type="button" class="btn btn-outline-secondary mt-2" id="addImageBtn">
-                            <i class="bi bi-plus-lg"></i> Dodaj kolejne zdjęcie
+                            <i class="bi bi-plus-lg"></i> @Localizer["AddAnotherImage"]
                         </button>
                     </div>
 
@@ -32,7 +33,7 @@
                     @if (Model?.UploadedImages != null && Model.UploadedImages.Any())
                     {
                         <div class="mt-4">
-                            <h5>Dodane zdjęcia:</h5>
+                            <h5>@Localizer["AddedImages"]</h5>
                             <div class="row">
                                 @for (int i = 0; i < Model.UploadedImages.Count; i++)
                                 {
@@ -56,10 +57,10 @@
                             </div>
                         </div>
                     }
-                
+
                     <!-- Sekcja dodawania linków -->
                     <div id="linkSection" class="mt-4">
-                        <label for="linkInput-0" class="form-label">Dodaj link:</label>
+                        <label for="linkInput-0" class="form-label">@Localizer["AddLink"]</label>
                         <div id="linkInputsContainer">
                             @if (Model?.Links != null && Model.Links.Any())
                             {
@@ -67,7 +68,7 @@
                                 {
                                     <div class="input-group mb-3" id="linkGroup-@i">
                                         <input type="url" class="form-control" placeholder="https://przykladowy-link.com"
-                                               id="linkInput-@i" name="Links[@i]" value="@Model.Links[i]" aria-label="Link do zasobu">
+                                               id="linkInput-@i" name="Links[@i]" value="@Model.Links[i]" aria-label="@Localizer["LinkPlaceholder"]">
                                         @if (i > 0)
                                         {
                                             <button class="btn btn-outline-danger" type="button" onclick="removeLinkInput(@i)">
@@ -81,7 +82,7 @@
                             {
                                 <div class="input-group mb-3" id="linkGroup-0">
                                     <input type="url" class="form-control" placeholder="https://przykladowy-link.com"
-                                           id="linkInput-0" name="Links[0]" aria-label="Link do zasobu">
+                                           id="linkInput-0" name="Links[0]" aria-label="@Localizer["LinkPlaceholder"]">
                                 </div>
                             }
                         </div>
@@ -91,14 +92,15 @@
                     </div>
 
                     <div class="d-flex justify-content-between mt-5">
-                        <a asp-controller="TimeCapsule" asp-action="Step5" class="btn btn-secondary">Wstecz</a>
-                        <button type="submit" class="btn btn-success">Dalej</button>
+                        <a asp-controller="TimeCapsule" asp-action="Step5" class="btn btn-secondary">@Localizer["Back"]</a>
+                        <button type="submit" class="btn btn-success">@Localizer["Next"]</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 @section Scripts {
     <script>
