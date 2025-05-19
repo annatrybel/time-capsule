@@ -1,0 +1,6 @@
+﻿namespace TimeCapsule.Resources.Views.Forms
+{
+    public class FormsManagementView
+    {
+    }
+}
