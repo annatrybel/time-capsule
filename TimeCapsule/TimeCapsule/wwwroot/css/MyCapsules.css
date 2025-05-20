@@ -100,8 +100,8 @@
     align-items: center;
     background-color: #D9D9D9;
     border-radius: 50%;
-    width: 370px;
-    height: 370px;
+    width: 320px;
+    height: 320px;
     margin: 0 auto;
     gap: 0.8rem;
 }
@@ -114,14 +114,14 @@
 }
 
 .countdown-value {
-    font-size: 40px;
+    font-size: 35px;
     font-weight: bold;
     color: #4C5C71;
     line-height: 1.1;
 }
 
 .countdown-label {
-    font-size: 20px;
+    font-size: 15px;
     text-transform: uppercase;
     color: #4C5C71;
 }
@@ -147,3 +147,107 @@
 .capsule-timer-wrapper {
     margin-bottom: 10rem;
 }
+
+.btn-primary {
+    font-size: 20px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    padding: 12px 28px;
+    border-radius: 12px;
+    background: #4C5C71;
+    border: none;
+    color: white;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .btn-primary i {
+        font-size: 22px;
+        margin-right: 10px;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        background: #2e3b48;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        text-decoration: none;
+    }
+
+.capsule-box {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+    .capsule-box:hover {
+        background-color: rgba(255, 255, 255, 0.4);
+    }
+
+.capsule-info {
+    font-size: 22px;
+    font-weight: 500;
+    color: #384352;
+}
+
+.badge {
+    font-size: 18px;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-weight: 300;
+}
+    .badge.bg-success {
+        background-color: #6ba063 !important;
+        color: #ffffff;
+    }
+
+
+.capsule-button-circle {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    margin: 30px auto;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.capsule-btn-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: 500;
+    background-color: #4C5C71;
+    color: #ffffff;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    box-shadow: none;
+    transition: transform 0.2s ease;
+    padding: 0;
+    text-align: center;
+    gap: 8px;
+}
+
+
+    .capsule-btn-circle:hover {
+        transform: scale(1.05);
+        color: white;
+    }
+
+    .capsule-btn-circle i {
+        font-size: 40px;
+        margin-bottom: 6px;
+    }

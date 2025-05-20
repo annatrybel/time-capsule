@@ -67,7 +67,7 @@
 
 .icon-btn i {
     font-size: 2rem;
-    color: #3D365C;
+    color: #4C5C71;
     transition: none;
 }
 
@@ -81,18 +81,4 @@
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(110, 100, 90, 0.3);
     border-color: #828282;
-    #editor-container
-
-{
-    background-color: white;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    min-height: 250px;
-    padding: 0;
-}
-
-.ql-editor {
-    padding: 10px 12px;
-    line-height: 1.4;
-    font-size: 1rem;
-}
+} 
