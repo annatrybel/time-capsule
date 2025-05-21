@@ -273,7 +273,7 @@ namespace TimeCapsule.Controllers
         [Route("SaveStep5")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult SaveStep5([FromForm] CreateCapsuleDto capsule)
-        {
+         {
             var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
 
             if (fullCapsule != null)
@@ -383,7 +383,7 @@ namespace TimeCapsule.Controllers
         [HttpPost]
         [Route("SaveStep7")]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public IActionResult SaveStep7([FromForm] CreateCapsuleDto capsule, string OpenDate, string OpenTime, string PredefinedPeriod)
+        public IActionResult SaveStep7(string OpenDate, string OpenTime)
         {
             var fullCapsule = HttpContext.Session.GetObject<CreateCapsuleDto>("CurrentCapsule");
 
@@ -395,20 +395,7 @@ namespace TimeCapsule.Controllers
 
             DateTime openingDateTime = DateTime.Now;
 
-            if (!string.IsNullOrEmpty(PredefinedPeriod))
-            {
-                if (PredefinedPeriod.EndsWith("m"))
-                {
-                    int months = int.Parse(PredefinedPeriod.TrimEnd('m'));
-                    openingDateTime = openingDateTime.AddMonths(months);
-                }
-                else if (PredefinedPeriod.EndsWith("y"))
-                {
-                    int years = int.Parse(PredefinedPeriod.TrimEnd('y'));
-                    openingDateTime = openingDateTime.AddYears(years);
-                }                
-            }
-            else if (!string.IsNullOrEmpty(OpenDate) && !string.IsNullOrEmpty(OpenTime))
+            if (!string.IsNullOrEmpty(OpenDate) && !string.IsNullOrEmpty(OpenTime))
             {
                 if (DateTime.TryParse($"{OpenDate} {OpenTime}", out DateTime parsedDateTime))
                 {
