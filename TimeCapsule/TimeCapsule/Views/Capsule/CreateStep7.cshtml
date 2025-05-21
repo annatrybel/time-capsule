@@ -1,4 +1,6 @@
 ﻿@using TimeCapsule.Models.Dto
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model CreateCapsuleDto
 
 @section Styles {
@@ -39,7 +41,7 @@
                     <input type="hidden" name="PredefinedPeriod" id="PredefinedPeriod" />
 
                     <div class="text-center">
-                        <h1 class="display-6 mb-3">Krok 7 z 9: ustaw datę otwarcia</h1>
+                        <h1 class="display-6 mb-3">@Localizer["StepTitle"]</h1>
                         <div class="step-indicator">
                             <span class="step-progress active"></span>
                             <span class="step-progress active"></span>
@@ -52,48 +54,48 @@
                             <span class="step-progress"></span>
                         </div>
                         <p class="lead mb-3">
-                            Wybierz datę otwarcia kapsuły:
+                            @Localizer["StepDescription"]
                         </p>
 
                         <div id="selectedDateAlert" class="alert alert-info mb-4 d-none">
-                            Wybrana data otwarcia: <strong id="selectedDateDisplay"></strong>
+                           @Localizer["SelectedDate"] <strong id="selectedDateDisplay"></strong>
                         </div>
                     </div>
 
                     <!-- Pastylki -->
                     <div class="mb-4">
-                        <h5>Za równo:</h5>
+                        <h5>@Localizer["PredefinedPeriods"]</h5>
                         <div class="row mb-3">
                             <div class="col-md-4 mb-2">
                                 <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="1m">
-                                    1 miesiąc <span class="checkmark d-none">✓</span>
+                                    @Localizer["OneMonth"] <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                             <div class="col-md-4 mb-2">
                                 <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="6m">
-                                    6 miesięcy <span class="checkmark d-none">✓</span>
+                                   @Localizer["SixMonths"] <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                             <div class="col-md-4 mb-2">
                                 <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="1y">
-                                    1 rok <span class="checkmark d-none">✓</span>
+                                    @Localizer["OneYear"] <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 mb-2">
                                 <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="3y">
-                                    3 lata <span class="checkmark d-none">✓</span>
+                                    @Localizer["ThreeYears"] <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                             <div class="col-md-4 mb-2">
                                 <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="5y">
-                                    5 lat <span class="checkmark d-none">✓</span>
+                                    @Localizer["FiveYears"] <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                             <div class="col-md-4 mb-2">
                                 <button type="button" class="btn btn-outline-secondary w-100 predefined-btn" data-value="8y">
-                                    8 lat <span class="checkmark d-none">✓</span>
+                                    @Localizer["EightYears"] <span class="checkmark d-none">✓</span>
                                 </button>
                             </div>
                         </div>
@@ -101,25 +103,25 @@
 
                     <!-- Ręczna data -->
                     <div class="mb-4">
-                        <h5>Lub o dowolnie wybranej dacie i godzinie:</h5>
+                        <h5>@Localizer["CustomDateTime"]</h5>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <input type="date" class="form-control" id="openDate" name="OpenDate"
                                        min="@DateTime.Today.ToString("yyyy-MM-dd")"
                                        value="@dateValue"
-                                       aria-label="Data otwarcia">
+                                       aria-label="@Localizer["OpeningDate"]">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <input type="time" class="form-control" id="openTime" name="OpenTime"
-                                       value="@timeValue" aria-label="Godzina otwarcia">
+                                       value="@timeValue" aria-label="@Localizer["OpeningTime"]">
                             </div>
                         </div>
                     </div>
 
                     <!-- Nawigacja -->
                     <div class="d-flex justify-content-between mt-5">
-                        <a asp-controller="TimeCapsule" asp-action="Step6" class="btn btn-cancel">Wstecz</a>
-                        <button type="submit" class="btn btn-save">Dalej</button>
+                        <a asp-controller="TimeCapsule" asp-action="Step6" class="btn btn-cancel">@Localizer["Back"]</a>
+                        <button type="submit" class="btn btn-save">@Localizer["Next"]</button>
                     </div>
                 </form>
             </div>

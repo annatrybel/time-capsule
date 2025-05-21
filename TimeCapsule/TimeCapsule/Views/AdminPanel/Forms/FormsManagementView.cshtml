@@ -1,6 +1,8 @@
 ﻿@using TimeCapsule.Models.Dto;
 @using TimeCapsule.Models.DatabaseModels;
 @using TimeCapsule.Extensions;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model List<CapsuleSectionDto>;
 
 @section Styles {
@@ -8,11 +10,9 @@
     <link rel="stylesheet" href="~/css/site.css" />
 }
 
-
 <section class="hero">
-    <h1><b>Zarządzanie formularzem</b><br />Przeglądaj, edytuj, dodawaj i usuwaj sekcje i pytania do kapsuł czasu</h1>
+    <h1><b>@Localizer["PageTitle"]</b><br />@Localizer["PageDescription"]</h1>
 </section>
-
 
 <div class="container mb-4 mt-adjusted">
     <!-- Breadcrumb -->
@@ -20,148 +20,146 @@
         <div class="col-md-8">
             <nav aria-label="breadcrumb" class="breadcrumb-wrapper">
                 <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a asp-controller="AdminPanel" asp-action="Index">Panel Administracyjny</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Zarządzanie formularzem</li>
+                    <li class="breadcrumb-item"><a asp-controller="AdminPanel" asp-action="Index">@Localizer["AdminPanel"]</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Localizer["FormManagement"]</li>
                 </ol>
             </nav>
         </div>
         <!-- przycisk Dodaj nową sekcje -->
         <div class="col-md-4 text-end">
             <button type="button" class="btn btn-secondary add-user-button" data-bs-toggle="modal" data-bs-target="#addSectionModal">
-                <i class="bi bi-person-plus-fill me-2"></i>Dodaj nową sekcję
+                <i class="bi bi-person-plus-fill me-2"></i>@Localizer["AddNewSection"]
             </button>
         </div>
     </div>
 </div>
 
+<div class="accordion mb-4" id="capsuleTypesAccordion">
+    @foreach (CapsuleType capsuleType in Enum.GetValues(typeof(CapsuleType)))
+    {
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-type-@((int)capsuleType)">
+                <button class="accordion-button @(capsuleType == CapsuleType.Indywidualna ? "" : "collapsed")" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapse-type-@((int)capsuleType)"
+                        aria-expanded="@(capsuleType == CapsuleType.Indywidualna ? "true" : "false")"
+                        aria-controls="collapse-type-@((int)capsuleType)">
+                    <strong>@Localizer["CapsulePrefix"] @capsuleType.GetDisplayName()</strong>
+                </button>
+            </h2>
+            <div id="collapse-type-@((int)capsuleType)" class="accordion-collapse collapse @(capsuleType == CapsuleType.Indywidualna ? "show" : "")"
+                 aria-labelledby="heading-type-@((int)capsuleType)" data-bs-parent="#capsuleTypesAccordion">
+                <div class="accordion-body">
+                    @{
+                        var sectionsForType = Model.Where(s => s.CapsuleType == capsuleType).OrderBy(s => s.DisplayOrder).ToList();
+                    }
 
-    <div class="accordion mb-4" id="capsuleTypesAccordion">
-        @foreach (CapsuleType capsuleType in Enum.GetValues(typeof(CapsuleType)))
-        {
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="heading-type-@((int)capsuleType)">
-                    <button class="accordion-button @(capsuleType == CapsuleType.Indywidualna ? "" : "collapsed")" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#collapse-type-@((int)capsuleType)"
-                            aria-expanded="@(capsuleType == CapsuleType.Indywidualna ? "true" : "false")"
-                            aria-controls="collapse-type-@((int)capsuleType)">
-                        <strong>Kapsuła: @capsuleType.GetDisplayName()</strong>
-                    </button>
-                </h2>
-                <div id="collapse-type-@((int)capsuleType)" class="accordion-collapse collapse @(capsuleType == CapsuleType.Indywidualna ? "show" : "")"
-                     aria-labelledby="heading-type-@((int)capsuleType)" data-bs-parent="#capsuleTypesAccordion">
-                    <div class="accordion-body">
-                        @{
-                            var sectionsForType = Model.Where(s => s.CapsuleType == capsuleType).OrderBy(s => s.DisplayOrder).ToList();
-                        }
+                    @if (!sectionsForType.Any())
+                    {
+                        <div class="alert alert-info">
+                            @Localizer["NoSectionsForType"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="accordion mb-3" id="sectionsAccordion-@((int)capsuleType)">
+                            @foreach (var sectionItem in sectionsForType)
+                            {
+                                var isFirstSection = sectionItem.DisplayOrder == sectionsForType.Min(s => s.DisplayOrder);
 
-                        @if (!sectionsForType.Any())
-                        {
-                            <div class="alert alert-info">
-                                Brak sekcji dla tego typu kapsuły. Dodaj nową sekcję, aby rozpocząć.
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="accordion mb-3" id="sectionsAccordion-@((int)capsuleType)">
-                                @foreach (var sectionItem in sectionsForType)
-                                {
-                                    var isFirstSection = sectionItem.DisplayOrder == sectionsForType.Min(s => s.DisplayOrder);
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header d-flex align-items-center" id="heading-section-@(sectionItem.Id)">
+                                        <button class="accordion-button flex-grow-1 @(isFirstSection ? "" : "collapsed")" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapse-section-@(sectionItem.Id)"
+                                                aria-expanded="@(isFirstSection ? "true" : "false")"
+                                                aria-controls="collapse-section-@(sectionItem.Id)">
+                                            <strong>@Localizer["SectionPrefix"] @(sectionItem.DisplayOrder): @sectionItem.Name</strong>
+                                        </button>
 
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header d-flex align-items-center" id="heading-section-@(sectionItem.Id)">
-                                            <button class="accordion-button flex-grow-1 @(isFirstSection ? "" : "collapsed")" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapse-section-@(sectionItem.Id)"
-                                                    aria-expanded="@(isFirstSection ? "true" : "false")"
-                                                    aria-controls="collapse-section-@(sectionItem.Id)">
-                                                <strong>Sekcja @(sectionItem.DisplayOrder): @sectionItem.Name</strong>
-                                            </button>
-
-                                            <div class="dropdown pe-2" style="z-index: 1050;">
-                                                <button class="btn btn-sm dropdown-toggle" type="button"
-                                                        id="dropdownMenu-@sectionItem.Id"
-                                                        data-bs-toggle="dropdown" aria-expanded="false"
-                                                        onclick="event.stopPropagation()">
+                                        <div class="dropdown pe-2" style="z-index: 1050;">
+                                            <button class="btn btn-sm dropdown-toggle" type="button"
+                                                    id="dropdownMenu-@sectionItem.Id"
+                                                    data-bs-toggle="dropdown" aria-expanded="false"
+                                                    onclick="event.stopPropagation()">
                                                 <i class="bi bi-list fs-4"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu-@sectionItem.Id">
-                                                    <li>
-                                                        <button type="button" class="dropdown-item edit-section" data-id="@sectionItem.Id">
-                                                            <i class="bi bi-pencil me-2"></i>Edytuj
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="dropdown-item text-danger"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#deleteConfirmModal"
-                                                                onclick="document.getElementById('deleteForm').action='/AdminPanel/Forms/DeleteSection/@sectionItem.Id'">
-                                                            <i class="bi bi-trash me-2"></i>Usuń
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </h2>
-                                        <div id="collapse-section-@(sectionItem.Id)" class="accordion-collapse collapse @(isFirstSection ? "show" : "")"
-                                             aria-labelledby="heading-section-@(sectionItem.Id)" data-bs-parent="#sectionsAccordion-@((int)capsuleType)">
-                                            <div class="accordion-body">
-                                                <table class="table">
-                                                    <thead>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu-@sectionItem.Id">
+                                                <li>
+                                                    <button type="button" class="dropdown-item edit-section" data-id="@sectionItem.Id">
+                                                        <i class="bi bi-pencil me-2"></i>@Localizer["Edit"]
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="button" class="dropdown-item text-danger"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#deleteConfirmModal"
+                                                            onclick="document.getElementById('deleteForm').action='/AdminPanel/Forms/DeleteSection/@sectionItem.Id'">
+                                                        <i class="bi bi-trash me-2"></i>@Localizer["Delete"]
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </h2>
+                                    <div id="collapse-section-@(sectionItem.Id)" class="accordion-collapse collapse @(isFirstSection ? "show" : "")"
+                                         aria-labelledby="heading-section-@(sectionItem.Id)" data-bs-parent="#sectionsAccordion-@((int)capsuleType)">
+                                        <div class="accordion-body">
+                                            <table class="table">
+                                                <thead>
                                                     <tr>
                                                         <th style="width: 10%; border-bottom: none; border-top-left-radius: 10px;">#</th>
-                                                        <th style="width: 80%; border-bottom: none;">Treść pytania</th>
-                                                        <th style="width: 10%; border-bottom: none; border-top-right-radius: 10px;">Akcje</th>
+                                                        <th style="width: 80%; border-bottom: none;">@Localizer["QuestionText"]</th>
+                                                        <th style="width: 10%; border-bottom: none; border-top-right-radius: 10px;">@Localizer["Actions"]</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (!sectionItem.Questions.Any())
+                                                    {
+                                                        <tr>
+                                                            <td colspan="3" class="text-center">@Localizer["NoQuestionsInSection"]</td>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if (!sectionItem.Questions.Any())
+                                                    }
+                                                    else
+                                                    {
+                                                        @foreach (var question in sectionItem.Questions.OrderBy(q => q.DisplayOrder))
                                                         {
                                                             <tr>
-                                                                <td colspan="3" class="text-center">Brak pytań w tej sekcji</td>
+                                                                <td>@question.DisplayOrder</td>
+                                                                <td>@question.QuestionText</td>
+                                                                <td>
+                                                                    <button type="button" class="btn btn-sm btn-outline-secondary edit-question"
+                                                                            data-id="@question.Id">
+                                                                        <i class="bi bi-pencil"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#deleteConfirmModal"
+                                                                            onclick="document.getElementById('deleteForm').action='/AdminPanel/Forms/DeleteQuestion/@question.Id'">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </td>
                                                             </tr>
                                                         }
-                                                        else
-                                                        {
-                                                            @foreach (var question in sectionItem.Questions.OrderBy(q => q.DisplayOrder))
-                                                            {
-                                                                <tr>
-                                                                    <td>@question.DisplayOrder</td>
-                                                                    <td>@question.QuestionText</td>
-                                                                    <td>
-                                                                        <button type="button" class="btn btn-sm btn-outline-secondary edit-question"
-                                                                                data-id="@question.Id">
-                                                                            <i class="bi bi-pencil"></i>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-sm btn-outline-danger"
-                                                                                data-bs-toggle="modal"
-                                                                                data-bs-target="#deleteConfirmModal"
-                                                                                onclick="document.getElementById('deleteForm').action='/AdminPanel/Forms/DeleteQuestion/@question.Id'">
-                                                                            <i class="bi bi-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                            }
-                                                        }
-                                                    </tbody>
-                                                </table>
+                                                    }
+                                                </tbody>
+                                            </table>
 
-                                                <div class="text-center mt-3">
-                                                    <button class="btn btn-outline-primary add-question-btn"
-                                                            data-section-id="@sectionItem.Id"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#addQuestionModal">
-                                                        <i class="bi bi-plus-lg me-1"></i> Dodaj pytanie
-                                                    </button>
-                                                </div>
+                                            <div class="text-center mt-3">
+                                                <button class="btn btn-outline-primary add-question-btn"
+                                                        data-section-id="@sectionItem.Id"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#addQuestionModal">
+                                                    <i class="bi bi-plus-lg me-1"></i> @Localizer["AddQuestion"]
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                }
-                            </div>
-                        }
-                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
-        }
-    </div>
+        </div>
+    }
 </div>
 
 <partial name="~/Views/AdminPanel/Forms/_CreateSectionModal.cshtml"></partial>
@@ -174,7 +172,6 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
-
             //edit-section
             $(document).on('click', '.edit-section', function(event) {
                 const sectionId = $(this).data('id');
@@ -196,7 +193,7 @@
                     },
                     error: function(error) {
                         console.error('Error fetching section data:', error);
-                        alert('Nie udało się pobrać danych sekcji. Spróbuj ponownie.');
+                        alert('@Localizer["ErrorFetchingSection"]');
                     }
                 });
             });
@@ -217,11 +214,11 @@
 
                         const modalInstance = new bootstrap.Modal(document.getElementById('editQuestionModal'));
                         modalInstance.show();
-                    
+
                     },
                     error: function(error) {
                         console.error('Error fetching question data:', error);
-                        alert('Nie udało się pobrać danych pytania. Spróbuj ponownie.');
+                        alert('@Localizer["ErrorFetchingQuestion"]');
                     }
                 });
             });
@@ -233,6 +230,4 @@
             });
         });
     </script>
-
 }
-

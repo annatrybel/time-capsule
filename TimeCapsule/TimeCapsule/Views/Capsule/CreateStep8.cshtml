@@ -1,4 +1,6 @@
 ﻿@using TimeCapsule.Models.Dto
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model CreateCapsuleDto
 @section Styles {
     <link rel="stylesheet" href="~/css/steps.css" asp-append-version="true" />
@@ -18,7 +20,7 @@
             <div class="col-lg-8 col-md-10 bg-light rounded shadow-sm p-4 my-5">
                 <form asp-controller="TimeCapsule" asp-action="SaveStep8" method="post">
                     <div class="text-center">
-                        <h1 class="display-6 mb-3">Krok 8 z 9: Podsumowanie</h1>
+                        <h1 class="display-6 mb-3">@Localizer["StepTitle"]</h1>
                         <div class="step-indicator">
                             <span class="step-progress active"></span>
                             <span class="step-progress active"></span>
@@ -31,31 +33,30 @@
                             <span class="step-progress"></span>
                         </div>
                         <p class="lead mb-3">
-                            Upewnij się, że zawartość kapsuły jest poprawna.
-                            Na tym etapie możesz cofnąć się do poprzednich kroków i edytować wypełnione pola.
+                            @Localizer["StepDescription"]
                         </p>
                     </div>
 
                     <!-- Tytuł -->
                     <div class="mb-4">
-                        <label asp-for="Title" class="form-label text-center w-100">Tytuł</label>
-                        <input asp-for="Title" type="text" class="form-control" name="Title" placeholder="Moja kapsuła czasu" required>
+                        <label asp-for="Title" class="form-label text-center w-100">@Localizer["Title"]</label>
+                        <input asp-for="Title" type="text" class="form-control" name="Title" placeholder="@Localizer["TitlePlaceholder"]" required>
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
 
                     <!-- Ikona i kolor w jednym rzędzie -->
                     <div class="card mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Wygląd</h5>
+                            <h5 class="mb-0">@Localizer["Appearance"]</h5>
                             <a asp-controller="TimeCapsule" asp-action="Step2" class="btn btn-sm btn-outline-secondary">
-                                <i class="bi bi-pencil"></i> Edytuj
+                                <i class="bi bi-pencil"></i> @Localizer["Edit"]
                             </a>
                         </div>
                         <div class="card-body">
                             <div class="row align-items-center justify-content-center">
                                 <div class="col-md-6 text-center">
                                     <div class="p-3">
-                                        <span>Ikona:</span>
+                                        <span>@Localizer["Icon"]:</span>
                                         <div class="my-3">
                                             <i class="bi @Model.Icon" style="font-size: 4rem;"></i>
                                         </div>
@@ -63,7 +64,7 @@
                                 </div>
                                 <div class="col-md-6 text-center">
                                     <div class="p-3">
-                                        <span>Kolor:</span>
+                                        <span>@Localizer["Color"]:</span>
                                         <div class="my-3">
                                             <div class="p-4 rounded mx-auto" style="background-color: @Model.Color; width: 100px; height: 100px;"></div>
                                         </div>
@@ -75,7 +76,7 @@
 
                     <!-- Wstęp -->
                     <div class="mb-3">
-                        <label asp-for="Introduction" class="form-label text-center w-100">Wstęp</label>
+                        <label asp-for="Introduction" class="form-label text-center w-100">@Localizer["Introduction"]</label>
                         <textarea asp-for="Introduction" class="summernote">@Model?.Introduction</textarea>
                         <span asp-validation-for="Introduction" class="text-danger"></span>
                     </div>
@@ -131,7 +132,7 @@
                                                 else
                                                 {
                                                     <div class="alert alert-info">
-                                                        Brak pytań w tej sekcji.
+                                                        @Localizer["NoQuestionsInSection"]
                                                     </div>
                                                 }
                                             </div>
@@ -144,7 +145,7 @@
                             else
                             {
                                 <div class="alert alert-info">
-                                    Brak pytań dostępnych dla tego typu kapsuły.
+                                    @Localizer["NoQuestionsForCapsuleType"]
                                 </div>
                             }
                         </div>
@@ -155,7 +156,7 @@
                     @if (!string.IsNullOrEmpty(Model.MessageContent))
                     {
                         <div class="mb-3">
-                            <label asp-for="MessageContent" class="form-label text-center w-100">Treść listu:</label>
+                            <label asp-for="MessageContent" class="form-label text-center w-100">@Localizer["MessageContent"]</label>
                             <textarea asp-for="MessageContent" class="summernote">@Model?.MessageContent</textarea>
                         </div>
                     }
@@ -166,7 +167,7 @@
                         @if (Model?.UploadedImages != null && Model.UploadedImages.Any())
                         {
                             <div class="mt-4">
-                                <h5>Dodane zdjęcia:</h5>
+                                <h5>@Localizer["AddedImages"]</h5>
                                 <div class="row">
                                     @foreach (var image in Model.UploadedImages)
                                     {
@@ -191,7 +192,7 @@
 
                         <!-- Sekcja dodawania linków -->
                         <div id="linkSection" class="mt-4">
-                            <label for="linkInput-0" class="form-label">Dodaj link:</label>
+                            <label for="linkInput-0" class="form-label">@Localizer["AddLink"]</label>
                             <div id="linkInputsContainer">
                                 @if (Model?.Links != null && Model.Links.Any())
                                 {
@@ -199,7 +200,7 @@
                                     {
                                         <div class="input-group mb-3" id="linkGroup-@i">
                                             <input type="url" class="form-control" placeholder="https://przykladowy-link.com"
-                                                   id="linkInput-@i" name="Links[@i]" value="@Model.Links[i]" aria-label="Link do zasobu">
+                                                   id="linkInput-@i" name="Links[@i]" value="@Model.Links[i]" aria-label="@Localizer["LinkPlaceholder"]">
                                             @if (i > 0)
                                             {
                                                 <button class="btn btn-outline-danger" type="button" onclick="removeLinkInput(@i)">
@@ -213,7 +214,7 @@
                                 {
                                     <div class="input-group mb-3" id="linkGroup-0">
                                         <input type="url" class="form-control" placeholder="https://przykladowy-link.com"
-                                               id="linkInput-0" name="Links[0]" aria-label="Link do zasobu">
+                                               id="linkInput-0" name="Links[0]" aria-label="@Localizer["LinkPlaceholder"]">
                                     </div>
                                 }
                             </div>
@@ -226,9 +227,9 @@
                     <!-- Data otwarcia -->
                     <div class="card mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Data otwarcia</h5>
+                            <h5 class="mb-0">@Localizer["OpeningDate"]</h5>
                             <a asp-controller="TimeCapsule" asp-action="Step7" class="btn btn-sm btn-outline-secondary">
-                                <i class="bi bi-pencil"></i> Edytuj
+                                <i class="bi bi-pencil"></i> @Localizer["Edit"]
                             </a>
                         </div>
                         <div class="card-body">
@@ -239,8 +240,8 @@
                     </div>
 
                     <div class="d-flex justify-content-between mt-5">
-                        <a asp-controller="TimeCapsule" asp-action="Step7" class="btn btn-cancel">Wstecz</a>
-                        <button type="submit" class="btn btn-save">Dalej</button>
+                        <a asp-controller="TimeCapsule" asp-action="Step7" class="btn btn-secondary">@Localizer["Back"]</a>
+                        <button type="submit" class="btn btn-success">@Localizer["Next"]</button>
                     </div>
                 </form>
             </div>

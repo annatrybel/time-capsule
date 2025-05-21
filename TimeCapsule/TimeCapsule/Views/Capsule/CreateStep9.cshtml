@@ -1,4 +1,7 @@
 ﻿@using TimeCapsule.Models.ViewModels
+@using Microsoft.AspNetCore.Mvc.Localization
+@using TimeCapsule.Extensions
+@inject IViewLocalizer Localizer
 @model TimeRemainingViewModel
 
 <style>
@@ -19,7 +22,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10 bg-light rounded shadow-sm p-4 my-5 text-center">
                 <div class="my-5">
-                    <h1 class="display-6 mb-3">Krok 9 z 9: Podtwierdzenie zapisu</h1>
+                    <h1 class="display-6 mb-3">@Localizer["StepTitle"]</h1>
                     <div class="step-indicator">
                         <span class="step-progress active"></span>
                         <span class="step-progress active"></span>
@@ -32,7 +35,7 @@
                         <span class="step-progress active"></span>
                     </div>
                     <p class="lead mb-3">
-                        Twoja kapsuła czasu została pomyślnie zapisana! Do jej otwarcia pozostało:
+                        @Localizer["StepDescription"]
                     </p>
 
                     <div class="row justify-content-center my-5">
@@ -40,30 +43,45 @@
                             <div class="d-flex flex-column align-items-center text-center">
                                 <div class="mb-5 time-block">
                                     <div class="display-1 text-secondary fw-bold">@Model.Years</div>
-                                    <div class="fs-4 text-secondary">@(Model.Years == 1 ? "rok" : (Model.Years >= 2 && Model.Years <= 4 ? "lata" : "lat"))</div>
+                                    <div class="fs-4 text-secondary">
+                                        @Localizer.GetPolishYearForm(Model.Years)
+                                    </div>
                                 </div>
 
                                 <div class="mb-5 time-block">
                                     <div class="display-1 text-secondary fw-bold">@Model.Days</div>
-                                    <div class="fs-4 text-secondary">@(Model.Days == 1 ? "dzień" : "dni")</div>
+                                    <div class="fs-4 text-secondary">
+                                        @if (Model.Days == 1)
+                                        {
+                                            @Localizer["Day"]
+                                        }
+                                        else
+                                        {
+                                            @Localizer["Days"]
+                                        }
+                                    </div>
                                 </div>
 
                                 <div class="mb-5 time-block">
                                     <div class="display-1 text-secondary fw-bold">@Model.Hours</div>
-                                    <div class="fs-4 text-secondary">@(Model.Hours == 1 ? "godzina" : (Model.Hours >= 2 && Model.Hours <= 4 ? "godziny" : "godzin"))</div>
+                                    <div class="fs-4 text-secondary">
+                                        @Localizer.GetPolishHourForm(Model.Hours)
+                                    </div>
                                 </div>
 
                                 <div class="mb-5 time-block">
                                     <div class="display-1 text-secondary fw-bold">@Model.Minutes</div>
-                                    <div class="fs-4 text-secondary">@(Model.Minutes == 1 ? "minuta" : (Model.Minutes >= 2 && Model.Minutes <= 4 ? "minuty" : "minut"))</div>
+                                    <div class="fs-4 text-secondary">
+                                        @Localizer.GetPolishMinuteForm(Model.Minutes)
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="d-grid gap-2 col-6 mx-auto mt-5">
-                        <a asp-controller="Profile" asp-action="MyCapsules" class="btn btn-save btn-lg">
-                           Przejdź do profilu
+                        <a asp-controller="Profile" asp-action="MyCapsules" class="btn btn-secondary btn-lg">
+                           @Localizer["GoToProfile"]
                         </a>
                     </div>
                 </div>

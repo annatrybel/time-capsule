@@ -1,12 +1,14 @@
-﻿@section Styles {
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@section Styles {
     <link rel="stylesheet" href="~/css/AdminPanel/UsersManagementView.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 }
 
 
-    <section class="hero">
-        <h1><b>Zarządzanie użytkownikami</b><br />Przeglądaj, edytuj, dodawaj i usuwaj użytkowników systemu</h1>
-    </section>
+<section class="hero">
+    <h1><b>@Localizer["PageTitle"]</b><br />@Localizer["PageDescription"]</h1>
+</section>
 
 
 <div class="container mb-4 mt-adjusted">
@@ -15,46 +17,43 @@
         <div class="col-md-8">
             <nav aria-label="breadcrumb" class="breadcrumb-wrapper">
                 <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a asp-controller="AdminPanel" asp-action="Index">Panel Administracyjny</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Zarządzanie użytkownikami</li>
+                    <li class="breadcrumb-item"><a asp-controller="AdminPanel" asp-action="Index">@Localizer["AdminPanel"]</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Localizer["UserManagement"]</li>
                 </ol>
             </nav>
         </div>
         <!-- przycisk Dodaj uzytkownika -->
         <div class="col-md-4 text-end">
             <button type="button" class="btn btn-secondary add-user-button" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                <i class="bi bi-person-plus-fill me-2"></i>Dodaj użytkownika
+                <i class="bi bi-person-plus-fill me-2"></i>@Localizer["AddUser"]
             </button>
         </div>
     </div>
 </div>
 
-    <!-- Tabela użytkowników z DataTables -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <table id="tableUser" class="table table-striped table-hover" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Email</th>
-                        <th>Nazwa użytkownika</th>
-                        <th>Rola</th>
-                        <th>Status</th>
-                        <th>Akcje</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+<!-- Tabela użytkowników z DataTables -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <table id="tableUser" class="table table-striped table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th>@Localizer["ID"]</th>
+                    <th>@Localizer["Email"]</th>
+                    <th>@Localizer["Username"]</th>
+                    <th>@Localizer["Role"]</th>
+                    <th>@Localizer["Status"]</th>
+                    <th>@Localizer["Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
-    <partial name="~/Views/AdminPanel/Users/_UpdateUserModalForm.cshtml"></partial>
-    <partial name="~/Views/AdminPanel/Users/_CreateUserModalForm.cshtml"></partial>
+</div>
+
+<partial name="~/Views/AdminPanel/Users/_UpdateUserModalForm.cshtml"></partial>
+<partial name="~/Views/AdminPanel/Users/_CreateUserModalForm.cshtml"></partial>
 
 @section Scripts {
     <script src="~/js/userDataTable.js"></script>
 }
-
-    
-
-

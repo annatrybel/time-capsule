@@ -1,11 +1,13 @@
 ﻿@using TimeCapsule.Models.Dto
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model UserDto
 
 <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addUserModalLabel">Nowy użytkownik</h5>
+                <h5 class="modal-title" id="addUserModalLabel">@Localizer["NewUser"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -14,17 +16,17 @@
                         <input type="hidden" name="Id" value="" />
                         <div class="card-body">
                             <div class="form-group">
-                                <label>Nazwa użytkownika <span class="text-danger">*</span></label>
+                                <label>@Localizer["Username"] <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="UserName" value="" required />
                                 <span class="text-danger field-validation-error" data-valmsg-for="UserName"></span>
                             </div>
                             <div class="form-group">
-                                <label>Email <span class="text-danger">*</span></label>
+                                <label>@Localizer["Email"] <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" name="Email" value="" required />
                                 <span class="text-danger field-validation-error" data-valmsg-for="Email"></span>
                             </div>
                             <div class="form-group">
-                                <label>Rola <span class="text-danger">*</span></label>
+                                <label>@Localizer["Role"] <span class="text-danger">*</span></label>
                                 <select class="form-control" name="RoleId" required>
                                     @foreach (var role in Model.AvailableRoles)
                                     {
@@ -35,8 +37,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-save" onclick="handleFormSubmit('addUserForm')">Zapisz</button>
-                            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Anuluj</button>
+                            <button type="button" class="btn btn-save" onclick="handleFormSubmit('addUserForm')">@Localizer["Save"]</button>
+                            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
                         </div>
                     </form>
                 </div>
