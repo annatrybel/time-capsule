@@ -14,7 +14,7 @@
     <h1><b>MOJE KAPSUŁY</b></h1>
 </section>
 
-<div class="container">
+<div class="container" style="max-width: 1200px;">
     @if (Model == null || !Model.Any())
     {
         <section class="cta no-capsules-section">
@@ -29,51 +29,61 @@
     else
     {
         <section class="capsules has-capsules-section">
-            @foreach (var capsule in Model)
-            {
-                <div class="capsule-timer-wrapper">
-                    <p class="capsule-info">
-                        @Localizer["UntilCapsulaOpens"] <strong>@capsule.Title</strong>
-                        @if (capsule.CanOpen)
-                        {
-                            <span class="badge bg-success">@Localizer["ReadyToOpen"]</span>
-                        }
-                        else
-                        {
-                            <span>@Localizer["TimeRemaining"]</span>
-                        }
-                    </p>
-                    @if (capsule.CanOpen)
-                    {
-                        <div class="text-center my-4">
-                            <a asp-controller="Capsule" asp-action="Open" asp-route-id="@capsule.Id" class="btn btn-primary btn-lg">
-                                <i class="bi bi-unlock me-2"></i>@Localizer["OpenCapsule"]
-                            </a>
+            <div class="row">
+                @foreach (var capsule in Model)
+                {
+                    <div class="col-md-6 mb-4">
+                        <div class="capsule-box text-center">
+                            <div class="mb-2">
+                                <span class="capsule-info">
+                                    @Localizer["CapsuleLabel"] <strong>@capsule.Title</strong>
+                                </span>
+                            </div>
+
+                            <div class="mb-3">
+                                @if (capsule.CanOpen)
+                                {
+                                    <span class="badge bg-success">@Localizer["ReadyToOpen"]</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">@Localizer["TimeRemaining"]</span>
+                                }
+                            </div>
+
+                            @if (capsule.CanOpen)
+                            {
+                                <div class="capsule-button-circle">
+                                    <a asp-controller="Capsule" asp-action="Open" asp-route-id="@capsule.Id" class="btn capsule-btn-circle">
+                                        @Localizer["OpenCapsule"]<i class="bi bi-unlock me-2"></i>
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="countdown-circle">
+                                    <div class="countdown-unit">
+                                        <div class="countdown-value">@capsule.Years</div>
+                                        <div class="countdown-label">@Localizer.GetPolishYearForm(capsule.Years)</div>
+                                    </div>
+                                    <div class="countdown-unit">
+                                        <div class="countdown-value">@capsule.Days</div>
+                                        <div class="countdown-label">@Localizer["Days"]</div>
+                                    </div>
+                                    <div class="countdown-unit">
+                                        <div class="countdown-value">@capsule.Hours</div>
+                                        <div class="countdown-label">@Localizer.GetPolishHourForm(capsule.Hours)</div>
+                                    </div>
+                                    <div class="countdown-unit">
+                                        <div class="countdown-value">@capsule.Minutes</div>
+                                        <div class="countdown-label">@Localizer.GetPolishMinuteForm(capsule.Minutes)</div>
+                                    </div>
+                                </div>
+                            }
                         </div>
-                    }
-                    else
-                    {
-                        <div class="countdown-circle">
-                            <div class="countdown-unit">
-                                <div class="countdown-value">@capsule.Years</div>
-                                <div class="countdown-label">@Localizer.GetPolishYearForm(capsule.Years)</div>
-                            </div>
-                            <div class="countdown-unit">
-                                <div class="countdown-value">@capsule.Days</div>
-                                <div class="countdown-label">@Localizer["Days"]</div>
-                            </div>
-                            <div class="countdown-unit">
-                                <div class="countdown-value">@capsule.Hours</div>
-                                <div class="countdown-label">@Localizer.GetPolishHourForm(capsule.Hours)</div>
-                            </div>
-                            <div class="countdown-unit">
-                                <div class="countdown-value">@capsule.Minutes</div>
-                                <div class="countdown-label">@Localizer.GetPolishMinuteForm(capsule.Minutes)</div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            }
+                    </div>
+                }
+            </div>
 
             <div class="text-center mt-4">
                 <a asp-controller="TimeCapsule" asp-action="Step1" class="cta-button-capsules">
@@ -83,5 +93,3 @@
         </section>
     }
 </div>
-
-

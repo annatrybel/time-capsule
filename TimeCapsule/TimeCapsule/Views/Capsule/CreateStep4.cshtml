@@ -1,6 +1,29 @@
 ﻿@using TimeCapsule.Models.Dto
 @model CreateCapsuleDto
+@section Styles {
+    <link rel="stylesheet" href="~/css/steps.css" asp-append-version="true" />
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        body {
+            background: none !important;
+            background-color: #E4E4E4 !important;
+        }
 
+        .accordion-button.bg-secondary.text-white {
+            font-weight: 100 !important;
+        }
+
+        .accordion-button::after {
+            filter: brightness(0) invert(1);
+        }
+
+        .accordion-button:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+    </style>
+}
 <div class="background-image-for-pages">
     <div class="container-fluid p-0">
         <div class="row justify-content-center">
@@ -8,7 +31,17 @@
                 <form asp-controller="TimeCapsule" asp-action="SaveStep4" method="post">
                     <div class="text-center">
                         <h1 class="display-6 mb-3">Krok 4 z 9: odpowiedz na pytania</h1>
-
+                        <div class="step-indicator">
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                        </div>
                         <p class="lead mb-3">
                             Kilka pytań, które pomogą Ci stworzyć wyjątkową kapsułę:
                         </p>
@@ -81,8 +114,8 @@
                     </div>
 
                     <div class="d-flex justify-content-between mt-5">
-                        <a asp-controller="TimeCapsule" asp-action="Step3" class="btn btn-secondary">Wstecz</a>
-                        <button type="submit" class="btn btn-success">Dalej</button>
+                        <a asp-controller="TimeCapsule" asp-action="Step3" class="btn btn-cancel">Wstecz</a>
+                        <button type="submit" class="btn btn-save">Dalej</button>
                     </div>
                 </form>
             </div>

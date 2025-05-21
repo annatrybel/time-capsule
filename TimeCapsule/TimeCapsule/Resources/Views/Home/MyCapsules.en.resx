@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CapsuleLabel" xml:space="preserve">
+    <value>Capsule</value>
+  </data>
   <data name="CreateCapsuleNow" xml:space="preserve">
     <value>Create your time capsule now!</value>
   </data>
