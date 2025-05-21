@@ -2,6 +2,17 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @model CreateCapsuleDto
+@section Styles {
+    <link rel="stylesheet" href="~/css/steps.css" asp-append-version="true" />
+    <style>
+        body {
+            background: none !important;
+            background-color: #E4E4E4 !important;
+            color: #4C5C71;
+        }
+
+    </style>
+}
 
 <div class="background-image-for-pages">
     <div class="container-fluid p-0">
@@ -10,7 +21,17 @@
                 <form asp-controller="TimeCapsule" asp-action="SaveStep8" method="post">
                     <div class="text-center">
                         <h1 class="display-6 mb-3">@Localizer["StepTitle"]</h1>
-
+                        <div class="step-indicator">
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress"></span>
+                        </div>
                         <p class="lead mb-3">
                             @Localizer["StepDescription"]
                         </p>

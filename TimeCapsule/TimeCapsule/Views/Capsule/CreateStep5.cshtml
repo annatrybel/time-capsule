@@ -3,6 +3,25 @@
 @inject IViewLocalizer Localizer
 @model CreateCapsuleDto
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/steps.css" asp-append-version="true" />
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        body {
+            background: none !important;
+            background-color: #E4E4E4 !important;
+        }
+
+        .ql-toolbar.ql-snow {
+            border-radius: 0.25rem 0.25rem 0 0;
+        }
+
+        .ql-container.ql-snow {
+            border-radius: 0 0 0.25rem 0.25rem;
+        }
+    </style>
+}
+
 <div class="background-image-for-pages">
     <div class="container-fluid p-0">
         <div class="row justify-content-center">
@@ -10,7 +29,17 @@
                 <form asp-controller="TimeCapsule" asp-action="SaveStep5" method="post">
                     <div class="text-center">
                         <h1 class="display-6 mb-3">@Localizer["StepTitle"]</h1>
-
+                        <div class="step-indicator">
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress active"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                            <span class="step-progress"></span>
+                        </div>
                         <p class="lead mb-3">
                             @Localizer["StepDescription"]
                         </p>
@@ -22,8 +51,8 @@
                     </div>
 
                     <div class="d-flex justify-content-between mt-5">
-                        <a asp-controller="TimeCapsule" asp-action="Step4" class="btn btn-secondary">@Localizer["Back"]</a>
-                        <button type="submit" class="btn btn-success">@Localizer["Next"]</button>
+                        <a asp-controller="TimeCapsule" asp-action="Step4" class="btn btn-cancel">@Localizer["Back"]</a>
+                        <button type="submit" class="btn btn-save">@Localizer["Next"]</button>
                     </div>
                 </form>
             </div>
