@@ -3,15 +3,12 @@
 @model List<TimeCapsule.Models.ViewModels.TimeRemainingViewModel>
 @using TimeCapsule.Extensions;
 
-@{
-    ViewData["Title"] = "Moje Kapsuły";
-}
 @section Styles {
     <link rel="stylesheet" href="~/css/MyCapsules.css" />
 }
 
 <section class="hero">
-    <h1><b>MOJE KAPSUŁY</b></h1>
+    <h1><b>@Localizer["Title"]</b></h1>
 </section>
 
 <div class="container" style="max-width: 1200px;">
