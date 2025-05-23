@@ -78,7 +78,7 @@ namespace TimeCapsule.Controllers.Admin
                        .SelectMany(v => v.Errors)
                 .Select(e => e.ErrorMessage)
                        .ToList();
-                return BadRequest(ServiceResult.Failure("Invalid data", string.Join("\n", errors)));
+                return BadRequest(ServiceResult.Failure("Invalid data:\n" + string.Join("\n", errors)));
             }
             var result = await _formManagementService.UpdateSection(model);
             if (result.IsSuccess)
@@ -103,7 +103,7 @@ namespace TimeCapsule.Controllers.Admin
                        .SelectMany(v => v.Errors)
                 .Select(e => e.ErrorMessage)
                        .ToList();
-                return BadRequest(ServiceResult.Failure("Invalid data", string.Join("\n", errors)));
+                return BadRequest(ServiceResult.Failure("Invalid data:\n" + string.Join("\n", errors)));
             }
             var result = await _formManagementService.AddQuestion(model);
             if (result.IsSuccess)
@@ -139,7 +139,7 @@ namespace TimeCapsule.Controllers.Admin
                        .SelectMany(v => v.Errors)
                 .Select(e => e.ErrorMessage)
                        .ToList();
-                return BadRequest(ServiceResult.Failure("Invalid data", string.Join("\n", errors)));
+                return BadRequest(ServiceResult.Failure("Invalid data:\n" + string.Join("\n", errors)));
             }
             var result = await _formManagementService.UpdateQuestion(model);
             if (result.IsSuccess)
