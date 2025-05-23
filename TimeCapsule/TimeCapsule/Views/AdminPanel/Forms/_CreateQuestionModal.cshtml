@@ -10,13 +10,13 @@
                 <div class="modal-body">
                     <input type="hidden" id="sectionId" name="SectionId" value="">
                     <div class="mb-3">
-                        <label for="questionText" class="form-label">Treść pytania</label>
+                        <label for="questionText" class="form-label">Treść pytania <span class="text-danger">*</span></label>
                         <textarea class="form-control" id="questionText" name="QuestionText" rows="3" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" class="btn btn-save">Dodaj pytanie</button>
+                    <button type="button" class="btn btn-save" onclick="handleFormSubmit('addQuestionForm')">Dodaj pytanie</button>
                 </div>
             </form>
         </div>

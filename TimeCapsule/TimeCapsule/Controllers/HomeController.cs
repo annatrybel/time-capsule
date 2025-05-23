@@ -5,6 +5,7 @@ using System.Diagnostics;
 using TimeCapsule.Models;
 using TimeCapsule.Models.ViewModels;
 using TimeCapsule.Services;
+using TimeCapsule.Services.Results;
 
 namespace TimeCapsule.Controllers
 {
@@ -39,8 +40,11 @@ namespace TimeCapsule.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["ContactError"] = "Proszê wype³niæ wszystkie wymagane pola.";
-                return RedirectToAction("Index", "Home");
+                var errors = ModelState.Values
+                       .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                       .ToList();
+                return BadRequest(ServiceResult.Failure("Invalid data:\n" + string.Join("\n", errors)));
             }
 
             var result = await _contactService.SubmitMessage(msg);
