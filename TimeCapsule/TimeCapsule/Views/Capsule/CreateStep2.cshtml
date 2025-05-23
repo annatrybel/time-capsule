@@ -142,9 +142,9 @@
                             {
                                 <div class="col-2 text-center">
                                     <input type="radio" class="btn-check" name="Color" id="color-@(color.Substring(1))" value="@color"
-                                    @(Model?.Color == color || (Model?.Color == null && color == "#007bff") ? "checked" : "")>
+                                           @(Model?.Color == color || (Model?.Color == null && color == "#D29F80") ? "checked" : "")>
                                     <label for="color-@(color.Substring(1))"
-                                           class="btn p-4 rounded w-100 border border-secondary color-btn @(Model?.Color == color || (Model?.Color == null && color == "#007bff") ? "selected-color" : "")"
+                                           class="btn p-4 rounded w-100 border border-secondary color-btn @(Model?.Color == color || (Model?.Color == null && color == "#D29F80") ? "selected-color" : "")"
                                            style="background-color: @color;">
                                     </label>
                                 </div>
@@ -157,7 +157,7 @@
                             {
                                 <div class="col-2 text-center mb-2">
                                     <input type="radio" class="btn-check" name="Color" id="color-@(color.Substring(1))" value="@color"
-                                    @(Model?.Color == color ? "checked" : "")>
+                                           @(Model?.Color == color ? "checked" : "")>
                                     <label for="color-@(color.Substring(1))"
                                            class="btn p-4 rounded w-100 border border-secondary color-btn @(Model?.Color == color ? "selected-color" : "")"
                                            style="background-color: @color;">
@@ -198,3 +198,4 @@
         });
     </script>
 }
+

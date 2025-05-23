@@ -87,8 +87,6 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-await app.UseSeeders();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -156,5 +154,8 @@ using (var scope = app.Services.CreateScope())
     var ctx = scope.ServiceProvider.GetRequiredService<TimeCapsuleContext>();
     ctx.Database.Migrate();
 }
+
+await app.UseSeeders();
+
 app.Run();
 

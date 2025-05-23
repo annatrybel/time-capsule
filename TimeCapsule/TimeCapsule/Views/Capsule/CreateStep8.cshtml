@@ -11,6 +11,23 @@
             color: #4C5C71;
         }
 
+        .preview-content {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .edit-section-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+        }
+
+        .section-container {
+            position: relative;
+            padding-top: 1rem;
+        }
     </style>
 }
 
@@ -38,10 +55,19 @@
                     </div>
 
                     <!-- Tytuł -->
-                    <div class="mb-4">
-                        <label asp-for="Title" class="form-label text-center w-100">@Localizer["Title"]</label>
-                        <input asp-for="Title" type="text" class="form-control" name="Title" placeholder="@Localizer["TitlePlaceholder"]" required>
-                        <span asp-validation-for="Title" class="text-danger"></span>
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">@Localizer["Title"]</h5>
+                            <a asp-controller="TimeCapsule" asp-action="Step2" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i> @Localizer["Edit"]
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <input type="hidden" name="Title" value="@Model.Title" />
+                            <div class="preview-content">
+                                <h4 class="text-center">@Model.Title</h4>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Ikona i kolor w jednym rzędzie -->
@@ -74,111 +100,131 @@
                         </div>
                     </div>
 
-                    <!-- Wstęp -->
-                    <div class="mb-3">
-                        <label asp-for="Introduction" class="form-label text-center w-100">@Localizer["Introduction"]</label>
-                        <textarea asp-for="Introduction" class="summernote">@Model?.Introduction</textarea>
-                        <span asp-validation-for="Introduction" class="text-danger"></span>
-                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Introduction))
+                    {
+                        <!-- Wstęp -->
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">@Localizer["Introduction"]</h5>
+                                <a asp-controller="TimeCapsule" asp-action="Step3" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil"></i> @Localizer["Edit"]
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <input type="hidden" name="Introduction" value="@Model.Introduction" />
+                                <div class="preview-content">
+                                    @Html.Raw(Model.Introduction)
+                                </div>
+                            </div>
+                        </div>
+                    }
 
                     <!-- Odpowiedzi na pytania -->
                     @if (Model.Answers != null && Model.Answers.Any())
                     {
-                        <div class="accordion mb-4" id="questionsAccordion">
-                            @if (Model.CapsuleSections != null && Model.CapsuleSections.Any())
-                            {
-                                var isFirstSection = true;
-                                var answerIndex = 0;
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">@Localizer["Questions"]</h5>
+                                <a asp-controller="TimeCapsule" asp-action="Step4" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil"></i> @Localizer["Edit"]
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="accordion" id="questionsAccordion">
+                                    @if (Model.CapsuleSections != null && Model.CapsuleSections.Any())
+                                    {
+                                        var isFirstSection = true;
+                                        var answerIndex = 0;
 
-                                @foreach (var sectionItem in Model.CapsuleSections.OrderBy(s => s.DisplayOrder))
-                                {
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading-@sectionItem.Id">
-                                            <button class="accordion-button bg-secondary text-white @(isFirstSection ? "" : "collapsed")" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapse-@sectionItem.Id"
-                                                    aria-expanded="@(isFirstSection ? "true" : "false")"
-                                                    aria-controls="collapse-@sectionItem.Id">
-                                                <strong>@sectionItem.Name</strong>
-                                            </button>
-                                        </h2>
-                                        <div id="collapse-@sectionItem.Id" class="accordion-collapse collapse @(isFirstSection ? "show" : "")"
-                                             aria-labelledby="heading-@sectionItem.Id" data-bs-parent="#questionsAccordion">
-                                            <div class="accordion-body">
-                                                @if (sectionItem.Questions != null && sectionItem.Questions.Any())
-                                                {
-                                                    var questionNumber = 1;
+                                        @foreach (var sectionItem in Model.CapsuleSections.OrderBy(s => s.DisplayOrder))
+                                        {
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="heading-@sectionItem.Id">
+                                                    <button class="accordion-button bg-secondary text-white @(isFirstSection ? "" : "collapsed")" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapse-@sectionItem.Id"
+                                                            aria-expanded="@(isFirstSection ? "true" : "false")"
+                                                            aria-controls="collapse-@sectionItem.Id">
+                                                        <strong>@sectionItem.Name</strong>
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse-@sectionItem.Id" class="accordion-collapse collapse @(isFirstSection ? "show" : "")"
+                                                     aria-labelledby="heading-@sectionItem.Id" data-bs-parent="#questionsAccordion">
+                                                    <div class="accordion-body">
+                                                        @if (sectionItem.Questions != null && sectionItem.Questions.Any())
+                                                        {
+                                                            var questionNumber = 1;
 
-                                                    @foreach (var question in sectionItem.Questions.OrderBy(q => q.DisplayOrder))
-                                                    {
-                                                        <div class="mb-3">
-                                                            <label class="form-label">@questionNumber. @question.QuestionText</label>
+                                                            @foreach (var question in sectionItem.Questions.OrderBy(q => q.DisplayOrder))
+                                                            {
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">@questionNumber. @question.QuestionText</label>
 
-                                                            <input type="hidden" name="Answers[@answerIndex].QuestionId" value="@question.Id" />
+                                                                    <input type="hidden" name="Answers[@answerIndex].QuestionId" value="@question.Id" />
+                                                                    @{
+                                                                        var existingAnswer = Model.Answers?.FirstOrDefault(a => a.QuestionId == question.Id);
+                                                                        var answerText = existingAnswer?.AnswerText ?? "";
+                                                                    }
+                                                                    <input type="hidden" name="Answers[@answerIndex].AnswerText" value="@answerText" />
+                                                                    <div class="preview-content">@answerText</div>
 
-                                                            @{
-                                                                var existingAnswer = Model.Answers?.FirstOrDefault(a => a.QuestionId == question.Id);
-                                                                var answerText = existingAnswer?.AnswerText ?? "";
+                                                                    @{
+                                                                        questionNumber++;
+                                                                        answerIndex++;
+                                                                    }
+                                                                </div>
                                                             }
-
-                                                            <textarea name="Answers[@answerIndex].AnswerText" class="form-control" rows="3">@answerText</textarea>
-
-                                                            @{
-                                                                questionNumber++;
-                                                                answerIndex++;
-                                                            }
-                                                        </div>
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <div class="alert alert-info">
-                                                        @Localizer["NoQuestionsInSection"]
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="alert alert-info">
+                                                                @Localizer["NoQuestionsInSection"]
+                                                            </div>
+                                                        }
                                                     </div>
-                                                }
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
 
-                                    isFirstSection = false;
-                                }
-                            }
-                            else
-                            {
-                                <div class="alert alert-info">
-                                    @Localizer["NoQuestionsForCapsuleType"]
+                                            isFirstSection = false;
+                                        }
+                                    }
                                 </div>
-                            }
+                            </div>
                         </div>
-
                     }
 
                     <!-- Treść listu -->
                     @if (!string.IsNullOrEmpty(Model.MessageContent))
                     {
-                        <div class="mb-3">
-                            <label asp-for="MessageContent" class="form-label text-center w-100">@Localizer["MessageContent"]</label>
-                            <textarea asp-for="MessageContent" class="summernote">@Model?.MessageContent</textarea>
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">@Localizer["MessageContent"]</h5>
+                                <a asp-controller="TimeCapsule" asp-action="Step5" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil"></i> @Localizer["Edit"]
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <input type="hidden" name="MessageContent" value="@Model.MessageContent" />
+                                <div class="preview-content">
+                                    @Html.Raw(Model.MessageContent)
+                                </div>
+                            </div>
                         </div>
                     }
 
                     <!-- Załączone pliki -->
                     @if (Model.UploadedImages != null && Model.UploadedImages.Any())
                     {
-                        @if (Model?.UploadedImages != null && Model.UploadedImages.Any())
-                        {
+                        <div class="section-container mb-4">
+                            <a asp-controller="TimeCapsule" asp-action="Step6" class="btn btn-sm btn-outline-secondary edit-section-button">
+                                <i class="bi bi-pencil"></i> @Localizer["Edit"]
+                            </a>
                             <div class="mt-4">
                                 <h5>@Localizer["AddedImages"]</h5>
                                 <div class="row">
                                     @foreach (var image in Model.UploadedImages)
                                     {
                                         <div class="col-md-4 mb-3">
-                                            <div class="card image-card" style="position: relative;">
-                                                <a asp-controller="TimeCapsule" asp-action="DeleteImage"
-                                                   asp-route-imageIndex="@Model.UploadedImages.IndexOf(image)"
-                                                   asp-route-returnStep="Step8"
-                                                   class="btn btn-danger btn-sm delete-image-button">
-                                                    <i class="bi bi-x"></i>
-                                                </a>
+                                            <div class="card image-card">
                                                 <img src="data:@image.ContentType;base64,@image.Base64Content" class="card-img-top" alt="@image.FileName">
                                                 <div class="card-body">
                                                     <p class="card-text small text-truncate">@image.FileName</p>
@@ -188,39 +234,28 @@
                                     }
                                 </div>
                             </div>
-                        }
+                        </div>
+                    }
 
-                        <!-- Sekcja dodawania linków -->
-                        <div id="linkSection" class="mt-4">
-                            <label for="linkInput-0" class="form-label">@Localizer["AddLink"]</label>
-                            <div id="linkInputsContainer">
-                                @if (Model?.Links != null && Model.Links.Any())
-                                {
-                                    @for (int i = 0; i < Model.Links.Count; i++)
+                    <!-- Linki -->
+                    @if (Model?.Links != null && Model.Links.Any(l => !string.IsNullOrWhiteSpace(l)))
+                    {
+                        <div class="section-container mb-4">
+                            <a asp-controller="TimeCapsule" asp-action="Step6" class="btn btn-sm btn-outline-secondary edit-section-button">
+                                <i class="bi bi-pencil"></i> @Localizer["Edit"]
+                            </a>
+                            <div class="mt-4">
+                                <h5>@Localizer["AddedLinks"]</h5>
+                                <ul class="list-group">
+                                    @foreach (var link in Model.Links)
                                     {
-                                        <div class="input-group mb-3" id="linkGroup-@i">
-                                            <input type="url" class="form-control" placeholder="https://przykladowy-link.com"
-                                                   id="linkInput-@i" name="Links[@i]" value="@Model.Links[i]" aria-label="@Localizer["LinkPlaceholder"]">
-                                            @if (i > 0)
-                                            {
-                                                <button class="btn btn-outline-danger" type="button" onclick="removeLinkInput(@i)">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            }
-                                        </div>
+                                        <li class="list-group-item">
+                                            <a href="@link" target="_blank" rel="noopener noreferrer">@link</a>
+                                            <input type="hidden" name="Links[]" value="@link" />
+                                        </li>
                                     }
-                                }
-                                else
-                                {
-                                    <div class="input-group mb-3" id="linkGroup-0">
-                                        <input type="url" class="form-control" placeholder="https://przykladowy-link.com"
-                                               id="linkInput-0" name="Links[0]" aria-label="@Localizer["LinkPlaceholder"]">
-                                    </div>
-                                }
+                                </ul>
                             </div>
-                            <button type="button" class="btn btn-outline-secondary mt-2" id="addLinkBtn">
-                                <i class="bi bi-plus-lg"></i>
-                            </button>
                         </div>
                     }
 
@@ -248,3 +283,4 @@
         </div>
     </div>
 </div>
+

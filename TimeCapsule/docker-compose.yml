@@ -36,7 +36,7 @@ services:
       - Authentication__Google__ClientId=${AUTH_GOOGLE_CLIENT_ID}
       - Authentication__Google__ClientSecret=${AUTH_GOOGLE_CLIENT_SECRET}
       - EmailConfiguration__Username=${EMAIL_USERNAME}
-      - EmailConfiguration__Password=${EMAIL_PASSWORD};
+      - EmailConfiguration__Password=${EMAIL_PASSWORD}
     build:
       context: .
       dockerfile: TimeCapsule/Dockerfile
