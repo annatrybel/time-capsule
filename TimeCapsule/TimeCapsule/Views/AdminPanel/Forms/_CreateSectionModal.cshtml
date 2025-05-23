@@ -12,11 +12,11 @@
             <form id="addSectionForm" method="post" action="/AdminPanel/Forms/AddSection" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="sectionName" class="form-label">Nazwa sekcji</label>
+                        <label for="sectionName" class="form-label">Nazwa sekcji <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="sectionName" name="SectionName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="capsuleType" class="form-label">Typ kapsuły</label>
+                        <label for="capsuleType" class="form-label">Typ kapsuły <span class="text-danger">*</span></label>
                         <select class="form-select" id="capsuleType" name="CapsuleType" required>
                             @foreach (CapsuleType type in Enum.GetValues(typeof(CapsuleType)))
                             {
@@ -27,7 +27,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" class="btn btn-save">Dodaj sekcję</button>
+                    <button type="button" class="btn btn-save" onclick="handleFormSubmit('addSectionForm')">Dodaj sekcję</button>
                 </div>
             </form>
         </div>

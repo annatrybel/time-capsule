@@ -15,9 +15,10 @@
                     <div class="mb-3">
                         <label for="editSectionName" class="form-label">Nazwa sekcji</label>
                         <input type="text" class="form-control" id="editSectionName" name="SectionName" required>
+                        <span class="text-danger field-validation-error" data-valmsg-for="SectionName"></span>
                     </div>
                     <div class="mb-3">
-                        <label for="editCapsuleType" class="form-label">Typ kapsuły</label>
+                        <label for="editCapsuleType" class="form-label">Typ kapsuły <span class="text-danger">*</span></label>
                         <select class="form-select" id="editCapsuleType" name="CapsuleType" required>
                             @foreach (CapsuleType type in Enum.GetValues(typeof(CapsuleType)))
                             {
@@ -28,7 +29,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="submit" class="btn btn-save">Zapisz zmiany</button>
+                    <button type="button" class="btn btn-save" onclick="handleFormSubmit('editSectionForm')">Zapisz zmiany</button>
                 </div>
             </form>
         </div>
