@@ -18,7 +18,7 @@
                         <span class="text-danger field-validation-error" data-valmsg-for="SectionName"></span>
                     </div>
                     <div class="mb-3">
-                        <label for="editCapsuleType" class="form-label">Typ kapsuły <span class="text-danger">*</span></label>
+                        <label for="editCapsuleType" class="form-label">Typ kapsuły</label>
                         <select class="form-select" id="editCapsuleType" name="CapsuleType" required>
                             @foreach (CapsuleType type in Enum.GetValues(typeof(CapsuleType)))
                             {
