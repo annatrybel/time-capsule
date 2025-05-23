@@ -14,21 +14,21 @@
     <link rel="stylesheet" href="~/css/authLayout.css" />
 </head>
 <body class="auth-page">
-    <div class="auth-logo">Time Capsule</div>
+    <div class="auth-logo">@Localizer["ApplicationName"]</div>
 
     @RenderBody()
 
     <!-- stopka pomocy w lewym dolnym rogu -->
     <div class="help-footer">
-        potrzebujesz pomocy? skontaktuj się z nami!
+        @Localizer["HelpText"]
         <a href="#" class="help-btn"
            data-bs-toggle="modal"
            data-bs-target="#contactModal"
            title="@Localizer["ContactUsTitle"]">
-            <span> ✉️</span>           
+            <span> ✉️</span>
         </a>
     </div>
-    
+
     <partial name="~/Views/Shared/_ContactModalForm.cshtml" />
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
