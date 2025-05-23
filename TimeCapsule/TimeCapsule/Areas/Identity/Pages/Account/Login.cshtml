@@ -1,52 +1,52 @@
 ﻿@page
 @model LoginModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Logowanie";
+    ViewData["Title"] = Localizer["PageTitle"];
     Layout = "/Areas/Identity/Pages/_AuthLayout.cshtml";
 }
 
 <div class="login-modal">
     <button type="button" class="close-btn" onclick="window.location='/'">&times;</button>
 
-    <h1 class="login-title">@ViewData["Title"]</h1>
+    <h1 class="login-title">@Localizer["PageTitle"]</h1>
 
     <form id="account" method="post" class="login-form">
         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
         <div class="form-floating mb-3">
-            <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="e-mail*" />
-            <label asp-for="Input.Email">e-mail*</label>
+            <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="@Localizer["EmailLabel"]" />
+            <label asp-for="Input.Email">@Localizer["EmailLabel"]</label>
             <span asp-validation-for="Input.Email" class="text-danger"></span>
         </div>
 
         <div class="form-floating mb-3">
-            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" placeholder="hasło*" />
-            <label asp-for="Input.Password">hasło*</label>
+            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" placeholder="@Localizer["PasswordLabel"]" />
+            <label asp-for="Input.Password">@Localizer["PasswordLabel"]</label>
             <span asp-validation-for="Input.Password" class="text-danger"></span>
         </div>
 
-        <a asp-page="./ForgotPassword" class="forgot-link">Nie pamiętam hasła</a>
+        <a asp-page="./ForgotPassword" class="forgot-link">@Localizer["ForgotPassword"]</a>
 
-        <button type="submit" class="btn-login">Zaloguj się</button>
+        <button type="submit" class="btn-login">@Localizer["LoginButton"]</button>
 
         <div class="text-center mt-4">
             <a asp-page="./ExternalLogin" asp-route-provider="Google" asp-route-returnUrl="~/"
                class="btn-google d-flex align-items-center justify-content-center mx-auto">
-                Zaloguj się przez Google
+                @Localizer["LoginWithGoogle"]
             </a>
         </div>
     </form>
 </div>
 
-<span class="required-note">* pole wymagane</span>
+<span class="required-note">@Localizer["RequiredField"]</span>
 
 <div class="post-modal-footer">
-    Nie posiadasz konta?
-    <a asp-page="./Register" class="btn-register">Zarejestruj się</a>
+    @Localizer["NoAccount"]
+    <a asp-page="./Register" class="btn-register">@Localizer["Register"]</a>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-
-

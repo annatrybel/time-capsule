@@ -1,7 +1,9 @@
 ﻿@page
 @model RegisterModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Rejestracja";
+    ViewData["Title"] = Localizer["PageTitle"];
     Layout = "/Areas/Identity/Pages/_AuthLayout.cshtml";
 }
 
@@ -14,31 +16,31 @@
         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
         <div class="form-floating mb-3">
-            <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="e-mail*" />
-            <label asp-for="Input.Email">e-mail*</label>
+            <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="@Localizer["EmailLabel"]" />
+            <label asp-for="Input.Email">@Localizer["EmailLabel"]</label>
             <span asp-validation-for="Input.Email" class="text-danger"></span>
         </div>
 
         <div class="form-floating mb-3">
-            <input asp-for="Input.Password" type="password" class="form-control" autocomplete="new-password" placeholder="hasło*" />
-            <label asp-for="Input.Password">hasło*</label>
+            <input asp-for="Input.Password" type="password" class="form-control" autocomplete="new-password" placeholder="@Localizer["PasswordLabel"]" />
+            <label asp-for="Input.Password">@Localizer["PasswordLabel"]</label>
             <span asp-validation-for="Input.Password" class="text-danger"></span>
         </div>
 
         <div class="form-floating mb-3">
-            <input asp-for="Input.ConfirmPassword" type="password" class="form-control" autocomplete="new-password" placeholder="powtórz hasło*" />
-            <label asp-for="Input.ConfirmPassword">powtórz hasło*</label>
+            <input asp-for="Input.ConfirmPassword" type="password" class="form-control" autocomplete="new-password" placeholder="@Localizer["ConfirmPasswordLabel"]" />
+            <label asp-for="Input.ConfirmPassword">@Localizer["ConfirmPasswordLabel"]</label>
             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn-login">Dalej</button>
+        <button type="submit" class="btn-login">@Localizer["NextButton"]</button>
     </form>
 </div>
 
-<span class="required-note">* pole wymagane</span>
+<span class="required-note">@Localizer["RequiredField"]</span>
 <div class="post-modal-footer">
-    Posiadasz konto?
-    <a asp-page="./Login" class="btn-register">Zaloguj się</a>
+    @Localizer["HasAccount"]
+    <a asp-page="./Login" class="btn-register">@Localizer["Login"]</a>
 </div>
 
 @section Scripts {
