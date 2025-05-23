@@ -1,28 +1,29 @@
 ﻿@{
     ViewData["Title"] = "Panel Administratora";
 }
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @section Styles {
     <link rel="stylesheet" href="~/css/AdminPanel/MainPageAdminPanel.css" asp-append-version="true" />
 }
 
-    <section class="hero">
-        <h1><b>Panel administratora aktywny!</b><br /> Zachowaj ostrożność podczas zarządzania użytkownikami i kapsułami.</h1>
-    </section>
+<section class="hero">
+    <h1><b>@Localizer["PageTitle"]</b><br />@Localizer["PageDescription"]</h1>
 </section>
 
-    <!-- Main header -->
+<!-- Main header -->
 <div class="admin-panel">
     <div class="admin-title">
         <hr class="line" />
-        <h2>Panel Administracyjny</h2>
+        <h2>@Localizer["PanelHeader"]</h2>
         <hr class="line" />
     </div>
 
     <div class="admin-buttons">
-        <a asp-controller="AdminPanel" asp-action="Users">zarządzanie użytkownikami</a>
-        <a asp-controller="AdminPanel" asp-action="Forms">zarządzanie formularzem</a>
-        <a asp-controller="AdminPanel" asp-action="Capsules">zarządzanie kapsułami</a>
-        <a asp-controller="AdminPanel" asp-action="Stats">analiza i statystyki</a>
+        <a asp-controller="AdminPanel" asp-action="Users">@Localizer["ManageUsers"]</a>
+        <a asp-controller="AdminPanel" asp-action="Forms">@Localizer["ManageForms"]</a>
+        <a asp-controller="AdminPanel" asp-action="Capsules">@Localizer["ManageCapsules"]</a>
+        <a asp-controller="AdminPanel" asp-action="Stats">@Localizer["StatsAnalysis"]</a>
     </div>
 </div>
