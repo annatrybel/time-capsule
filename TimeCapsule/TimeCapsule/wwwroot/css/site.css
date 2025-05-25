@@ -102,6 +102,21 @@ footer {
     margin: 0;
 }
 
+/* przy zoomie ≥400% */
+@media (min-resolution: 4dppx) {
+    footer {
+        justify-content: center;
+        padding: 1rem; 
+    }
+
+    .footer-content {
+        white-space: normal !important;
+        text-align: center;
+        gap: 0.5rem;
+        max-width: 100%;
+    }
+}
+
 /*styles for top bar*/
 .header-custom {
     background-color: #98a4b4 !important;
@@ -211,7 +226,6 @@ footer {
 }
 
 
-/* Styl dla rozwijanego (mobile) menu */
 @media (max-width: 576px) {
     .navbar-collapse.show {
         display: flex !important;
@@ -237,16 +251,14 @@ footer {
 }
 
 /*ustawienia - email*/
-/* ========== SETTINGS PAGE WRAPPER ========== */
 .settings-page {
-  background: #fff;              /* białe tło */
-  border-radius: 0.75rem;        /* zaokrąglone rogi */
+  background: #fff;
+  border-radius: 0.75rem; 
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 2rem 1.5rem;          /* wewnętrzne odstępy */
-  margin-top: 2rem;              /* dystans od góry */
+  padding: 2rem 1.5rem; 
+  margin-top: 2rem; 
 }
 
-/* ========== NAGŁÓWEK ========== */
 .settings-page h3 {
   font-size: 1.75rem;
   font-weight: 500;
@@ -255,7 +267,6 @@ footer {
   text-align: center;
 }
 
-/* ========== FORM-FLOATING ========== */
 .settings-page .form-floating {
   margin-bottom: 1.25rem;
 }
@@ -273,7 +284,7 @@ footer {
 .settings-page .input-group-text {
   background: transparent;
   border: none;
-  color: #6ba063; /* zieleń ✓ */
+  color: #6ba063;
   font-size: 1.25rem;
 }
 
@@ -306,7 +317,6 @@ footer {
   background: #36495a;
 }
 
-/* ========== RESPONSYWNOŚĆ ========== */
 @media (max-width: 767px) {
   .settings-page {
     padding: 1.5rem 1rem;
@@ -315,7 +325,7 @@ footer {
     font-size: 1.5rem;
   }
 }
-/* ========== settings ========== */
+
 
 .col-md-9 {
     background-color: #fff;

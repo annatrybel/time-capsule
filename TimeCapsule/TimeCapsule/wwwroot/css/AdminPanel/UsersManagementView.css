@@ -140,26 +140,33 @@ input.form-control.form-control-sm:focus {
     color: #4C5C71;
 }
 
+
 .dataTables_scrollHeadInner th {
     font-weight: 500;
 }
-
-#tableUser {
-    width: 100% !important;
-    table-layout: fixed !important;
-}
-
-    #tableUser th,
-    #tableUser td {
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-    }
 
 .dataTables_scrollBody {
     overflow-x: auto !important;
 }
 
+.dataTables_scrollBody,
+.dataTables_scroll,
+#tableUser_wrapper,
+.table-responsive {
+  overflow: visible !important;
+}
+
+#tableUser_wrapper .dropdown,
+#tableUser_wrapper .btn-group {
+  position: relative;
+  z-index: 0; 
+}
+
+#tableUser_wrapper .dropdown-menu {
+  position: absolute !important;
+  z-index: 999 !important;
+  overflow: visible !important;
+}
 
 /* ========RWD========*/
 /*  Duże ekrany (min-width: 1024px)*/
@@ -234,4 +241,3 @@ input.form-control.form-control-sm:focus {
         margin-top: 6rem !important;
     }
 }
-

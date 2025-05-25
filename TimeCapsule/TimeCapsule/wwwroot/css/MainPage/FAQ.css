@@ -29,7 +29,7 @@
 
 
 .faq-container {
-    margin-top: -8rem !important;
+    margin-top: -4rem !important;
     width: 90%;
     max-width: 900px;
     margin: 0 auto;
@@ -165,5 +165,19 @@ h2 {
         line-height: 1.2;
         font-weight: 500;
         color: #4C5C71;
+    }
+}
+
+@media (max-width: 1320px) {
+    .faq-container {
+        margin-top: -2rem !important;
+    }
+}
+
+/* poniżej 50% powiększenia (max-resolution: 0.49dppx)*/
+@media (max-resolution: 0.49dppx) {
+    .faq-container {
+        margin-top: -1rem !important;
+
     }
 }
