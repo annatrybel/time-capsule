@@ -2,97 +2,162 @@
 
 /*opis kroków tworzenia kapsuły razem z tytułem sekcji: ~AW*/
 
+/* Styl bazowy .hero (domyślnie: zoom 100% – <150%*/
 .hero {
     position: relative;
-    background-size: contain;
-    padding-bottom: 32%;
+    background-size: cover;
+    background-position: center;
+    padding-block: clamp(3rem, 10vw, 8rem);
+    padding-inline: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
     .hero h1 {
-        margin-top: 1rem !important;
-        color: white;
-        top: 80px !important;
-        right: 45%;
-        left: -20% !important;
-        transform: translateY(-50%);
-        font-size: clamp(1rem, 2vw, 2.5rem) !important;
-        font-weight: 300;
-        text-align: center;
         margin: 0;
-        z-index: 1;
-        position: relative;
-    }
-
-
-.description p {
-    margin-top: -5rem !important;
-    color: #4C5C71;
-    font-size: 22px;
-    text-align: justify;
-    position: relative;
-    z-index: 2;
-}
-.description b {
-    display: inline !important;
-    text-align: inherit !important;
-}
-
-section.process {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-    section.process h2 {
-        color: #4C5C71;
-        width: 100%;
-        text-align: center;
-        margin: 40px 0 40px 0;
+        width: clamp(80%, 60vw, 600px);
+        font-size: clamp(1.25rem, 5vw, 4rem);
+        line-height: 1.2;
         font-weight: 300;
+        color: white;
+        word-wrap: break-word;
+
+    }
+/*  Duże ekrany (min-width: 1024px)*/
+@media (min-width: 1024px) {
+    .hero {
+        padding-block: clamp(5rem, 8vw, 12rem);
     }
 
-    section.process .steps {
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        width: 100%;
-    }
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 35px);
+            margin-top: -4rem !important;
+            margin-left: -30rem !important;
+        }
+}
 
-.step {
-    width: 250px;
+/* Powiększenie ~150% (1.5dppx – 1.99dppx)*/
+@media (min-resolution: 1.5dppx) and (max-resolution: 1.99dppx) {
+    .hero h1 {
+        margin-top: -7rem !important;
+        line-height: 1.2;
+        font-weight: 500;
+        color: #4C5C71;
+        margin-left: 0 !important;
+    }
+}
+/*  Powiększenie ~200% i więcej (≥2dppx)*/
+@media (min-resolution: 2dppx) {
+    .hero h1 {
+        margin-top: -5rem !important;
+        line-height: 1.2;
+        font-weight: 500;
+        color: #4C5C71;
+        margin-left: 0 !important;
+    }
+}
+/* poniżej 50% powiększenia (max-resolution: 0.49dppx)*/
+@media (max-resolution: 0.49dppx) {
+    .hero h1 {
+        margin-left: 0 !important;
+        margin-top: -2rem !important;
+        margin-bottom: -20rem;
+        font-size: clamp(1.75rem, 6vw, 2rem);
+        line-height: 1.2;
+        font-weight: 500;
+        color: #4C5C71;
+    }
+}
+@media (max-width: 1320px) {
+    .hero h1 {
+        margin-left: 0 !important;
+        margin-top: -17rem !important;
+        margin-bottom: -20rem;
+        font-size: clamp(1.75rem, 6vw, 1rem);
+        line-height: 1.2;
+        font-weight: 500;
+        color: #4C5C71;
+    }
+}
+/*  .description (min-resolution: 1.5dppx, max-width: 1600px)*/
+.description {
+    padding-block: clamp(2rem, 5vw, 6rem);
     text-align: center;
-    margin: 0 10px;
 }
 
-    .step img {
-        display: block;
-        margin: 0 auto 20px;
-        width: 200px;
-    }
-
-    .step h3 {
+    .description p {
+        margin: 0 auto;
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+        line-height: 1.6;
         color: #4C5C71;
-        font-size: 1.3rem;
-        font-weight: 400;
-        margin: 0;
     }
 
-/*przycisk - redirect do logowania: ~AW*/
-
-.cta-button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background-color: #4f647a;
-    color: #fff;
-    font-size: 1.1rem;
-    font-weight: 300;
-    text-decoration: none;
-    border-radius: 0.5rem;
-    transition: background-color 0.2s ease;
-    margin-top: 60px;
+@media (min-resolution: 1.5dppx) and (max-width: 1600px) {
+    .description p {
+        padding-top: 2rem;
+        margin-top: -1.2rem !important;
+    }
 }
 
-    .cta-button:hover {
-        background-color: #3e5061;
-        color: white;
+
+    section.process {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
+
+        section.process h2 {
+            color: #4C5C71;
+            width: 100%;
+            text-align: center;
+            margin: 40px 0 40px 0;
+            font-weight: 300;
+        }
+
+        section.process .steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+    .step {
+        width: 250px;
+        text-align: center;
+        margin: 0 10px;
+    }
+
+        .step img {
+            display: block;
+            margin: 0 auto 20px;
+            width: 200px;
+        }
+
+        .step h3 {
+            color: #4C5C71;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin: 0;
+        }
+
+    /*przycisk - redirect do logowania: ~AW*/
+
+    .cta-button {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: #4f647a;
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 300;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        transition: background-color 0.2s ease;
+        margin-top: 60px;
+    }
+
+        .cta-button:hover {
+            background-color: #3e5061;
+            color: white;
+        }

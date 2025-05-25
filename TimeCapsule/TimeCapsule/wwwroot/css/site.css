@@ -51,7 +51,25 @@ body {
 
 }
 
-
+@media (min-resolution: 144dpi), (max-width: 900px) {
+    body {
+        background: none;
+        background-color: #E4E4E4;
+    }
+}
+/* poni¿ej 50% powiêkszenia (max-resolution: 0.49dppx)*/
+@media (max-resolution: 0.49dppx) {
+    body {
+        background: none !important;
+        background-color: #E4E4E4 !important;
+    }
+}
+@media (max-width: 1320px) {
+    body {
+        background: none !important;
+        background-color: #E4E4E4 !important;
+    }
+}
 
 footer {
     background: url('../images/footer-background.png') no-repeat center 0px/cover;
@@ -169,6 +187,8 @@ footer {
     border: none;
     overflow: hidden;
     min-width: 180px;
+    left: auto !important;
+    right: 0 !important;
 }
 
     .dropdown-menu .dropdown-item {
