@@ -1,8 +1,11 @@
-﻿<div class="modal fade" id="editQuestionModal" tabindex="-1" aria-labelledby="editQuestionModalLabel" aria-hidden="true">
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<div class="modal fade" id="editQuestionModal" tabindex="-1" aria-labelledby="editQuestionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editQuestionModalLabel">Zaktualizuj pytanie</h5>
+                <h5 class="modal-title" id="editQuestionModalLabel">@Localizer["UpdateQuestion"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="editQuestionForm" method="post" action="/AdminPanel/Forms/UpdateQuestion">
@@ -10,13 +13,14 @@
                     <input type="hidden" id="editQuestionId" name="Id" value="">
                     <input type="hidden" id="editSectionId" name="SectionId" value="">
                     <div class="mb-3">
-                        <label for="editQuestionText" class="form-label">Treść pytania</label>
+                        <label for="editQuestionText" class="form-label">@Localizer["QuestionText"] <span class="text-danger">*</span></label>
                         <textarea class="form-control" id="editQuestionText" name="QuestionText" rows="3" required></textarea>
+                        <span class="text-danger field-validation-error" data-valmsg-for="QuestionText"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="button" class="btn btn-save" onclick="handleFormSubmit('editQuestionForm')">Zapisz zmiany</button>
+                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                    <button type="button" class="btn btn-save" onclick="handleFormSubmit('editQuestionForm')">@Localizer["SaveChanges"]</button>
                 </div>
             </form>
         </div>
