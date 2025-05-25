@@ -1,27 +1,29 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="contactModalLabel">Skontaktuj się z nami</h5>
+                <h5 class="modal-title" id="contactModalLabel">@Localizer["ContactTitle"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="contactForm" method="post" asp-controller="Home" asp-action="SubmitMessage">
                     <div class="mb-3">
-                        <label for="contactName" class="form-label">Imię i Nazwisko <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="contactName" name="Name" placeholder="Imię i Nazwisko" required>
+                        <label for="contactName" class="form-label">@Localizer["NameLabel"] <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="contactName" name="Name" placeholder="@Localizer["NamePlaceholder"]" required>
                     </div>
                     <div class="mb-3">
-                        <label for="contactEmail" class="form-label">E-mail <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" id="contactEmail" name="Email" placeholder="nazwa@example.com" required>
+                        <label for="contactEmail" class="form-label">@Localizer["EmailLabel"] <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="contactEmail" name="Email" placeholder="@Localizer["EmailPlaceholder"]" required>
                     </div>
                     <div class="mb-3">
-                        <label for="contactMessage" class="form-label">Wiadomość</label>
-                        <textarea class="form-control" id="contactMessage" name="Message" rows="4" placeholder="Twoja wiadomość..."></textarea>
+                        <label for="contactMessage" class="form-label">@Localizer["MessageLabel"]</label>
+                        <textarea class="form-control" id="contactMessage" name="Message" rows="4" placeholder="@Localizer["MessagePlaceholder"]"></textarea>
                     </div>
                     <div class="text-center">
-                        <button type="button" class="btn btn-save" onclick="handleFormSubmit('contactForm')">Wyślij wiadomość</button>
+                        <button type="button" class="btn btn-save" onclick="handleFormSubmit('contactForm')">@Localizer["SendButton"]</button>
                     </div>
                 </form>
             </div>
