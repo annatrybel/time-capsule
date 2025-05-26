@@ -1,0 +1,118 @@
+﻿body {
+    font-family: 'Jost', sans-serif;
+    color: #333;
+    background: transparent;
+}
+
+.capsule-card {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 5rem 3rem;
+    border-radius: 25px;
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-top: -4rem;
+}
+
+.capsule-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.capsule-icon {
+    font-size: 3rem;
+    padding: 1rem;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+}
+
+.capsule-title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.capsule-introduction,
+.capsule-message {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    line-height: 1.7;
+}
+
+.section-title {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #5e4b8b;
+    font-weight: 600;
+    border-bottom: 1px solid #d2c5f1;
+    padding-bottom: 0.5rem;
+}
+
+.question-box {
+    background: #fff;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+}
+
+
+.question-text {
+    font-weight: 600;
+    color: #3c2f58;
+}
+
+.answer-text {
+    margin-top: 0.5rem;
+    color: #555;
+}
+
+.capsule-images .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.gallery-item img {
+    max-width: 160px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.link-list {
+    padding-left: 1rem;
+}
+
+.link-item a {
+    color: #4a3b68;
+    text-decoration: underline;
+}
+
+.capsule-meta {
+    font-size: 0.9rem;
+    color: #777;
+    text-align: center;
+    margin-top: 2rem;
+    line-height: 1.4;
+}
+
+.btn-secondary {
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
