@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\AdminPanel\Capsules\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Resources\Views\Home\MyCapsules.pl.resx" />
   </ItemGroup>
 

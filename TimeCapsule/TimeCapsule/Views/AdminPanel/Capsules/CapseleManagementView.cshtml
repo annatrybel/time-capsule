@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+
+<section class="hero">
+    <h1><b>@Localizer["PageTitle"]</b><br />@Localizer["PageDescription"]</h1>
+</section>
+
+<div class="container mb-4 mt-adjusted">
+    <!-- Breadcrumb -->
+    <div class="row align-items-center justify-content-between">
+        <div class="col-md-8">
+            <nav aria-label="breadcrumb" class="breadcrumb-wrapper">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-controller="AdminPanel" asp-action="Index">@Localizer["AdminPanel"]</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Localizer["CapsuleManagement"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <table id="tableCapsule" class="table table-striped table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th>@Localizer["Owner"]</th>
+                    <th>@Localizer["Recipient"]</th>
+                    <th>@Localizer["CapsuleType"]</th>
+                    <th>@Localizer["CreationDate"]</th>
+                    <th>@Localizer["OpeningDate"]</th>
+                    <th>@Localizer["Status"]</th>
+                    <th>@Localizer["Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* <partial name="~/Views/AdminPanel/Capsules/_CapsuleDetailModal.cshtml"></partial>  *@
+
+@section Scripts {
+    <script src="~/js/capsuleDataTable.js"></script>
+}
