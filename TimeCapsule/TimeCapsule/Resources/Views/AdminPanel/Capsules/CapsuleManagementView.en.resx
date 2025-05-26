@@ -117,37 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Actions" xml:space="preserve">
-    <value>Akcje</value>
-  </data>
-  <data name="AddUser" xml:space="preserve">
-    <value>Dodaj użytkownika</value>
-  </data>
   <data name="AdminPanel" xml:space="preserve">
-    <value>Panel Administracyjny</value>
-  </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="ID" xml:space="preserve">
-    <value>ID</value>
+    <value>Admin Panel</value>
   </data>
   <data name="PageDescription" xml:space="preserve">
-    <value>Przeglądaj, edytuj, dodawaj i blokuj użytkowników systemu</value>
+    <value>Browse and manage time capsules in the system</value>
   </data>
   <data name="PageTitle" xml:space="preserve">
-    <value>Zarządzanie użytkownikami</value>
+    <value>Capsule Management</value>
   </data>
-  <data name="Role" xml:space="preserve">
-    <value>Rola</value>
+  <data name="CapsuleManagement" xml:space="preserve">
+    <value>Capsule Management</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="Recipient" xml:space="preserve">
+    <value>Recipient</value>
+  </data>
+  <data name="CapsuleType" xml:space="preserve">
+    <value>Capsule Type</value>
+  </data>
+  <data name="CreationDate" xml:space="preserve">
+    <value>Creation Date</value>
+  </data>
+  <data name="OpeningDate" xml:space="preserve">
+    <value>Opening Date</value>
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
-  <data name="UserManagement" xml:space="preserve">
-    <value>Zarządzanie użytkownikami</value>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Nazwa użytkownika</value>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
   </data>
 </root>
