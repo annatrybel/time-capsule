@@ -97,8 +97,8 @@ namespace TimeCapsule.Services
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                var existing = await _userManager.FindByEmailAsync(user.Email);
-                if (existing != null)
+                var existingUserByEmail = await _userManager.FindByEmailAsync(user.Email);
+                if (existingUserByEmail != null)
                     return ServiceResult<UserDto>.Failure($"User {user.Email} already exists");
 
                 var role = await _context.Roles.FindAsync(user.RoleId);
@@ -161,8 +161,18 @@ namespace TimeCapsule.Services
                 if (string.IsNullOrEmpty(role.Name))
                     return ServiceResult.Failure($"Role with ID {model.RoleId} has no name specified");
 
+                if (!string.Equals(user.Email, model.Email, StringComparison.OrdinalIgnoreCase))
+                {
+                    var existingUserWithNewEmail = await _userManager.FindByEmailAsync(model.Email);
+                    if (existingUserWithNewEmail != null && existingUserWithNewEmail.Id != user.Id)
+                    {
+                        _logger.LogWarning("UpdateUser: Attempt to update user {UserId} with email '{NewEmail}' which is already in use by user {ExistingUserId}.", user.Id, model.Email, existingUserWithNewEmail.Id);
+                        return ServiceResult.Failure($"Email '{model.Email}' is already in use by another user.");
+                    }
+                    user.Email = model.Email;
+                }
+
                 user.UserName = model.UserName;
-                user.Email = model.Email;
 
                 var updateResult = await _userManager.UpdateAsync(user);
                 if (!updateResult.Succeeded)
@@ -232,3 +242,5 @@ namespace TimeCapsule.Services
         }
     }
 }
+
+

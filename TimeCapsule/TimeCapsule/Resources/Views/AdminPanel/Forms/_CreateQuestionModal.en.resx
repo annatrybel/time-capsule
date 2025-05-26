@@ -117,37 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Actions" xml:space="preserve">
-    <value>Akcje</value>
+  <data name="AddNewQuestion" xml:space="preserve">
+    <value>Add new question</value>
   </data>
-  <data name="AddUser" xml:space="preserve">
-    <value>Dodaj użytkownika</value>
+  <data name="AddQuestion" xml:space="preserve">
+    <value>Add question</value>
   </data>
-  <data name="AdminPanel" xml:space="preserve">
-    <value>Panel Administracyjny</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="ID" xml:space="preserve">
-    <value>ID</value>
-  </data>
-  <data name="PageDescription" xml:space="preserve">
-    <value>Przeglądaj, edytuj, dodawaj i blokuj użytkowników systemu</value>
-  </data>
-  <data name="PageTitle" xml:space="preserve">
-    <value>Zarządzanie użytkownikami</value>
-  </data>
-  <data name="Role" xml:space="preserve">
-    <value>Rola</value>
-  </data>
-  <data name="Status" xml:space="preserve">
-    <value>Status</value>
-  </data>
-  <data name="UserManagement" xml:space="preserve">
-    <value>Zarządzanie użytkownikami</value>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Nazwa użytkownika</value>
+  <data name="QuestionText" xml:space="preserve">
+    <value>Question text</value>
   </data>
 </root>

@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\AdminPanel\Capsules\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Resources\Views\Home\MyCapsules.pl.resx" />
   </ItemGroup>
 
@@ -55,6 +51,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="8.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="8.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="8.1.1" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.4" />
   </ItemGroup>
 
 </Project>

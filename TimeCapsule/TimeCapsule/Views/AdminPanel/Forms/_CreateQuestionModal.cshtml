@@ -1,22 +1,25 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 <div class="modal fade" id="addQuestionModal" tabindex="-1" aria-labelledby="addQuestionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addQuestionModalLabel">Dodaj nowe pytanie</h5>
+                <h5 class="modal-title" id="addQuestionModalLabel">@Localizer["AddNewQuestion"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="addQuestionForm" method="post" action="/AdminPanel/Forms/AddQuestion">
                 <div class="modal-body">
                     <input type="hidden" id="sectionId" name="SectionId" value="">
                     <div class="mb-3">
-                        <label for="questionText" class="form-label">Treść pytania <span class="text-danger">*</span></label>
+                        <label for="questionText" class="form-label">@Localizer["QuestionText"] <span class="text-danger">*</span></label>
                         <textarea class="form-control" id="questionText" name="QuestionText" rows="3" required></textarea>
+                        <span class="text-danger field-validation-error" data-valmsg-for="QuestionText"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="button" class="btn btn-save" onclick="handleFormSubmit('addQuestionForm')">Dodaj pytanie</button>
+                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                    <button type="button" class="btn btn-save" onclick="handleFormSubmit('addQuestionForm')">@Localizer["AddQuestion"]</button>
                 </div>
             </form>
         </div>

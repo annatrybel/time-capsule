@@ -1,0 +1,192 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model TimeCapsule.Models.ViewModels.OpenedCapsuleViewModel
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/openedCapsule.css" asp-append-version="true" />
+    <style>
+        .capsule-card {
+            background-color: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .capsule-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .capsule-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+
+        .capsule-title {
+            font-size: 2rem;
+            margin: 0;
+            color: #4C5C71;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #4C5C71;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid @Model.Color;
+        }
+
+        .question-box {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .answer-text {
+            margin-bottom: 0;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -0.5rem;
+        }
+
+        .gallery-item {
+            width: calc(33.333% - 1rem);
+            margin: 0.5rem;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.25rem;
+        }
+
+        .link-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .link-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .capsule-meta {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-align: right;
+            margin-top: 2rem;
+        }
+    </style>
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="capsule-card" style="border-top: 5px solid @Model.Color">
+                <div class="capsule-header">
+                    <i class="bi @Model.Icon capsule-icon" style="color: @Model.Color"></i>
+                    <h1 class="capsule-title">@Model.Title</h1>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Introduction))
+                {
+                    <div class="capsule-introduction mb-4">
+                        @Html.Raw(Model.Introduction)
+                    </div>
+                }
+
+                @if (Model.Sections != null && Model.Sections.Any())
+                {
+                    <div class="capsule-sections">
+                        <h2 class="section-title">@Localizer["Questions"]</h2>
+
+                        @foreach (var item in Model.Sections)
+                        {
+                            <div class="section mb-4">
+                                <h3>@item.SectionName</h3>
+
+                                @foreach (var question in item.Questions)
+                                {
+                                    <div class="question-box">
+                                        <p class="question-text">@question.QuestionText</p>
+                                        <p class="answer-text">@question.Answer</p>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.MessageContent))
+                {
+                    <div class="capsule-message">
+                        <h2 class="section-title">@Localizer["Message"]</h2>
+                        <div class="message-content">
+                            @Html.Raw(Model.MessageContent)
+                        </div>
+                    </div>
+                }
+
+                @if (Model.Images != null && Model.Images.Any())
+                {
+                    <div class="capsule-images mt-4">
+                        <h2 class="section-title">@Localizer["Images"]</h2>
+                        <div class="gallery">
+                            @foreach (var image in Model.Images)
+                            {
+                                <div class="gallery-item">
+                                    <img src="data:@image.ContentType;base64,@image.Content" class="gallery-img" alt="@image.FileName">
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                @if (Model.Links != null && Model.Links.Any())
+                {
+                    <div class="capsule-links mt-4">
+                        <h2 class="section-title">@Localizer["Links"]</h2>
+                        <ul class="link-list">
+                            @foreach (var link in Model.Links)
+                            {
+                                <li class="link-item">
+                                    <a href="@link" target="_blank" rel="noopener noreferrer">@link</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <div class="capsule-meta">
+                    @if (Model.Type == TimeCapsule.Models.DatabaseModels.CapsuleType.DlaKogos)
+                    {
+                        <p>@Localizer["CreatedFor"] @Model.CreatedAt.ToString("dd/MM/yyyy")</p>
+                        <p>@Localizer["CreatedBy"] @Model.CreatedByName</p>
+                    }
+                    else
+                    {
+                        <p>@Localizer["CreatedOn"] @Model.CreatedAt.ToString("dd/MM/yyyy")</p>
+                    }
+                    <p>@Localizer["OpenedOn"] @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</p>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a asp-controller="Profile" asp-action="MyCapsules" class="btn btn-secondary">
+                        @Localizer["BackToCapsules"]
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

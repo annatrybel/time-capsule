@@ -53,6 +53,7 @@ builder.Services.AddScoped<ContactService>();
 builder.Services.AddScoped<ProfileService>();
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddScoped<IFormManagementService, FormManagementService>();
+builder.Services.AddScoped<ICapsuleManagementService, CapsuleManagementService>();
 builder.Services.AddScoped<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, EmailSender>();
 builder.Services.AddScoped<SectionSeeder>();
 builder.Services.AddScoped<QuestionSeeder>();
