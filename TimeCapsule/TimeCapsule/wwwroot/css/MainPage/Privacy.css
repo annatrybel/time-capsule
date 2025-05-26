@@ -1,4 +1,4 @@
-body {
+﻿body {
     font-family: Arial, sans-serif;
     background-color: #f6f8fb;
     color: #333;
@@ -7,18 +7,80 @@ body {
 
 .hero {
     position: relative;
-    background-size: contain;
-    padding-bottom: 32%;
+    background-size: cover;
+    background-position: center;
+    padding-block: clamp(3rem, 10vw, 8rem);
+    padding-inline: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
     .hero h1 {
-        color: white;
-        position: absolute;
-        top: 100px;
-        left: -40% !important;
-        transform: translateX(-50%);
-        font-size: clamp(1rem, 2vw, 2.5rem);
-        font-weight: 300;
-        text-align: center;
         margin: 0;
+        width: clamp(80%, 60vw, 600px);
+        font-size: clamp(1.25rem, 5vw, 4rem);
+        line-height: 1.2;
+        font-weight: 300;
+        color: white;
+        word-wrap: break-word;
     }
+/*  Duże ekrany (min-width: 1024px)*/
+@media (min-width: 1024px) {
+    .hero {
+        padding-block: clamp(5rem, 8vw, 12rem);
+    }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 35px);
+            margin-top: -4rem !important;
+            margin-left: -30rem !important;
+        }
+}
+
+/* Powiększenie ~150% (1.5dppx – 1.99dppx)*/
+@media (min-resolution: 1.5dppx) and (max-resolution: 1.99dppx) {
+    .hero h1 {
+        margin-top: -7rem !important;
+        line-height: 1.2;
+        font-weight: 500;
+        color: #4C5C71;
+        margin-left: 0 !important;
+    }
+}
+/*  Powiększenie ~200% i więcej (≥2dppx)*/
+@media (min-resolution: 2dppx) {
+    .hero h1 {
+        margin-top: -5rem !important;
+        line-height: 1.2;
+        font-weight: 500;
+        color: #4C5C71;
+        margin-left: 0 !important;
+    }
+}
+
+/* poniżej 50% powiększenia (max-resolution: 0.49dppx)*/
+@media (max-resolution: 0.49dppx) {
+    .hero h1 {
+        margin-left: 0 !important;
+        margin-top: -2rem !important;
+        margin-bottom: -20rem;
+        font-size: clamp(1.75rem, 6vw, 2rem);
+        line-height: 1.2;
+        font-weight: 500;
+        color: #4C5C71;
+    }
+}
+
+@media (max-width: 1320px) {
+    .hero h1 {
+        margin-left: 0 !important;
+        margin-top: -17rem !important;
+        margin-bottom: -20rem;
+        font-size: clamp(1.75rem, 6vw, 1rem);
+        line-height: 1.2;
+        font-weight: 500;
+        color: #4C5C71;
+    }
+}

@@ -1,4 +1,4 @@
-/*globalny css dla wszystkich stron ~AW*/
+﻿/*globalny css dla wszystkich stron ~AW*/
 @font-face {
     font-family: 'Leckerli One';
     src: url('../fonts/LeckerliOne-Regular.ttf') format('truetype');
@@ -51,7 +51,25 @@ body {
 
 }
 
-
+@media (min-resolution: 144dpi), (max-width: 900px) {
+    body {
+        background: none;
+        background-color: #E4E4E4;
+    }
+}
+/* poniżej 50% powiększenia (max-resolution: 0.49dppx)*/
+@media (max-resolution: 0.49dppx) {
+    body {
+        background: none !important;
+        background-color: #E4E4E4 !important;
+    }
+}
+@media (max-width: 1320px) {
+    body {
+        background: none !important;
+        background-color: #E4E4E4 !important;
+    }
+}
 
 footer {
     background: url('../images/footer-background.png') no-repeat center 0px/cover;
@@ -82,6 +100,21 @@ footer {
 .mail-icon {
     width: 40px;
     margin: 0;
+}
+
+/* przy zoomie ≥400% */
+@media (min-resolution: 4dppx) {
+    footer {
+        justify-content: center;
+        padding: 1rem; 
+    }
+
+    .footer-content {
+        white-space: normal !important;
+        text-align: center;
+        gap: 0.5rem;
+        max-width: 100%;
+    }
 }
 
 /*styles for top bar*/
@@ -169,6 +202,8 @@ footer {
     border: none;
     overflow: hidden;
     min-width: 180px;
+    left: auto !important;
+    right: 0 !important;
 }
 
     .dropdown-menu .dropdown-item {
@@ -189,3 +224,206 @@ footer {
     border: none;
     height: 0;
 }
+
+
+@media (max-width: 576px) {
+    .navbar-collapse.show {
+        display: flex !important;
+        justify-content: center;
+    }
+        .navbar-collapse.show .navbar-nav {
+            flex-direction: column; 
+            align-items: center;
+            width: 100%;
+        }
+            .navbar-collapse.show .navbar-nav .nav-item {
+                width: 100%;
+                margin: 0.1rem 0;
+            }
+
+            .navbar-collapse.show .navbar-nav .nav-link,
+            .navbar-collapse.show .navbar-nav .btn {
+                display: block;
+                width: auto;
+                text-align: center;
+                padding: 0.75rem 1.25rem;
+            }
+}
+
+/*ustawienia - email*/
+.settings-page {
+  background: #fff;
+  border-radius: 0.75rem; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 2rem 1.5rem; 
+  margin-top: 2rem; 
+}
+
+.settings-page h3 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: #4C5C71;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.settings-page .form-floating {
+  margin-bottom: 1.25rem;
+}
+.settings-page .form-label {
+  color: #4C5C71;
+  font-weight: 400;
+}
+.settings-page .form-control {
+  font-size: 1rem;
+  padding: .75rem 1rem;
+  border-radius: 0.5rem;
+}
+
+/* ikona potwierdzenia */
+.settings-page .input-group-text {
+  background: transparent;
+  border: none;
+  color: #6ba063;
+  font-size: 1.25rem;
+}
+
+/* link do weryfikacji maila */
+.settings-page .btn-link {
+  display: block;
+  text-align: right;
+  padding: 0;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  color: #4C5C71;
+}
+.settings-page .btn-link:hover {
+  color: #162440;
+  text-decoration: underline;
+}
+
+/* ========== PRZYCISK ZMIANY EMAILA ========== */
+.settings-page .btn-primary {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.125rem;
+  border-radius: 0.5rem;
+  background: #4C5C71;
+  border: none;
+  color: #fff;
+  transition: background .2s ease;
+}
+.settings-page .btn-primary:hover {
+  background: #36495a;
+}
+
+@media (max-width: 767px) {
+  .settings-page {
+    padding: 1.5rem 1rem;
+  }
+  .settings-page h3 {
+    font-size: 1.5rem;
+  }
+}
+
+
+.col-md-9 {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-top: 1rem;
+}
+
+    .col-md-9 > h3 {
+        font-size: 1.75rem;
+        font-weight: 500;
+        color: #4C5C71;
+        margin-bottom: 1.5rem;
+    }
+
+#email-form .form-floating {
+    margin-bottom: 1.25rem;
+}
+
+#email-form #email-verification {
+    display: block;
+    text-align: right;
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+    color: #4C5C71;
+}
+
+    #email-form #email-verification:hover {
+        text-decoration: underline;
+        color: #162440;
+    }
+
+#email-form #change-email-button {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    font-size: 1.125rem;
+    border-radius: 0.5rem;
+    background: #4C5C71 !important;
+    border: none !important;
+    color: #fff !important;
+    width: 100%;
+    transition: background 0.2s ease;
+}
+
+    #email-form #change-email-button:hover {
+        background: #36495a !important;
+    }
+
+#email-form .form-floating {
+    position: relative;
+    margin-bottom: 1.5rem !important;
+}
+
+    #email-form .form-floating.mb-3 + .form-floating.mb-3 {
+        margin-top: -1rem !important; 
+    }
+
+
+/* Link „Send verification email” */
+#email-form #email-verification {
+    margin-top: 1.5rem !important;
+    position: relative;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 0.25rem 0.5rem;
+    color: #4C5C71 !important;
+    background: transparent;
+    border: none;
+    text-decoration: underline;
+}
+
+    #email-form #email-verification:hover {
+        color: #162440 !important;
+    }
+
+/* alert */
+.alert.alert-success {
+    background-color: #a8b0ba !important;
+    border-color: #a8b0ba !important;
+    color: white !important;
+}
+
+form#download-data,
+form#download-data + p {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+}
+
+
+form#download-data {
+    margin-right: .5rem;
+}
+
+    form#download-data button {
+        display: inline-flex;
+        align-items: center;
+    }
