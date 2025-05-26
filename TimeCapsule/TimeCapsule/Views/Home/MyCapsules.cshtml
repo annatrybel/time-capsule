@@ -51,7 +51,7 @@
                             @if (capsule.CanOpen)
                             {
                                 <div class="capsule-button-circle">
-                                    <a asp-controller="Capsule" asp-action="Open" asp-route-id="@capsule.Id" class="btn capsule-btn-circle">
+                                    <a asp-controller="Profile" asp-action="Open" asp-route-id="@capsule.Id" class="btn capsule-btn-circle">
                                         @Localizer["OpenCapsule"]<i class="bi bi-unlock me-2"></i>
                                     </a>
                                 </div>
@@ -90,3 +90,5 @@
         </section>
     }
 </div>
+
+
