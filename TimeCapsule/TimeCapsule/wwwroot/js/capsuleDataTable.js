@@ -117,21 +117,37 @@
     });
 
 
-    $(document).on('click', '.view-capsule', function () {
+    $(document).on('click', '.dropdown-item.edit-opening-date', function (event) {
         const capsuleId = $(this).data('id');
+
         $.ajax({
-            url: `/AdminPanel/Capsules/GetCapsuleById/${capsuleId}`,
+            url: `/AdminPanel/Capsules/GetCapsuleOpeningDate/${capsuleId}`,
             type: 'GET',
             success: function (response) {
-                if (response.isSuccess) {
-                    $('#capsuleDetailModal').modal('show');
-                } else {
-                    toastr.error(response.error.description);
-                }
+
+                $('#editCapsuleId').val(response.capsuleId);
+                $('#capsuleTitle').val(response.title);
+
+                const currentDate = new Date(response.currentOpeningDate);
+                $('#currentOpeningDate').val(currentDate.toLocaleString());
+
+                const year = currentDate.getFullYear();
+                const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+                const day = String(currentDate.getDate()).padStart(2, '0');
+                const hours = String(currentDate.getHours()).padStart(2, '0');
+                const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+
+                const formattedLocalDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+                $('#newOpeningDateDisplay').val(formattedLocalDateTime);
+
+                $('#editOpeningDateModal').modal('show');
             },
-            error: function () {
-                toastr.error('Wystąpił błąd podczas pobierania danych kapsuły.');
+            error: function (error) {
+                console.error('Error fetching user data:', error);
+                alert('Failed to fetch user data. Please try again.');
             }
         });
     });
 });
+
+
