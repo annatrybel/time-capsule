@@ -6,6 +6,7 @@ using TimeCapsule.Models.DatabaseModels;
 using TimeCapsule.Models.ViewModels;
 using TimeCapsule.Services.Results;
 using System.Linq.Dynamic.Core;
+using TimeCapsule.Models.Dto;
 
 namespace TimeCapsule.Services
 {
@@ -90,7 +91,69 @@ namespace TimeCapsule.Services
                 return ServiceResult<DataTableResponse<CapsuleManagementViewModel>>.Failure("Wystąpił błąd podczas pobierania danych kapsuł.");
             }
         }
+
+        public async Task<ServiceResult<CapsuleOpeningDateDto>> GetCapsuleOpeningDate(int capsuleId)
+        {
+            try
+            {
+                var capsule = await _context.Capsules
+                    .Where(c => c.Id == capsuleId)
+                    .Select(c => new CapsuleOpeningDateDto
+                    {
+                        CapsuleId = c.Id,
+                        CurrentOpeningDate = c.OpeningDate,
+                        Title = c.Title
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (capsule == null)
+                {
+                    return ServiceResult<CapsuleOpeningDateDto>.Failure("Kapsuła o podanym identyfikatorze nie istnieje.");
+                }
+
+                return ServiceResult<CapsuleOpeningDateDto>.Success(capsule);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Błąd podczas pobierania daty otwarcia kapsuły {CapsuleId}", capsuleId);
+                return ServiceResult<CapsuleOpeningDateDto>.Failure("Wystąpił błąd podczas pobierania daty otwarcia kapsuły.");
+            }
+        }
+
+        public async Task<ServiceResult> UpdateCapsuleOpeningDate(UpdateCapsuleOpeningDateDto model)
+        {
+            try
+            {
+                var capsule = await _context.Capsules.FindAsync(model.CapsuleId);
+
+                if (capsule == null)
+                {
+                    return ServiceResult.Failure("Kapsuła o podanym identyfikatorze nie istnieje.");
+                }
+
+                if (model.NewOpeningDate <= DateTime.UtcNow)
+                {
+                    return ServiceResult.Failure("Data otwarcia kapsuły musi być w przyszłości.");
+                }
+
+                capsule.OpeningDate = model.NewOpeningDate;
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Zaktualizowano datę otwarcia kapsuły {CapsuleId} na {OpeningDate}",
+                    model.CapsuleId, model.NewOpeningDate);
+
+                return ServiceResult.Success();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Błąd podczas aktualizacji daty otwarcia kapsuły {CapsuleId}", model.CapsuleId);
+                return ServiceResult.Failure("Wystąpił błąd podczas aktualizacji daty otwarcia kapsuły.");
+            }
+        }
     }
 }
+
+
 
 
