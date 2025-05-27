@@ -151,6 +151,92 @@ namespace TimeCapsule.Services
                 return ServiceResult.Failure("Wystąpił błąd podczas aktualizacji daty otwarcia kapsuły.");
             }
         }
+        public async Task<ServiceResult<CapsuleRecipientsDto>> GetCapsuleRecipients(int capsuleId)
+        {
+            try
+            {
+                var capsule = await _context.Capsules
+                    .Include(c => c.CapsuleRecipients)
+                    .Where(c => c.Id == capsuleId)
+                    .Select(c => new CapsuleRecipientsDto
+                    {
+                        CapsuleId = c.Id,
+                        Title = c.Title,
+                        Recipients = c.CapsuleRecipients.Select(r => r.Email).ToList()
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (capsule == null)
+                {
+                    return ServiceResult<CapsuleRecipientsDto>.Failure("Kapsuła o podanym identyfikatorze nie istnieje.");
+                }
+
+                return ServiceResult<CapsuleRecipientsDto>.Success(capsule);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Błąd podczas pobierania odbiorców kapsuły {CapsuleId}", capsuleId);
+                return ServiceResult<CapsuleRecipientsDto>.Failure("Wystąpił błąd podczas pobierania odbiorców kapsuły.");
+            }
+        }
+
+        public async Task<ServiceResult> UpdateCapsuleRecipients(UpdateCapsuleRecipientsDto model)
+        {
+            try
+            {
+                var capsule = await _context.Capsules
+                    .Include(c => c.CapsuleRecipients)
+                    .FirstOrDefaultAsync(c => c.Id == model.CapsuleId);
+
+                if (capsule == null)
+                {
+                    return ServiceResult.Failure("Kapsuła o podanym identyfikatorze nie istnieje.");
+                }
+
+                if (capsule.Type != CapsuleType.DlaKogos)
+                {
+                    return ServiceResult.Failure("Tylko kapsuły typu 'Dla kogoś' mogą mieć odbiorców.");
+                }
+
+                var validEmails = new List<string>();
+                foreach (var email in model.Recipients)
+                {
+                    if (!string.IsNullOrWhiteSpace(email))
+                    {
+                        validEmails.Add(email);
+                    }
+                }
+
+                if (validEmails.Count == 0)
+                {
+                    return ServiceResult.Failure("Lista odbiorców nie może być pusta. Przynajmniej jeden adres email musi być poprawny.");
+                }
+
+                _context.CapsuleRecipients.RemoveRange(capsule.CapsuleRecipients);
+
+                foreach (var email in validEmails)
+                {
+                    capsule.CapsuleRecipients.Add(new CapsuleRecipient
+                    {
+                        CapsuleId = capsule.Id,
+                        Email = email,
+                        EmailSent = false
+                    });
+                }
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Zaktualizowano odbiorców kapsuły {CapsuleId}, liczba odbiorców: {RecipientsCount}",
+                    model.CapsuleId, validEmails.Count);
+
+                return ServiceResult.Success();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Błąd podczas aktualizacji odbiorców kapsuły {CapsuleId}", model.CapsuleId);
+                return ServiceResult.Failure("Wystąpił błąd podczas aktualizacji odbiorców kapsuły.");
+            }
+        }
     }
 }
 
