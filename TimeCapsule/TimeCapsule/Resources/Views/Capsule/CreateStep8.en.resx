@@ -120,8 +120,8 @@
   <data name="AddedImages" xml:space="preserve">
     <value>Added Images:</value>
   </data>
-  <data name="AddLink" xml:space="preserve">
-    <value>Add link:</value>
+  <data name="AddedLinks" xml:space="preserve">
+    <value>Added links:</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Appearance</value>
