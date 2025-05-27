@@ -1,0 +1,36 @@
+﻿@model TimeCapsule.Models.Dto.CapsuleOpeningDateDto
+
+<div class="modal fade" id="editOpeningDateModal" tabindex="-1" aria-labelledby="editOpeningDateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editOpeningDateModalLabel">Zmiana daty otwarcia kapsuły</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editOpeningDateForm" method="post" action="/AdminPanel/Capsules/UpdateOpeningDate">
+                <div class="modal-body">
+                    <input type="hidden" id="editCapsuleId" name="CapsuleId" />
+                    <input type="hidden" id="newOpeningDateUtc" name="NewOpeningDate" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Tytuł kapsuły</label>
+                        <input type="text" class="form-control" id="capsuleTitle" readonly disabled />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Aktualna data otwarcia</label>
+                        <input type="text" class="form-control" id="currentOpeningDate" readonly disabled />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="newOpeningDateDisplay">Nowa data otwarcia <span class="text-danger">*</span></label>
+                        <input type="datetime-local" class="form-control" id="newOpeningDateDisplay" required />
+                        <div class="invalid-feedback" data-valmsg-for="NewOpeningDate" id="dateValidationMessage"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="button" class="btn btn-save" onclick="prepareAndSubmitOpeningDateForm()">Zapisz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
