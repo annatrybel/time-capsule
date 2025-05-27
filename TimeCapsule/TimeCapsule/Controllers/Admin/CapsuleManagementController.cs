@@ -70,8 +70,39 @@ namespace TimeCapsule.Controllers.Admin
                 return BadRequest(ServiceResult.Failure(serviceResponse.Error.Description));
             }
         }
+
+        [HttpGet("GetCapsuleRecipients/{capsuleId}")]
+        public async Task<IActionResult> GetCapsuleRecipients(int capsuleId)
+        {
+            if (capsuleId <= 0)
+            {
+                return BadRequest(ServiceResult.Failure("Nieprawidłowy identyfikator kapsuły"));
+            }
+
+            var serviceResponse = await _capsuleManagementService.GetCapsuleRecipients(capsuleId);
+            return HandleStatusCodeServiceResult(serviceResponse);
+        }
+
+        [HttpPost("UpdateRecipients")]
+        public async Task<IActionResult> UpdateRecipients([FromBody] UpdateCapsuleRecipientsDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var serviceResponse = await _capsuleManagementService.UpdateCapsuleRecipients(model);
+
+            if (serviceResponse.IsSuccess)
+            {
+                return Ok(serviceResponse);
+            }
+
+            return BadRequest(serviceResponse);
+        }
     }
 }
+
 
 
 
