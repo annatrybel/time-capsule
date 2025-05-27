@@ -75,29 +75,49 @@
                 orderable: false,
                 className: 'actions',
                 render: function (data, type, row) {
+                    let dropdownItems = '';
+
+                    if (row.status !== 1) {
+                        dropdownItems += `
+                        	<li>
+                            	<button class="dropdown-item edit-opening-date" data-id="${data}" type="button">
+                                	<i class="bi bi-calendar-event"></i> Zmień datę otwarcia
+                            	</button>
+                        	</li>
+                    	`;
+                    }
+
+                    if (row.capsuleType === 1) {
+                        dropdownItems += `
+                        	<li>
+                            	<button class="dropdown-item edit-recipients" data-id="${data}" type="button">
+                                	<i class="bi bi-person-lines-fill"></i> Zmień listę odbiorców
+                            	</button>
+                        	</li>
+                    	`;
+                    }
+
+                    dropdownItems += `
+                    	<li>
+                        	<form method="post" action="/AdminPanel/Capsules/DeactivateCapsule/${data}" style="margin:0; display: inline;">
+                            	<button type="submit" class="dropdown-item deactivate-capsule">
+                                	<i class="bi bi-toggle-off"></i> Dezaktywacja
+                            	</button>
+                        	</form>
+                    	</li>
+                	`;
+
+                    if (dropdownItems === '') {
+                        return `<div class="text-center">-</div>`;
+                    }
+
                     return `
                     	<div class="dropdown text-center">
                         	<button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-${data}" data-bs-toggle="dropdown" aria-expanded="false">
                             	<i class="bi bi-list fs-4"></i>
                         	</button>
-                        	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-${data}">                           	 
-                            	<li>
-                                	<button class="dropdown-item edit-opening-date" data-id="${data}" type="button">
-                                    	<i class="bi bi-calendar-event"></i> Zmień datę otwarcia
-                                	</button>
-                            	</li>
-                            	<li>
-                                	<button class="dropdown-item edit-recipients" data-id="${data}" type="button">
-                                    	<i class="bi bi-person-lines-fill"></i> Zmień listę odbiorców
-                                	</button>
-                            	</li>
-                            	<li>
-                                	<form method="post" action="/AdminPanel/Capsules/DeactivateCapsule/${data}" style="margin:0">
-                                    	<button type="submit" class="dropdown-item deactivate-capsule">
-                                        	<i class="bi bi-toggle-off"></i> Dezaktywacja
-                                    	</button>
-                                	</form>
-                            	</li>
+                        	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-${data}">
+                            	${dropdownItems}
                         	</ul>
                     	</div>
                 	`;
@@ -115,6 +135,7 @@
         ],
         order: [[4, 'desc']]
     });
+
 
 
     $(document).on('click', '.dropdown-item.edit-opening-date', function (event) {
