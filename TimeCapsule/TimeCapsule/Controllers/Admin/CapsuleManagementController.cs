@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using TimeCapsule.Interfaces;
 using TimeCapsule.Models;
+using TimeCapsule.Models.Dto;
 using TimeCapsule.Services;
+using TimeCapsule.Services.Results;
 
 namespace TimeCapsule.Controllers.Admin
 {
@@ -34,8 +34,46 @@ namespace TimeCapsule.Controllers.Admin
             var serviceResponse = await _capsuleManagementService.GetCapsules(request);
             return HandleStatusCodeServiceResult(serviceResponse);
         }
+
+        [HttpGet("GetCapsuleOpeningDate/{capsuleId}")]
+        public async Task<IActionResult> GetCapsuleOpeningDate(int capsuleId)
+        {
+            if (capsuleId <= 0)
+            {
+                return BadRequest(ServiceResult.Failure("Nieprawidłowy identyfikator kapsuły"));
+            }
+
+            var serviceResponse = await _capsuleManagementService.GetCapsuleOpeningDate(capsuleId);
+            return HandleStatusCodeServiceResult(serviceResponse);
+        }
+
+        [HttpPost("UpdateOpeningDate")]
+        public async Task<IActionResult> UpdateOpeningDate(UpdateCapsuleOpeningDateDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                       .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                       .ToList();
+                return BadRequest(ServiceResult.Failure("Invalid data:\n" + string.Join("\n", errors)));
+            }
+            var serviceResponse = await _capsuleManagementService.UpdateCapsuleOpeningDate(model);
+            if (serviceResponse.IsSuccess)
+            {
+                TempData["SuccessMessage"] = $"Opening date updated successfully";
+                TempData["SuccessMessageId"] = $"openingDate_update_{model.CapsuleId}_{DateTime.UtcNow.Ticks}";
+                return HandleServiceResult(serviceResponse);
+            }
+            else
+            {
+                return BadRequest(ServiceResult.Failure(serviceResponse.Error.Description));
+            }
+        }
     }
 }
+
+
 
 
 

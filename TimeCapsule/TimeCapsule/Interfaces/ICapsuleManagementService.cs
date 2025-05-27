@@ -8,6 +8,9 @@ namespace TimeCapsule.Interfaces
     public interface ICapsuleManagementService
     {
         Task<ServiceResult<DataTableResponse<CapsuleManagementViewModel>>> GetCapsules(DataTableRequest request);
+        Task<ServiceResult> UpdateCapsuleOpeningDate(UpdateCapsuleOpeningDateDto model);
+        Task<ServiceResult<CapsuleOpeningDateDto>> GetCapsuleOpeningDate(int capsuleId);
+
     }
 }
 
