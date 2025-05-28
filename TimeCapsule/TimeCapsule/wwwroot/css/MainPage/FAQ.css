@@ -107,6 +107,16 @@ h2 {
         text-decoration: none;
     }
 
+a {
+    color: #4C5C71;
+    text-decoration: underline;
+    transition: color 0.2s ease-in-out;
+}
+
+    a:hover {
+        color: #2f3f55;
+    }
+
 
 /* ========RWD========*/
 /*  Duże ekrany (min-width: 1024px)*/

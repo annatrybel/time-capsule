@@ -121,13 +121,13 @@
     <value>Kapsuła czasu to wiadomość, którą możesz wysłać do siebie lub bliskiej osoby w przyszłości. Możesz określić dokładną datę, kiedy wiadomość zostanie odblokowana do odczytu.</value>
   </data>
   <data name="Answer2" xml:space="preserve">
-    <value>Tak! Możesz wysłać wiadomość do siebie lub kogoś innego – wystarczy podać nazwę lub e-mail odbiorcy - jeżeli nie posiada jeszcze konta w naszym serwisie.</value>
+    <value>Tak! Możesz wysłać wiadomość do siebie lub kogoś innego – wystarczy podać e-mail odbiorcy.</value>
   </data>
-  <data name="Answer3" xml:space="preserve">
-    <value>Tak, stosujemy odpowiednie zabezpieczenia, aby Twoje wiadomości były prywatne i bezpieczne.</value>
+  <data name="Answer3_Linked" xml:space="preserve">
+    <value>Tak, stosujemy odpowiednie zabezpieczenia, aby Twoje wiadomości były prywatne i bezpieczne. Przeczytaj więcej w naszej &lt;a href="http://localhost:8080/Home/Privacy"&gt;Polityce Prywatności&lt;/a&gt;.</value>
   </data>
   <data name="Answer4" xml:space="preserve">
-    <value>Tak! Możesz dołączyć zdjęcia, pliki audio, wideo oraz linki, aby Twoja wiadomość była jeszcze bardziej wyjątkowa.</value>
+    <value>Tak! Możesz dołączyć zdjęcia oraz linki, aby Twoja wiadomość była jeszcze bardziej wyjątkowa.</value>
   </data>
   <data name="Answer5" xml:space="preserve">
     <value>Oczywiście! Możesz stworzyć dowolną liczbę wiadomości na różne daty i do różnych odbiorców.</value>
