@@ -192,7 +192,7 @@ namespace TimeCapsule.Services
                 try
                 {
                     string subject = $"Masz nową kapsułę czasu od {user.UserName ?? "znajomego"}!";
-                    string message = GenerateEmailTemplate(user.UserName ?? "znajomego", capsuleDto.Title, capsuleDto.OpeningDate);
+                    string? message = await GenerateEmailTemplateAsync(user.UserName, capsuleDto.Title, capsuleDto.OpeningDate);
 
                     await _emailSender.SendEmailAsync(email, subject, message);
 
@@ -217,34 +217,40 @@ namespace TimeCapsule.Services
             await _context.SaveChangesAsync();
         }
 
-        private string GenerateEmailTemplate(string senderName, string capsuleTitle, DateTime openingDate)
+        public async Task<string?> GenerateEmailTemplateAsync(string? senderName, string capsuleTitle, DateTime openingDate)
         {
-            return $@"
-                    <html>
-                    <head>
-                        <style>
-                            body {{ font-family: Arial, sans-serif; color: #333; line-height: 1.6; }}
-                            .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                            h1 {{ color: #3057B5; }}
-                            .date {{ font-weight: bold; color: #3057B5; }}
-                            .footer {{ margin-top: 30px; font-size: 12px; color: #777; }}
-                        </style>
-                    </head>
-                    <body>
-                        <div class='container'>
-                            <h1>Masz nową kapsułę czasu!</h1>
-                            <p>Witaj!</p>
-                            <p>{senderName ?? "Znajomy"} utworzył(a) dla Ciebie kapsułę czasu o nazwie <strong>{capsuleTitle}</strong>.</p>
-                            <p>Kapsuła będzie dostępna do otwarcia w dniu: <span class='date'>{openingDate:dd/MM/yyyy HH:mm}</span></p>
-                            <p>O tym czasie otrzymasz powiadomienie z linkiem umożliwiającym jej otwarcie.</p>
-                            <p>Pozdrawiamy,<br>Zespół TimeCapsule</p>
-                            <div class='footer'>
-                                <p>To jest automatyczna wiadomość, prosimy na nią nie odpowiadać.</p>
-                            </div>
-                        </div>
-                    </body>
-                    </html>";
+            string templateFileName = "CapsuleNotificationEmail.html";
+            string templateDirectory = Path.Combine(AppContext.BaseDirectory, "Templates");
+            string templatePath = Path.Combine(templateDirectory, templateFileName);
+
+            string emailTemplateContent;
+            try
+            {
+                emailTemplateContent = await File.ReadAllTextAsync(templatePath);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                _logger.LogError("Nie znaleziono folderu szablonów email: {TemplateDirectory}", templateDirectory);
+                return null;
+            }
+            catch (FileNotFoundException)
+            {
+                _logger.LogError("Nie znaleziono pliku szablonu email: {TemplatePath}", templatePath);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Błąd podczas odczytu szablonu email z pliku: {TemplatePath}", templatePath);
+                return null;
+            }
+
+            emailTemplateContent = emailTemplateContent.Replace("{SenderName}", senderName ?? "Znajomy");
+            emailTemplateContent = emailTemplateContent.Replace("{CapsuleTitle}", capsuleTitle);
+            emailTemplateContent = emailTemplateContent.Replace("{OpeningDate}", openingDate.ToString("dd/MM/yyyy HH:mm"));
+
+            return emailTemplateContent;
         }
     }
 }
+
 

@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Web;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Linq.Dynamic.Core;
 using TimeCapsule.Interfaces;
 using TimeCapsule.Models;
 using TimeCapsule.Models.DatabaseModels;
+using TimeCapsule.Models.Dto;
 using TimeCapsule.Models.ViewModels;
 using TimeCapsule.Services.Results;
-using System.Linq.Dynamic.Core;
-using TimeCapsule.Models.Dto;
 
 namespace TimeCapsule.Services
 {
@@ -14,10 +16,14 @@ namespace TimeCapsule.Services
     {
         private readonly TimeCapsuleContext _context;
         private readonly ILogger<UserManagementService> _logger;
-        public CapsuleManagementService(TimeCapsuleContext context, ILogger<UserManagementService> logger)
+        private readonly CapsuleService _capsuleService;
+        private readonly IEmailSender _emailSender;
+        public CapsuleManagementService(TimeCapsuleContext context, ILogger<UserManagementService> logger, CapsuleService capsuleService, IEmailSender emailSender)
         {
             _context = context;
             _logger = logger;
+            _capsuleService = capsuleService;
+            _emailSender = emailSender;
         }
         public async Task<ServiceResult<DataTableResponse<CapsuleManagementViewModel>>> GetCapsules(DataTableRequest request)
         {
@@ -162,7 +168,12 @@ namespace TimeCapsule.Services
                     {
                         CapsuleId = c.Id,
                         Title = c.Title,
-                        Recipients = c.CapsuleRecipients.Select(r => r.Email).ToList()
+                        Recipients = c.CapsuleRecipients.Select(r => new
+                        CapsuleRecipient
+                        {
+                            Email = r.Email,
+                            EmailSent = r.EmailSent
+                        }).ToList()
                     })
                     .FirstOrDefaultAsync();
 
@@ -180,7 +191,7 @@ namespace TimeCapsule.Services
             }
         }
 
-        public async Task<ServiceResult> UpdateCapsuleRecipients(UpdateCapsuleRecipientsDto model)
+        public async Task<ServiceResult> UpdateCapsuleRecipients(UpdateCapsuleRecipientsDto model, IdentityUser user)
         {
             try
             {
@@ -198,43 +209,165 @@ namespace TimeCapsule.Services
                     return ServiceResult.Failure("Tylko kapsuły typu 'Dla kogoś' mogą mieć odbiorców.");
                 }
 
-                var validEmails = new List<string>();
-                foreach (var email in model.Recipients)
+                var newRecipientEmailsFromModel = model.Recipients                           
+                    .Where(email => !string.IsNullOrWhiteSpace(email))                      
+                    .Select(email => email.Trim().ToLowerInvariant())                       
+                    .Distinct()                                                             
+                    .ToList(); 
+
+                if (newRecipientEmailsFromModel.Count == 0 && model.Recipients.Any(originalEmail => !string.IsNullOrWhiteSpace(originalEmail)))
                 {
-                    if (!string.IsNullOrWhiteSpace(email))
+                    return ServiceResult.Failure("Żaden z podanych adresów email nie jest poprawny.");
+                }
+
+                var existingDbRecipients = capsule.CapsuleRecipients.ToList();
+
+                var emailsSentSuccessfullyThisUpdate = new List<string>();
+                var emailsFailedToSendThisUpdate = new List<string>();
+
+                bool hasAnyDbChanges = false; 
+
+                var recipientsToRemove = existingDbRecipients
+                    .Where(er => !newRecipientEmailsFromModel.Contains(er.Email.ToLowerInvariant()))
+                    .ToList();
+
+                if (recipientsToRemove.Any())
+                {
+                    _context.CapsuleRecipients.RemoveRange(recipientsToRemove);
+                    _logger.LogInformation("Usunięto {Count} odbiorców z kapsuły {CapsuleId}: {RemovedEmails}",
+                        recipientsToRemove.Count, capsule.Id, string.Join(", ", recipientsToRemove.Select(r => r.Email)));
+                    hasAnyDbChanges = true; 
+                }
+
+                string senderName = null;
+                if (model.NotifyRecipients) 
+                {
+                    senderName = user?.UserName ?? "Twój Znajomy";
+                }
+
+                foreach (var emailModel in newRecipientEmailsFromModel)
+                {
+                    var existingRecipientInDb = existingDbRecipients
+                        .FirstOrDefault(er => er.Email.ToLowerInvariant() == emailModel);
+
+                    if (existingRecipientInDb != null)
                     {
-                        validEmails.Add(email);
+                        if (model.NotifyRecipients && !existingRecipientInDb.EmailSent)
+                        {
+                            _logger.LogInformation("Próba wysyłki do istniejącego odbiorcy {Email} (EmailSent=false) dla kapsuły {CapsuleId}", existingRecipientInDb.Email, capsule.Id);
+                            bool emailSent = await this.TrySendNotificationAndMarkAsSentAsync(existingRecipientInDb, capsule.Title, capsule.OpeningDate, senderName);
+                            if (emailSent)
+                            {
+                                emailsSentSuccessfullyThisUpdate.Add(existingRecipientInDb.Email);
+                                hasAnyDbChanges = true; 
+                                _logger.LogInformation("Wysłano e-mail i (domniemanie) oznaczono EmailSent=true dla {Email}", existingRecipientInDb.Email);
+                            }
+                            else
+                            {
+                                emailsFailedToSendThisUpdate.Add(existingRecipientInDb.Email);
+                            }
+                        }
+                    }
+                    else 
+                    {
+                        var newCapsuleRecipient = new CapsuleRecipient
+                        {
+                            CapsuleId = capsule.Id,
+                            Email = emailModel,
+                            EmailSent = false 
+                        };
+                        capsule.CapsuleRecipients.Add(newCapsuleRecipient);
+                        _logger.LogInformation("Dodano nowego odbiorcę {Email} do kapsuły {CapsuleId}.", emailModel, capsule.Id);
+                        hasAnyDbChanges = true; 
+
+                        if (model.NotifyRecipients)
+                        {
+                            _logger.LogInformation("Próba wysyłki do nowego odbiorcy {Email} dla kapsuły {CapsuleId}", newCapsuleRecipient.Email, capsule.Id);
+                            bool emailSent = await this.TrySendNotificationAndMarkAsSentAsync(newCapsuleRecipient, capsule.Title, capsule.OpeningDate, senderName);
+                            if (emailSent)
+                            {
+                                emailsSentSuccessfullyThisUpdate.Add(newCapsuleRecipient.Email);
+                                _logger.LogInformation("Wysłano e-mail i (domniemanie) oznaczono EmailSent=true dla nowego odbiorcy {Email}", newCapsuleRecipient.Email);
+                            }
+                            else
+                            {
+                                emailsFailedToSendThisUpdate.Add(newCapsuleRecipient.Email);
+                            }
+                        }
                     }
                 }
 
-                if (validEmails.Count == 0)
+                if (hasAnyDbChanges)
                 {
-                    return ServiceResult.Failure("Lista odbiorców nie może być pusta. Przynajmniej jeden adres email musi być poprawny.");
-                }
-
-                _context.CapsuleRecipients.RemoveRange(capsule.CapsuleRecipients);
-
-                foreach (var email in validEmails)
-                {
-                    capsule.CapsuleRecipients.Add(new CapsuleRecipient
+                    try
                     {
-                        CapsuleId = capsule.Id,
-                        Email = email,
-                        EmailSent = false
-                    });
+                        await _context.SaveChangesAsync();
+                        _logger.LogInformation("Zapisano zmiany (strukturalne i/lub statusy EmailSent) dla kapsuły {CapsuleId}.", capsule.Id);
+                    }
+                    catch (DbUpdateException dbEx)
+                    {
+                        _logger.LogError(dbEx, "Błąd bazy danych podczas zapisywania zmian dla kapsuły {CapsuleId}.", model.CapsuleId);
+                        string failureMessage = "Błąd bazy danych podczas aktualizacji odbiorców.";
+                        if (emailsSentSuccessfullyThisUpdate.Any() || emailsFailedToSendThisUpdate.Any())
+                        { 
+                            failureMessage += " Statusy wysłanych/nieudanych e-maili mogły nie zostać zapisane.";
+                        }
+                        if (emailsFailedToSendThisUpdate.Any())
+                        { 
+                            failureMessage += $" Nie udało się wysłać e-maili do: {string.Join(", ", emailsFailedToSendThisUpdate)}.";
+                        }
+                        return ServiceResult.Failure(failureMessage);
+                    }
+                }
+                else if (!hasAnyDbChanges && model.NotifyRecipients && !emailsFailedToSendThisUpdate.Any() && !emailsSentSuccessfullyThisUpdate.Any())
+                {
+                    _logger.LogInformation("NotifyRecipients=true, ale brak odbiorców wymagających powiadomienia lub zmian statusu (np. wszyscy już otrzymali e-mail lub brak kwalifikujących się odbiorców) dla kapsuły {CapsuleId}.", capsule.Id);
                 }
 
-                await _context.SaveChangesAsync();
-
-                _logger.LogInformation("Zaktualizowano odbiorców kapsuły {CapsuleId}, liczba odbiorców: {RecipientsCount}",
-                    model.CapsuleId, validEmails.Count);
+                if (emailsFailedToSendThisUpdate.Any())
+                {
+                    return ServiceResult.SuccessWithWarning($"Zaktualizowano odbiorców. Nie udało się wysłać e-maili do: {string.Join(", ", emailsFailedToSendThisUpdate)}.");
+                }
 
                 return ServiceResult.Success();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Błąd podczas aktualizacji odbiorców kapsuły {CapsuleId}", model.CapsuleId);
+                _logger.LogError(ex, "Błąd ogólny podczas aktualizacji odbiorców kapsuły {CapsuleId}", model.CapsuleId);
                 return ServiceResult.Failure("Wystąpił błąd podczas aktualizacji odbiorców kapsuły.");
+            }
+        }
+
+        private async Task<bool> TrySendNotificationAndMarkAsSentAsync(CapsuleRecipient recipient, string capsuleTitle, DateTime openingDate, string senderName)
+        {
+            if (recipient == null || string.IsNullOrWhiteSpace(recipient.Email))
+            {
+                return false;
+            }
+
+            if (recipient.EmailSent)
+            {
+                _logger.LogInformation(
+                    "Email do odbiorcy {Email} był już wcześniej wysłany. Pomijanie.",
+                    recipient.Email);
+                return true; 
+            }
+
+            try
+            {
+                string subject = $"Zostałeś dodany/a jako odbiorca kapsuły czasu od {senderName ?? "znajomego"}!";
+                string message = await _capsuleService.GenerateEmailTemplateAsync(senderName, capsuleTitle, openingDate); 
+
+                await _emailSender.SendEmailAsync(recipient.Email, subject, message);
+                recipient.EmailSent = true; 
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,
+                    "Błąd podczas wysyłania powiadomienia o kapsule do odbiorcy {Email}. Status EmailSent nie został zmieniony.", recipient.Email);
+                return false;
             }
         }
     }

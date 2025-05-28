@@ -7,15 +7,16 @@ namespace TimeCapsule.Services.Results
 
     public class ServiceResult
     {
-        private ServiceResult(bool isSuccess, ServiceError error, HttpStatusCode? statusCode = null)
+        private ServiceResult(bool isSuccess, ServiceError error, string warningMessage = null, HttpStatusCode? statusCode = null)
         {
-            if (isSuccess && error != ServiceError.None || !isSuccess && error == ServiceError.None)
+            if (!isSuccess && error == ServiceError.None)
             {
-                throw new ArgumentException("Invalid error", nameof(error));
+                throw new ArgumentException("Failure result must have an error.", nameof(error));
             }
 
             IsSuccess = isSuccess;
             Error = error;
+            WarningMessage = warningMessage;
             StatusCode = statusCode;
         }
 
@@ -25,9 +26,12 @@ namespace TimeCapsule.Services.Results
 
         public HttpStatusCode? StatusCode { get; private set; }
         public ServiceError Error { get; }
+        public string WarningMessage { get; }
 
         public static ServiceResult Success()
             => new(true, ServiceError.None);
+        public static ServiceResult SuccessWithWarning(string warning) 
+           => new(true, ServiceError.None, warningMessage: warning);
 
         public static ServiceResult Failure(ServiceError error)
             => new(false, error);
