@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AdminTitle" xml:space="preserve">
+    <value>Administrator danych</value>
+  </data>
+  <data name="AdminBody" xml:space="preserve">
+    <value>Administratorem danych osobowych jest zespół odpowiedzialny za projekt „TimeCapsule”.</value>
+  </data>
+  <data name="ContactInfo" xml:space="preserve">
+    <value>W sprawach związanych z ochroną danych prosimy o kontakt: &lt;strong&gt;timecapsule.kontakt@gmail.com&lt;/strong&gt;</value>
+  </data>
+  <data name="DataTypesTitle" xml:space="preserve">
+    <value>Zakres przetwarzanych danych</value>
+  </data>
+  <data name="DataTypesBody" xml:space="preserve">
+    <value>Podczas korzystania z aplikacji przetwarzamy następujące dane:</value>
+  </data>
+  <data name="DataTypesList1" xml:space="preserve">
+    <value>adres e-mail użytkownika,</value>
+  </data>
+  <data name="PurposeTitle" xml:space="preserve">
+    <value>Cel przetwarzania danych</value>
+  </data>
+  <data name="DataTypesList2" xml:space="preserve">
+    <value>hasło (zaszyfrowane),</value>
+  </data>
+  <data name="DataTypesList3" xml:space="preserve">
+    <value>treści kapsuł (tytuł, wiadomość, załączniki itp.),</value>
+  </data>
+  <data name="DataTypesList4" xml:space="preserve">
+    <value>adresy e-mail odbiorców kapsuł,</value>
+  </data>
+  <data name="DataTypesList5" xml:space="preserve">
+    <value>daty utworzenia i otwarcia kapsuł.</value>
+  </data>
+  <data name="PurposeBody" xml:space="preserve">
+    <value>Dane są przetwarzane w celu:</value>
+  </data>
+  <data name="PurposeList1" xml:space="preserve">
+    <value>umożliwienia rejestracji i logowania (również przez Google),</value>
+  </data>
+  <data name="PurposeList2" xml:space="preserve">
+    <value>tworzenia i zarządzania kapsułami czasu,</value>
+  </data>
+  <data name="PurposeList3" xml:space="preserve">
+    <value>wysyłania powiadomień e-mail,</value>
+  </data>
+  <data name="PurposeList4" xml:space="preserve">
+    <value>zapewnienia bezpieczeństwa aplikacji.</value>
+  </data>
+  <data name="LegalTitle" xml:space="preserve">
+    <value>Podstawy prawne</value>
+  </data>
+  <data name="LegalBody" xml:space="preserve">
+    <value>Dane przetwarzamy na podstawie:</value>
+  </data>
+  <data name="LegalList1" xml:space="preserve">
+    <value>art. 6 ust. 1 lit. b RODO – wykonanie umowy,</value>
+  </data>
+  <data name="LegalList2" xml:space="preserve">
+    <value>art. 6 ust. 1 lit. f RODO – uzasadniony interes administratora.</value>
+  </data>
+  <data name="SharingTitle" xml:space="preserve">
+    <value>Udostępnianie danych</value>
+  </data>
+  <data name="SharingBody" xml:space="preserve">
+    <value>Dane mogą być przekazywane usługom zewnętrznym:</value>
+  </data>
+  <data name="SharingList1" xml:space="preserve">
+    <value>Google – przy logowaniu kontem Google,</value>
+  </data>
+  <data name="SharingList2" xml:space="preserve">
+    <value>Gmail SMTP – do wysyłki wiadomości e-mail z kapsułami.</value>
+  </data>
+  <data name="SharingNote" xml:space="preserve">
+    <value>Nie przekazujemy danych podmiotom trzecim w celach marketingowych.</value>
+  </data>
+  <data name="RetentionTitle" xml:space="preserve">
+    <value>Czas przechowywania danych</value>
+  </data>
+  <data name="RetentionList1" xml:space="preserve">
+    <value>Dane konta – do czasu usunięcia lub zgłoszenia prośby o usunięcie.</value>
+  </data>
+  <data name="RetentionList2" xml:space="preserve">
+    <value>Kapsuły – do momentu ich otwarcia lub usunięcia.</value>
+  </data>
+  <data name="RightsTitle" xml:space="preserve">
+    <value>Prawa użytkownika</value>
+  </data>
+  <data name="RightsBody" xml:space="preserve">
+    <value>Użytkownik ma prawo do:</value>
+  </data>
+  <data name="RightsList1" xml:space="preserve">
+    <value>dostępu do danych,</value>
+  </data>
+  <data name="RightsList2" xml:space="preserve">
+    <value>sprostowania,</value>
+  </data>
+  <data name="RightsList3" xml:space="preserve">
+    <value>usunięcia,</value>
+  </data>
+  <data name="RightsList4" xml:space="preserve">
+    <value>ograniczenia przetwarzania,</value>
+  </data>
+  <data name="RightsList5" xml:space="preserve">
+    <value>przenoszenia danych,</value>
+  </data>
+  <data name="RightsList6" xml:space="preserve">
+    <value>złożenia skargi do PUODO.</value>
+  </data>
+  <data name="CookiesTitle" xml:space="preserve">
+    <value>Cookies i logi</value>
+  </data>
+  <data name="CookiesBody" xml:space="preserve">
+    <value>Aplikacja używa plików cookies w celu:</value>
+  </data>
+  <data name="CookiesList1" xml:space="preserve">
+    <value>utrzymania sesji użytkownika,</value>
+  </data>
+  <data name="CookiesList2" xml:space="preserve">
+    <value>przechowywania danych podczas tworzenia kapsuły.</value>
+  </data>
+  <data name="LogsNote" xml:space="preserve">
+    <value>Zapisywane są także podstawowe logi systemowe (np. błędy), ale nie gromadzimy adresów IP.</value>
+  </data>
+  <data name="SecurityTitle" xml:space="preserve">
+    <value>Zabezpieczenia</value>
+  </data>
+  <data name="SecurityList1" xml:space="preserve">
+    <value>Hasła przechowywane są w postaci zaszyfrowanej.</value>
+  </data>
+  <data name="SecurityList2" xml:space="preserve">
+    <value>Połączenie z aplikacją jest zabezpieczone certyfikatem HTTPS.</value>
+  </data>
+  <data name="SecurityList3" xml:space="preserve">
+    <value>Dostęp do panelu administracyjnego mają wyłącznie użytkownicy z odpowiednimi rolami.</value>
+  </data>
+  <data name="ChangesTitle" xml:space="preserve">
+    <value>Zmiany w polityce</value>
+  </data>
+  <data name="ChangesBody" xml:space="preserve">
+    <value>W przypadku aktualizacji polityki prywatności, zmiany zostaną ogłoszone w aplikacji.</value>
+  </data>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Polityka Prywatności</value>
+  </data>
+</root>

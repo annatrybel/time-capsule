@@ -1,14 +1,111 @@
-﻿@{
-    ViewData["Title"] = "Polityka Prywatności";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/MainPage/Privacy.css" asp-append-version="true" />
 }
 
 <section class="hero">
-    <h1><b>POLITYKA PRYWATNOŚCI</b></h1>
+    <h1 class="display-4 fw-bold">@Localizer["PageTitle"]</h1>
 </section>
 
-<div class="container">
+<section class="container py-5">
+    <div class="mb-5">
+        <h4 class="fw-bold mb-2">@Localizer["AdminTitle"]</h4>
+        <p>@Localizer["AdminBody"]</p>
+        <p>
+            <a href="mailto:timecapsule.kontakt@gmail.com" class="text-decoration-underline">
+                timecapsule.kontakt@gmail.com
+            </a>
+        </p>
+    </div>
 
-</div>
+    <div class="mb-5">
+        <h4 class="fw-bold mb-2">@Localizer["DataTypesTitle"]</h4>
+        <p>@Localizer["DataTypesBody"]</p>
+        <ul>
+            <li>@Localizer["DataTypesList1"]</li>
+            <li>@Localizer["DataTypesList2"]</li>
+            <li>@Localizer["DataTypesList3"]</li>
+            <li>@Localizer["DataTypesList4"]</li>
+            <li>@Localizer["DataTypesList5"]</li>
+        </ul>
+    </div>
+
+    <div class="mb-5">
+        <h4 class="fw-bold mb-2">@Localizer["PurposeTitle"]</h4>
+        <p>@Localizer["PurposeBody"]</p>
+        <ul>
+            <li>@Localizer["PurposeList1"]</li>
+            <li>@Localizer["PurposeList2"]</li>
+            <li>@Localizer["PurposeList3"]</li>
+            <li>@Localizer["PurposeList4"]</li>
+        </ul>
+    </div>
+
+    <div class="mb-5">
+        <h4 class="fw-bold mb-2">@Localizer["LegalTitle"]</h4>
+        <p>@Localizer["LegalBody"]</p>
+        <ul>
+            <li>@Localizer["LegalList1"]</li>
+            <li>@Localizer["LegalList2"]</li>
+        </ul>
+    </div>
+
+    <div class="mb-5">
+        <h4 class="fw-bold mb-2">@Localizer["SharingTitle"]</h4>
+        <p>@Localizer["SharingBody"]</p>
+        <ul>
+            <li>@Localizer["SharingList1"]</li>
+            <li>@Localizer["SharingList2"]</li>
+        </ul>
+        <p>@Localizer["SharingNote"]</p>
+    </div>
+
+    <div class="mb-5">
+        <h4 class="fw-bold mb-2">@Localizer["RetentionTitle"]</h4>
+        <ul>
+            <li>@Localizer["RetentionList1"]</li>
+            <li>@Localizer["RetentionList2"]</li>
+        </ul>
+    </div>
+
+    <div class="mb-5">
+        <h4 class="fw-bold mb-2">@Localizer["RightsTitle"]</h4>
+        <p>@Localizer["RightsBody"]</p>
+        <ul>
+            <li>@Localizer["RightsList1"]</li>
+            <li>@Localizer["RightsList2"]</li>
+            <li>@Localizer["RightsList3"]</li>
+            <li>@Localizer["RightsList4"]</li>
+            <li>@Localizer["RightsList5"]</li>
+            <li>@Localizer["RightsList6"]</li>
+        </ul>
+    </div>
+
+    <div class="mb-5">
+        <h4 class="fw-bold mb-2">@Localizer["CookiesTitle"]</h4>
+        <p>@Localizer["CookiesBody"]</p>
+        <ul>
+            <li>@Localizer["CookiesList1"]</li>
+            <li>@Localizer["CookiesList2"]</li>
+        </ul>
+        <p>@Localizer["LogsNote"]</p>
+    </div>
+
+    <div class="mb-5">
+        <h4 class="fw-bold mb-2">@Localizer["SecurityTitle"]</h4>
+        <ul>
+            <li>@Localizer["SecurityList1"]</li>
+            <li>@Localizer["SecurityList2"]</li>
+            <li>@Localizer["SecurityList3"]</li>
+        </ul>
+    </div>
+
+    <div>
+        <h4 class="fw-bold mb-2">@Localizer["ChangesTitle"]</h4>
+        <p>@Localizer["ChangesBody"]</p>
+    </div>
+</section>
