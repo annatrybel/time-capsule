@@ -31,6 +31,12 @@
     <None Include="Resources\Views\Home\MyCapsules.pl.resx" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Content Include="Templates\CapsuleNotificationEmail.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />

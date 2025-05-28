@@ -1,0 +1,45 @@
+﻿<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #3057B5;
+        }
+
+        .date {
+            font-weight: bold;
+            color: #3057B5;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <h1>Masz nową kapsułę czasu!</h1>
+        <p>Witaj!</p>
+        <p>{SenderName} utworzył(a) dla Ciebie kapsułę czasu o nazwie <strong>{CapsuleTitle}</strong>.</p>
+        <p>Kapsuła będzie dostępna do otwarcia w dniu: <span class='date'>{OpeningDate}</span></p>
+        <p>O tym czasie otrzymasz powiadomienie z linkiem umożliwiającym jej otwarcie.</p>
+        <p>Pozdrawiamy,<br>Zespół TimeCapsule</p>
+        <div class='footer'>
+            <p>To jest automatyczna wiadomość, prosimy na nią nie odpowiadać.</p>
+        </div>
+    </div>
+</body>
+</html>

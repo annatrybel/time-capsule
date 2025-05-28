@@ -78,3 +78,21 @@
 
     return false;
 }
+
+function prepareAndSubmitOpeningDateForm() {
+    const displayDateField = document.getElementById('newOpeningDateDisplay');
+    const utcHiddenField = document.getElementById('newOpeningDateUtc');
+
+    if (displayDateField.value) {
+        const localDateTimeString = displayDateField.value;
+
+        const localDate = new Date(localDateTimeString);
+        utcHiddenField.value = localDate.toISOString();
+    } else {
+        utcHiddenField.value = '';
+    }
+    return handleFormSubmit('editOpeningDateForm');
+}
+
+
+
