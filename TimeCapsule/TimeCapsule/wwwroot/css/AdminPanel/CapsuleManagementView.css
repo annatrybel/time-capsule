@@ -27,6 +27,30 @@
         word-wrap: break-word;
     }
 
+
+.breadcrumb-wrapper {
+    margin-top: 1rem;
+}
+
+.add-user-button {
+    margin-right: -0.6rem;
+}
+
+.breadcrumb a {
+    color: #486292;
+    margin-left: -0.6rem;
+}
+
+    .breadcrumb a:hover {
+        color: #162440;
+    }
+
+
+th.actions {
+    color: #000 !important;
+}
+
+
 .badge-created {
     background-color: #cce5ff !important;
     color: #004085 !important;
@@ -69,6 +93,10 @@ li.paginate_button.page-item.active a {
 
 a.page-link {
     color: #4C5C71 !important;
+}
+
+#tableCapsule_wrapper .dropdown-toggle::after {
+    display: none !important;
 }
 
 
