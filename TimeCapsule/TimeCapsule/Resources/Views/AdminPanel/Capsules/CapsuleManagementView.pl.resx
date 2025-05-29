@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AdminPanel" xml:space="preserve">
-    <value />
+    <value>Panel administracyjny</value>
   </data>
   <data name="PageDescription" xml:space="preserve">
     <value>Przeglądaj i zarządzaj kapsułami czasu w systemie</value>
@@ -127,7 +127,7 @@
     <value>Zarządzanie kapsułami</value>
   </data>
   <data name="CapsuleManagement" xml:space="preserve">
-    <value />
+    <value>zarządzanie kapsułami</value>
   </data>
   <data name="Owner" xml:space="preserve">
     <value>Właściciel</value>
@@ -148,6 +148,6 @@
     <value>Status</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value />
+    <value>Akcje</value>
   </data>
 </root>

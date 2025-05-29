@@ -1,8 +1,26 @@
 ﻿body {
     font-family: Arial, sans-serif;
     background-color: #f6f8fb;
-    color: #333;
+    color: #000;
+    font-size: 0.85rem;
+    line-height: 1.25;
     padding: 20px;
+}
+
+a {
+    color: #4C5C71;
+    text-decoration: underline;
+    font-size: 0.85rem;
+}
+
+    a:hover {
+        color: #2f3f55;
+    }
+
+section.container {
+    max-width: 1000px;
+    margin-top: -3rem !important;
+    padding: 1rem 1.5rem;
 }
 
 .hero {
@@ -21,12 +39,13 @@
         margin: 0;
         width: clamp(80%, 60vw, 600px);
         font-size: clamp(1.25rem, 5vw, 4rem);
-        line-height: 1.2;
+        line-height: 1.1;
         font-weight: 300;
         color: white;
         word-wrap: break-word;
     }
-/*  Duże ekrany (min-width: 1024px)*/
+
+/* Duże ekrany (min-width: 1024px) */
 @media (min-width: 1024px) {
     .hero {
         padding-block: clamp(5rem, 8vw, 12rem);
@@ -39,7 +58,7 @@
         }
 }
 
-/* Powiększenie ~150% (1.5dppx – 1.99dppx)*/
+/* Powiększenie ~150% (1.5dppx – 1.99dppx) */
 @media (min-resolution: 1.5dppx) and (max-resolution: 1.99dppx) {
     .hero h1 {
         margin-top: -7rem !important;
@@ -49,7 +68,8 @@
         margin-left: 0 !important;
     }
 }
-/*  Powiększenie ~200% i więcej (≥2dppx)*/
+
+/* Powiększenie ~200% i więcej (≥2dppx) */
 @media (min-resolution: 2dppx) {
     .hero h1 {
         margin-top: -5rem !important;
@@ -60,7 +80,7 @@
     }
 }
 
-/* poniżej 50% powiększenia (max-resolution: 0.49dppx)*/
+/* Poniżej 50% powiększenia (max-resolution: 0.49dppx) */
 @media (max-resolution: 0.49dppx) {
     .hero h1 {
         margin-left: 0 !important;
@@ -83,4 +103,29 @@
         font-weight: 500;
         color: #4C5C71;
     }
+}
+
+ul {
+    list-style-type: square;
+    margin-left: 1.25rem;
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+    ul li {
+        margin-bottom: 0.3rem;
+        font-size: 0.85rem;
+        line-height: 1.25;
+    }
+
+h4 {
+    font-weight: bold;
+    color: #4C5C71;
+    font-size: 1rem;
+}
+
+p {
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.25;
 }
