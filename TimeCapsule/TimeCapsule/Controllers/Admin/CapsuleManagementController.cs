@@ -125,6 +125,31 @@ namespace TimeCapsule.Controllers.Admin
                 return BadRequest(ServiceResult.Failure(serviceResponse.Error.Description));
             }
         }
+
+        [HttpPost("DeactivateCapsule/{capsuleId}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<IActionResult> DeactivateCapsule(int capsuleId)
+        {
+            if (capsuleId <= 0)
+            {
+                TempData["ErrorMessage"] = "Nieprawidłowy identyfikator kapsuły";
+                return RedirectToAction("CapsuleManagementPanel");
+            }
+
+            var serviceResponse = await _capsuleManagementService.DeactivateCapsule(capsuleId);
+
+            if (serviceResponse.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Kapsuła została dezaktywowana pomyślnie";
+                TempData["SuccessMessageId"] = $"capsule_deactivate_{capsuleId}_{DateTime.UtcNow.Ticks}";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = $"Wystąpił błąd podczas dezaktywacji kapsuły: {serviceResponse.Error?.Description}";
+            }
+
+            return RedirectToAction("CapsuleManagementPanel");
+        }
     }
 }
 

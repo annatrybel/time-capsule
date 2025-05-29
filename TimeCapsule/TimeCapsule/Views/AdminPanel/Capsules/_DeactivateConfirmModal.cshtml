@@ -1,0 +1,20 @@
+﻿<div class="modal fade" id="deactivateCapsuleModal" tabindex="-1" aria-labelledby="deactivateCapsuleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deactivateCapsuleModalLabel">Potwierdzenie dezaktywacji</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Czy na pewno chcesz dezaktywować tę kapsułę?</p>
+                <p class="text-danger">Ta operacja spowoduje, że kapsuła będzie niedostępna dla użytkowników.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Anuluj</button>
+                <form id="deactivateCapsuleForm" method="post">
+                    <button type="submit" class="btn btn-danger">Dezaktywuj</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
