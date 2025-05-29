@@ -117,46 +117,148 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Answer1" xml:space="preserve">
-    <value>Kapsuła czasu to wiadomość, którą możesz wysłać do siebie lub bliskiej osoby w przyszłości. Możesz określić dokładną datę, kiedy wiadomość zostanie odblokowana do odczytu.</value>
+  <data name="AdminTitle" xml:space="preserve">
+    <value>Data Controller</value>
   </data>
-  <data name="Answer2" xml:space="preserve">
-    <value>Tak! Możesz wysłać wiadomość do siebie lub kogoś innego – wystarczy podać e-mail odbiorcy.</value>
+  <data name="AdminBody" xml:space="preserve">
+    <value>The data controller is the team responsible for the “TimeCapsule” app.</value>
   </data>
-  <data name="Answer3_Linked" xml:space="preserve">
-    <value>Tak, stosujemy odpowiednie zabezpieczenia, aby Twoje wiadomości były prywatne i bezpieczne. Przeczytaj więcej w naszej &lt;a href="http://localhost:8080/Home/Privacy"&gt;Polityce Prywatności&lt;/a&gt;.</value>
+  <data name="ContactInfo" xml:space="preserve">
+    <value>For privacy inquiries, contact: &lt;strong&gt;timecapsule.kontakt@gmail.com&lt;/strong&gt;</value>
   </data>
-  <data name="Answer4" xml:space="preserve">
-    <value>Tak! Możesz dołączyć zdjęcia oraz linki, aby Twoja wiadomość była jeszcze bardziej wyjątkowa.</value>
+  <data name="DataTypesTitle" xml:space="preserve">
+    <value>Types of Data We Collect</value>
   </data>
-  <data name="Answer5" xml:space="preserve">
-    <value>Oczywiście! Możesz stworzyć dowolną liczbę wiadomości na różne daty i do różnych odbiorców.</value>
+  <data name="DataTypesBody" xml:space="preserve">
+    <value>When using the application, we process the following data:</value>
   </data>
-  <data name="Answer6" xml:space="preserve">
-    <value>Nie, kapsuła zostanie dostarczona tylko w wyznaczonym dniu, aby zachować element niespodzianki i wyjątkowość wiadomości.</value>
+  <data name="DataTypesList1" xml:space="preserve">
+    <value>user's email address,</value>
+  </data>
+  <data name="PurposeTitle" xml:space="preserve">
+    <value>Purpose of Data Processing</value>
+  </data>
+  <data name="DataTypesList2" xml:space="preserve">
+    <value>password (encrypted),</value>
+  </data>
+  <data name="DataTypesList3" xml:space="preserve">
+    <value>capsule contents (title, message, attachments, etc.),</value>
+  </data>
+  <data name="DataTypesList4" xml:space="preserve">
+    <value>email addresses of capsule recipients,</value>
+  </data>
+  <data name="DataTypesList5" xml:space="preserve">
+    <value>creation and opening dates of capsules.</value>
+  </data>
+  <data name="PurposeBody" xml:space="preserve">
+    <value>Your data is used to:</value>
+  </data>
+  <data name="PurposeList1" xml:space="preserve">
+    <value>enable account registration and login (including via Google),</value>
+  </data>
+  <data name="PurposeList2" xml:space="preserve">
+    <value>allow capsule creation and management,</value>
+  </data>
+  <data name="PurposeList3" xml:space="preserve">
+    <value>send email notifications,</value>
+  </data>
+  <data name="PurposeList4" xml:space="preserve">
+    <value>ensure application security.</value>
+  </data>
+  <data name="LegalTitle" xml:space="preserve">
+    <value>Legal Basis</value>
+  </data>
+  <data name="LegalBody" xml:space="preserve">
+    <value>Data is processed based on:</value>
+  </data>
+  <data name="LegalList1" xml:space="preserve">
+    <value>Article 6(1)(b) GDPR – performance of a contract,</value>
+  </data>
+  <data name="LegalList2" xml:space="preserve">
+    <value>Article 6(1)(f) GDPR – legitimate interest of the controller.</value>
+  </data>
+  <data name="SharingTitle" xml:space="preserve">
+    <value>Data Sharing</value>
+  </data>
+  <data name="SharingBody" xml:space="preserve">
+    <value>Data may be shared with external services:</value>
+  </data>
+  <data name="SharingList1" xml:space="preserve">
+    <value>Google – for Google login,</value>
+  </data>
+  <data name="SharingList2" xml:space="preserve">
+    <value>Gmail SMTP – for sending capsule-related emails.</value>
+  </data>
+  <data name="SharingNote" xml:space="preserve">
+    <value>We do not share your data with third parties for marketing purposes.</value>
+  </data>
+  <data name="RetentionTitle" xml:space="preserve">
+    <value>Data Retention</value>
+  </data>
+  <data name="RetentionList1" xml:space="preserve">
+    <value>Account data – stored until deletion or request to remove.</value>
+  </data>
+  <data name="RetentionList2" xml:space="preserve">
+    <value>Capsules – stored until opened or removed.</value>
+  </data>
+  <data name="RightsTitle" xml:space="preserve">
+    <value>User Rights</value>
+  </data>
+  <data name="RightsBody" xml:space="preserve">
+    <value>Every user has the right to:</value>
+  </data>
+  <data name="RightsList1" xml:space="preserve">
+    <value>access their data,</value>
+  </data>
+  <data name="RightsList2" xml:space="preserve">
+    <value>correct it,</value>
+  </data>
+  <data name="RightsList3" xml:space="preserve">
+    <value>delete it,</value>
+  </data>
+  <data name="RightsList4" xml:space="preserve">
+    <value>restrict processing,</value>
+  </data>
+  <data name="RightsList5" xml:space="preserve">
+    <value>transfer their data,</value>
+  </data>
+  <data name="RightsList6" xml:space="preserve">
+    <value>file a complaint with a supervisory authority.</value>
+  </data>
+  <data name="CookiesTitle" xml:space="preserve">
+    <value>Cookies and Logs</value>
+  </data>
+  <data name="CookiesBody" xml:space="preserve">
+    <value>The application uses cookies to:</value>
+  </data>
+  <data name="CookiesList1" xml:space="preserve">
+    <value>maintain user session,</value>
+  </data>
+  <data name="CookiesList2" xml:space="preserve">
+    <value>store data during capsule creation.</value>
+  </data>
+  <data name="LogsNote" xml:space="preserve">
+    <value>We also record basic system logs (e.g., errors) but do not store IP addresses.</value>
+  </data>
+  <data name="SecurityTitle" xml:space="preserve">
+    <value>Security Measures</value>
+  </data>
+  <data name="SecurityList1" xml:space="preserve">
+    <value>Passwords are stored in encrypted form.</value>
+  </data>
+  <data name="SecurityList2" xml:space="preserve">
+    <value>The application uses HTTPS encryption.</value>
+  </data>
+  <data name="SecurityList3" xml:space="preserve">
+    <value>Only authorized users can access the admin panel.</value>
+  </data>
+  <data name="ChangesTitle" xml:space="preserve">
+    <value>Policy Changes</value>
+  </data>
+  <data name="ChangesBody" xml:space="preserve">
+    <value>If this privacy policy is updated, changes will be announced in the app.</value>
   </data>
   <data name="PageTitle" xml:space="preserve">
-    <value>CZĘSTO ZADAWANE PYTANIA</value>
-  </data>
-  <data name="Question1" xml:space="preserve">
-    <value>Czym jest kapsuła czasu?</value>
-  </data>
-  <data name="Question2" xml:space="preserve">
-    <value>Czy mogę wysłać kapsułę czasu do innej osoby?</value>
-  </data>
-  <data name="Question3" xml:space="preserve">
-    <value>Czy moja wiadomość jest bezpieczna?</value>
-  </data>
-  <data name="Question4" xml:space="preserve">
-    <value>Czy mogę dodać multimedia do kapsuły czasu?</value>
-  </data>
-  <data name="Question5" xml:space="preserve">
-    <value>Czy mogę zaplanować wiele kapsuł czasu naraz?</value>
-  </data>
-  <data name="Question6" xml:space="preserve">
-    <value>Czy kapsuła czasu może być otwierana wcześniej?</value>
-  </data>
-  <data name="Subtitle" xml:space="preserve">
-    <value>masz pytania? my znamy odpowiedzi!</value>
+    <value>PRIVACY POLICY</value>
   </data>
 </root>

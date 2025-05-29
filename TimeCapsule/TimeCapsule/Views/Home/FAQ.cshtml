@@ -24,7 +24,9 @@
         </div>
         <div class="faq-item">
             <div class="faq-question">@Localizer["Question3"]</div>
-            <div class="faq-answer">@Localizer["Answer3"]</div>
+            <div class="faq-answer">
+                @Html.Raw(string.Format(Localizer["Answer3_Linked"].Value, Url.Action("Privacy", "Home")))
+            </div>
         </div>
         <div class="faq-item">
             <div class="faq-question">@Localizer["Question4"]</div>
