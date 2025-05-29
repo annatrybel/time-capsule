@@ -35,7 +35,7 @@ namespace TimeCapsule.Models.DatabaseModels
     {
         Created,
         Opened,
-        Deleted
+        Deactivated
     }
 }
 

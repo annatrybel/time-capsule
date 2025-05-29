@@ -65,7 +65,7 @@
                     render: function (data) {
                         const statusName = data === 0 ? 'Utworzona' :
                             data === 1 ? 'Otwarta' :
-                                data === 2 ? 'Usunięta' : 'Nieznany';
+                                data === 2 ? 'Dezaktywowana' : 'Nieznany';
 
                         return `<span class="badge ${statusClasses[data]}">${statusName}</span>`;
                     }
@@ -138,6 +138,14 @@
         });
 
 
+    $(document).on('click', '.dropdown-item.deactivate-capsule', function (event) {
+        event.preventDefault();
+        const form = $(this).closest('form');
+        const capsuleId = form.attr('action').split('/').pop();
+
+        $('#deactivateCapsuleForm').attr('action', `/AdminPanel/Capsules/DeactivateCapsule/${capsuleId}`);
+        $('#deactivateCapsuleModal').modal('show');
+    });
 
     $(document).on('click', '.dropdown-item.edit-opening-date', function (event) {
         const capsuleId = $(this).data('id');

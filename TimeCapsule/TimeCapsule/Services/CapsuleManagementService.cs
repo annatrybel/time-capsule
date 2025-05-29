@@ -370,6 +370,37 @@ namespace TimeCapsule.Services
                 return false;
             }
         }
+
+        public async Task<ServiceResult> DeactivateCapsule(int capsuleId)
+        {
+            try
+            {
+                var capsule = await _context.Capsules.FindAsync(capsuleId);
+
+                if (capsule == null)
+                {
+                    return ServiceResult.Failure("Kapsuła o podanym identyfikatorze nie istnieje.");
+                }
+
+                if (capsule.Status == Status.Deactivated)
+                {
+                    return ServiceResult.Failure("Kapsuła jest już dezaktywowana.");
+                }
+
+                capsule.Status = Status.Deactivated;
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Dezaktywowano kapsułę {CapsuleId}", capsuleId);
+
+                return ServiceResult.Success();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Błąd podczas dezaktywacji kapsuły {CapsuleId}", capsuleId);
+                return ServiceResult.Failure("Wystąpił błąd podczas dezaktywacji kapsuły.");
+            }
+        }
     }
 }
 

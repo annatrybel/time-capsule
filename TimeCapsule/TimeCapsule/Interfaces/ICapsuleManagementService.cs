@@ -14,8 +14,7 @@ namespace TimeCapsule.Interfaces
         Task<ServiceResult<CapsuleOpeningDateDto>> GetCapsuleOpeningDate(int capsuleId);
         Task<ServiceResult<CapsuleRecipientsDto>> GetCapsuleRecipients(int capsuleId);
         Task<ServiceResult> UpdateCapsuleRecipients(UpdateCapsuleRecipientsDto model, IdentityUser user);
-
-
+        Task<ServiceResult> DeactivateCapsule(int capsuleId);
     }
 }
 
