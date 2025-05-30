@@ -57,7 +57,11 @@
                     name: "Akcje",
                     orderable: false,
                     className: "actions",
-                    render: function (data, type, row) {
+                    render: function (data, type, row, meta) {
+                        const lang = meta.settings.oLanguage;
+                        const editActionText = lang.appTexts.editText;
+                        const lockActionText = lang.appTexts.lockUserText;
+                        const unlockActionText = lang.appTexts.unlockUserText;
                         return `
                     	    <div class="dropdown text-center">
                         	    <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-${data}" data-bs-toggle="dropdown" aria-expanded="false">
@@ -66,19 +70,19 @@
                         	    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-${data}">
                             	    <li>
                                 	    <button class="dropdown-item edit-user" data-id="${data}" type="button">
-                                    	    <i class="fas fa-edit"></i> Edytuj użytkownika
+                                    	    <i class="fas fa-edit"></i> ${editActionText}
                                 	    </button>
                             	    </li>
                             	    <li>
                                 	    ${row.isLocked ?
                                 `<form method="post" action="/AdminPanel/Users/UnlockUser/${data}" style="margin:0">
                                         	    <button type="submit" class="dropdown-item unlock-user">
-                                            	    <i class="fas fa-unlock"></i> Odblokuj użytkownika
+                                            	    <i class="fas fa-unlock"></i> ${unlockActionText}
                                         	    </button>
                                     	    </form>` :
                                 `<form method="post" action="/AdminPanel/Users/LockUser/${data}" style="margin:0">
                                         	    <button type="submit" class="dropdown-item lock-user">
-                                            	    <i class="fas fa-lock"></i> Zablokuj użytkownika
+                                            	    <i class="fas fa-lock"></i> ${lockActionText}
                                         	    </button>
                                      	    </form>`
                             }

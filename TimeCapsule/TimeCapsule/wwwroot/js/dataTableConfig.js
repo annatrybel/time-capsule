@@ -19,6 +19,14 @@ const dataTableLangPL = {
 	"aria": {
 		"sortAscending": ": aktywuj, by posortować kolumnę rosnąco",
 		"sortDescending": ": aktywuj, by posortować kolumnę malejąco"
+	},
+	"appTexts": {
+		"editText": "Edytuj użytkownika",
+		"lockUserText": "Zablokuj użytkownika",
+		"unlockUserText": "Odblokuj użytkownika",
+		"changeOpeningDateText": "Zmień datę otwarcia",
+		"changeRecipientListText": "Zmień listę odbiorców",
+		"deactivationText": "Dezaktywacja"
 	}
 };
 
@@ -42,6 +50,14 @@ const dataTableLangEN = {
 	"aria": {
 		"sortAscending": ": activate to sort column ascending",
 		"sortDescending": ": activate to sort column descending"
+	},
+	"appTexts": {
+		"editText": "Edit user",
+		"lockUserText": "Lock user",
+		"unlockUserText": "Unlock user",
+		"changeOpeningDateText": "Change opening date",
+		"changeRecipientListText": "Change recipient list",
+		"deactivationText": "Deactivation"
 	}
 };
 
