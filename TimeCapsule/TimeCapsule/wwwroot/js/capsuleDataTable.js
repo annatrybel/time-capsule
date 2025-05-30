@@ -98,7 +98,8 @@
                     	    `;
                         }
 
-                        dropdownItems += `
+                        if (row.status !== 2) {
+                            dropdownItems += `
                     	    <li>
                         	    <form method="post" action="/AdminPanel/Capsules/DeactivateCapsule/${data}" style="margin:0; display: inline;">
                             	    <button type="submit" class="dropdown-item deactivate-capsule">
@@ -107,6 +108,7 @@
                         	    </form>
                     	    </li>
                 	    `;
+                        }
 
                         if (dropdownItems === '') {
                             return `<div class="text-center">-</div>`;
