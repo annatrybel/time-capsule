@@ -1,7 +1,9 @@
 ﻿@page
 @model Disable2faModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Disable two-factor authentication (2FA)";
+    ViewData["Title"] = @Localizer["DisableTwo-FactorAuthentication(2FA)"];
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
 
