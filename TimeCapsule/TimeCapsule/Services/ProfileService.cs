@@ -79,9 +79,15 @@ namespace TimeCapsule.Services
                 }
 
                 bool isCreator = capsule.CreatedByUserId == userId;
-                bool isRecipient = capsule.Type == CapsuleType.DlaKogos && await _context.Users
-                    .AnyAsync(u => u.Id == userId && u.Email != null &&
-                             capsule.CapsuleRecipients.Any(cr => cr.Email == u.Email));
+                bool isRecipient = false;
+                if (capsule.Type == CapsuleType.DlaKogos)
+                {
+                    var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                    if (user != null && !string.IsNullOrEmpty(user.Email))
+                    {
+                        isRecipient = capsule.CapsuleRecipients.Any(cr => cr.Email == user.Email);
+                    }
+                }
 
                 if (!isCreator && !isRecipient)
                 {
