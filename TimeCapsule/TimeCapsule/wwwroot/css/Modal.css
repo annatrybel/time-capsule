@@ -31,6 +31,11 @@
         border-color: #bcbcbc;
         color: #000;
     }
+button.remove-recipient-btn {
+    background-color: #8b1527 !important;
+    color: white !important;
+    border-color: #8b1527 !important;
+}
 
 .btn-danger {
     background-color: #d1d1d1;
@@ -43,6 +48,7 @@
         border-color: #bcbcbc;
         color: #000;
     }
+
 
 input.form-control:focus {
     background-color: #eef3f7;

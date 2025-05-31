@@ -75,14 +75,18 @@
                     name: 'Actions',
                     orderable: false,
                     className: 'actions',
-                    render: function (data, type, row) {
+                    render: function (data, type, row, meta) {
+                        const lang = meta.settings.oLanguage;
+                        const changeOpeningDateActionText = lang.appTexts.changeOpeningDateText;
+                        const changeRecipientListActionText = lang.appTexts.changeRecipientListText;
+                        const deactivationActionText = lang.appTexts.deactivationText;
                         let dropdownItems = '';
 
                         if (row.status !== 1) {
                             dropdownItems += `
                         	    <li>
                             	    <button class="dropdown-item edit-opening-date" data-id="${data}" type="button">
-                                	    <i class="bi bi-calendar-event"></i> Zmień datę otwarcia
+                                	    <i class="bi bi-calendar-event"></i> ${changeOpeningDateActionText}
                             	    </button>
                         	    </li>
                     	    `;
@@ -92,21 +96,22 @@
                             dropdownItems += `
                         	    <li>
                             	    <button class="dropdown-item edit-recipients" data-id="${data}" type="button">
-                                	    <i class="bi bi-person-lines-fill"></i> Zmień listę odbiorców
+                                	    <i class="bi bi-person-lines-fill"></i> ${changeRecipientListActionText}
                             	    </button>
                         	    </li>
                     	    `;
                         }
-
-                        dropdownItems += `
-                    	    <li>
-                        	    <form method="post" action="/AdminPanel/Capsules/DeactivateCapsule/${data}" style="margin:0; display: inline;">
-                            	    <button type="submit" class="dropdown-item deactivate-capsule">
-                                	    <i class="bi bi-toggle-off"></i> Dezaktywacja
-                            	    </button>
-                        	    </form>
-                    	    </li>
-                	    `;
+                        if (row.status !== 2) {
+                            dropdownItems += `
+                    	        <li>
+                        	        <form method="post" action="/AdminPanel/Capsules/DeactivateCapsule/${data}" style="margin:0; display: inline;">
+                            	        <button type="submit" class="dropdown-item deactivate-capsule">
+                                	        <i class="bi bi-toggle-off"></i> ${deactivationActionText}
+                            	        </button>
+                        	        </form>
+                    	        </li>
+                	        `;
+                        }
 
                         if (dropdownItems === '') {
                             return `<div class="text-center">-</div>`;
@@ -220,7 +225,7 @@
         const newField = `
             <div class="input-group mb-2 recipient-input-group">
                 <input type="email" name="Recipients" class="form-control" placeholder="email@domena.com" required />
-                <button type="button" class="btn btn-outline-danger remove-recipient-btn">
+                <button type="button" class="btn btn-danger remove-recipient-btn">
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>

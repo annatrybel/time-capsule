@@ -121,9 +121,9 @@
     <value>Kapsuła Czasu</value>
   </data>
   <data name="ContactUs" xml:space="preserve">
-    <value>Skontaktuj się z nami</value>
+    <value>Skontaktuj się z nami!</value>
   </data>
   <data name="NeedHelp" xml:space="preserve">
-    <value>potrzebujesz pomocy? </value>
+    <value>Potrzebujesz pomocy?</value>
   </data>
 </root>

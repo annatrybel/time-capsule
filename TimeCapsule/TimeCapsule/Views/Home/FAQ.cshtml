@@ -25,7 +25,8 @@
         <div class="faq-item">
             <div class="faq-question">@Localizer["Question3"]</div>
             <div class="faq-answer">
-                @Html.Raw(string.Format(Localizer["Answer3_Linked"].Value, Url.Action("Privacy", "Home")))
+                <div class="faq-answer">@Localizer["Answer3"]</div>
+                <a href="http://localhost:8080/Home/Privacy">Polityka Prywatności</a>
             </div>
         </div>
         <div class="faq-item">

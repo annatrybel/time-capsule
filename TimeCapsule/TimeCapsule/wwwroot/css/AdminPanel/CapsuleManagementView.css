@@ -75,7 +75,7 @@ th.actions {
     font-weight: 500 !important;
 }
 
-#tableCapsule_wrapper .dropdown-menu {
+#tableCapsule_wrapper {
     left: auto !important;
     right: 15px !important;
     top: 30px !important;

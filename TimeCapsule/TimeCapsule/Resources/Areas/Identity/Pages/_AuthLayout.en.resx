@@ -121,9 +121,9 @@
     <value>Time Capsule</value>
   </data>
   <data name="ContactUs" xml:space="preserve">
-    <value>Contact Us</value>
+    <value>Contact us!</value>
   </data>
   <data name="NeedHelp" xml:space="preserve">
-    <value>need help? contact us!</value>
+    <value>Need help?</value>
   </data>
 </root>

@@ -1,22 +1,24 @@
 ﻿@using TimeCapsule.Models.DatabaseModels;
 @using TimeCapsule.Extensions;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 
 <div class="modal fade" id="addSectionModal" tabindex="-1" aria-labelledby="addSectionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addSectionModalLabel">Dodaj nową sekcję</h5>
+                <h5 class="modal-title" id="addSectionModalLabel">@Localizer["AddNewSection"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="addSectionForm" method="post" action="/AdminPanel/Forms/AddSection" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="sectionName" class="form-label">Nazwa sekcji <span class="text-danger">*</span></label>
+                        <label for="sectionName" class="form-label">@Localizer["SectionName"] <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="sectionName" name="SectionName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="capsuleType" class="form-label">Typ kapsuły <span class="text-danger">*</span></label>
+                        <label for="capsuleType" class="form-label">@Localizer["CapsuleType"] <span class="text-danger">*</span></label>
                         <select class="form-select" id="capsuleType" name="CapsuleType" required>
                             @foreach (CapsuleType type in Enum.GetValues(typeof(CapsuleType)))
                             {
@@ -26,8 +28,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Anuluj</button>
-                    <button type="button" class="btn btn-save" onclick="handleFormSubmit('addSectionForm')">Dodaj sekcję</button>
+                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                    <button type="button" class="btn btn-save" onclick="handleFormSubmit('addSectionForm')">@Localizer["AddSection"]</button>
                 </div>
             </form>
         </div>

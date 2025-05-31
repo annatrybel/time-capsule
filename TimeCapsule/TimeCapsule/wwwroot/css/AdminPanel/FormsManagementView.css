@@ -35,11 +35,12 @@
 }
 
 .breadcrumb-wrapper {
-    margin-top: 1rem;
+    margin-top: 3rem;
 }
 
 .add-user-button {
     margin-right: -0.6rem;
+    margin-top: 3rem;
 }
 
 .breadcrumb a {

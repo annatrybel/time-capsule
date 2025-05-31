@@ -1,7 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Profil";
-}
-
+﻿
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @section Styles {
     <link rel="stylesheet" href="~/css/MainPage/Profile.css"/>
 
@@ -18,12 +17,12 @@
     }
 }
 <section class="hero">
-    <h1><b>SZCZEGÓŁY PROFILU</b></h1>
+    <h1><b>@Localizer["ProfileDetails"]</b></h1>
 </section>
 
 
 <section class="description">
-    <p>Ustawienia konta</p>
+    <p>@Localizer["Settings"]</p>
 </section>
 
 

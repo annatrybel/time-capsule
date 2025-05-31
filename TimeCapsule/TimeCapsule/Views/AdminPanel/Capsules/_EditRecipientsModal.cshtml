@@ -1,4 +1,7 @@
-﻿<div class="modal fade" id="editRecipientsModal" tabindex="-1" aria-labelledby="editRecipientsModalLabel" aria-hidden="true">
+﻿@section Styles {
+    <link rel="stylesheet" href="~/css/Modal.css" asp-append-version="true" />
+}
+<div class="modal fade" id="editRecipientsModal" tabindex="-1" aria-labelledby="editRecipientsModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -15,13 +18,18 @@
                     <div class="mb-3">
                         <label class="form-label">Lista odbiorców <span class="text-danger">*</span></label>
                         <div id="recipientsContainer">
-
-
                         </div>
                         <button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="addRecipientFieldBtn">
                             <i class="bi bi-plus-lg"></i> Dodaj kolejnego odbiorcę
                         </button>
                         <div class="invalid-feedback" id="recipientsValidationMessage"></div>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="hidden" name="NotifyRecipients" value="false" />
+                        <input class="form-check-input" type="checkbox" value="true" id="notifyRecipientsCheckbox" name="NotifyRecipients">
+                        <label class="form-check-label" for="notifyRecipientsCheckbox">
+                            Poinformuj odbiorców mailowo o zmianie
+                        </label>
                     </div>
                 </div>
                 <div class="modal-footer">
