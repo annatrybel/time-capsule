@@ -117,19 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Back" xml:space="preserve">
-    <value>Back</value>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
-  <data name="MessageLabel" xml:space="preserve">
-    <value>Letter content:</value>
-  </data>
-  <data name="Next" xml:space="preserve">
-    <value>Next</value>
-  </data>
-  <data name="StepDescription" xml:space="preserve">
-    <value>This is where you can pour out your thoughts, emotions, and dreams. Write to yourself or someone close - tell about your life, your plans, hopes, and what matters to you right now. Perhaps you want to leave advice for your future self or share a story worth remembering?</value>
-  </data>
-  <data name="StepTitle" xml:space="preserve">
-    <value>Step 5 of 9: Write a Letter</value>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
   </data>
 </root>

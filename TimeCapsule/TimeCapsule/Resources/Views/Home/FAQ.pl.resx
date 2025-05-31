@@ -123,8 +123,8 @@
   <data name="Answer2" xml:space="preserve">
     <value>Tak! Możesz wysłać wiadomość do siebie lub kogoś innego – wystarczy podać e-mail odbiorcy.</value>
   </data>
-  <data name="Answer3_Linked" xml:space="preserve">
-    <value>Tak, stosujemy odpowiednie zabezpieczenia, aby Twoje wiadomości były prywatne i bezpieczne. Przeczytaj więcej w naszej &lt;a href="http://localhost:8080/Home/Privacy"&gt;Polityce Prywatności&lt;/a&gt;.</value>
+  <data name="Answer3" xml:space="preserve">
+    <value>Tak, stosujemy odpowiednie zabezpieczenia, aby Twoje wiadomości były prywatne i bezpieczne. Przeczytaj więcej w tutaj:</value>
   </data>
   <data name="Answer4" xml:space="preserve">
     <value>Tak! Możesz dołączyć zdjęcia oraz linki, aby Twoja wiadomość była jeszcze bardziej wyjątkowa.</value>

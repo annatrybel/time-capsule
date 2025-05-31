@@ -123,8 +123,8 @@
   <data name="Answer2" xml:space="preserve">
     <value>Yes! You can send a message to yourself or someone else – just provide their email address - if they don't have an account on our site yet.</value>
   </data>
-  <data name="Answer3_Linked" xml:space="preserve">
-    <value>Yes, we use appropriate security measures to ensure your messages remain private and secure. Read more in our &lt;a href="http://localhost:8080/Home/Privacy"&gt;Privacy Policy&lt;/a&gt;.</value>
+  <data name="Answer3" xml:space="preserve">
+    <value>Yes, we use appropriate security measures to ensure your messages remain private and secure. Read more in our</value>
   </data>
   <data name="Answer4" xml:space="preserve">
     <value>Yes! You can attach photos and links to make your message even more special.</value>

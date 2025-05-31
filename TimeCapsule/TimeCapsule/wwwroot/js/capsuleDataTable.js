@@ -225,7 +225,7 @@
         const newField = `
             <div class="input-group mb-2 recipient-input-group">
                 <input type="email" name="Recipients" class="form-control" placeholder="email@domena.com" required />
-                <button type="button" class="btn btn-outline-danger remove-recipient-btn">
+                <button type="button" class="btn btn-danger remove-recipient-btn">
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>

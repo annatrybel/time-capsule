@@ -34,11 +34,12 @@
 }
 
 .breadcrumb-wrapper {
-    margin-top: 1rem;
+    margin-top: 6rem;
 }
 
 .add-user-button {
     margin-right: -0.6rem;
+    margin-top: 6rem;
 }
 
 .breadcrumb a {
@@ -93,9 +94,6 @@ li.paginate_button.page-item.active a {
     overflow: visible !important;
     position: relative;
     z-index: auto;
-}
-.dropdown-menu {
-    z-index: 1;
 }
 
 select.form-select-sm {
