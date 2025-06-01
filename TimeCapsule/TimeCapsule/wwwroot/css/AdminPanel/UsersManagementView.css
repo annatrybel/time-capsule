@@ -90,11 +90,6 @@ li.paginate_button.page-item.active a {
     margin-top: 10px;
 }
 
-.dataTables_scrollBody {
-    overflow: visible !important;
-    position: relative;
-    z-index: auto;
-}
 
 select.form-select-sm {
     border-color: #4C5C71;
@@ -145,13 +140,6 @@ input.form-control.form-control-sm:focus {
 
 .dataTables_scrollBody {
     overflow-x: auto !important;
-}
-
-.dataTables_scrollBody,
-.dataTables_scroll,
-#tableUser_wrapper,
-.table-responsive {
-  overflow: visible !important;
 }
 
 #tableUser_wrapper .dropdown,
