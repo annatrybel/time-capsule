@@ -83,12 +83,12 @@ footer {
 }
 
 .footer-content {
-    max-width: 150px;
+    max-width: 100%; 
     display: flex;
-    justify-content: flex-end;
+    flex-wrap: wrap; 
+    justify-content: flex-end; 
     align-items: center;
     gap: 10px;
-    white-space: nowrap;
     font-size: 18px;
 }
 
