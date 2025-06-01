@@ -73,13 +73,15 @@
                             </a>
                         </li>
 
-                        <!-- Dropdown Języka -->
-                        <li class="nav-item dropdown mx-1">
-                            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="languageDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-globe"></i>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                        <!-- Grupa dla dropdownów języka i profilu -->
+                        <li class="nav-item nav-user-actions-group mx-1">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown" id="languageDropdownContainer">
+                                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="languageDropdown"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-globe"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="languageDropdown">
                                 <li>
                                     <a class="dropdown-item" asp-controller="Home" asp-action="SetLanguage"
                                        asp-route-culture="pl-PL" asp-route-returnUrl="@Context.Request.Path">
@@ -92,17 +94,17 @@
                                         @Localizer["English"]
                                     </a>
                                 </li>
-                            </ul>
-                        </li>
+                                    </ul>
+                                </div>
 
                         <!-- Sekcja użytkownika -->
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="nav-item dropdown mx-1">
-                                <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-person text-white fs-3"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <div class="dropdown ms-2" id="userDropdownContainer">
+                                        <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-person text-white fs-3"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     <li>
                                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">@Localizer["ProfileDetails"]</a>
                                     </li>
@@ -114,9 +116,11 @@
                                             </button>
                                         </form>
                                     </li>
-                                </ul>
-                            </li>
-                        }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

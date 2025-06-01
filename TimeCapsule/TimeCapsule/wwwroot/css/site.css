@@ -29,6 +29,27 @@ html, body {
 }
 
 
+@media (max-width: 576px) { 
+    .navbar-collapse.show .nav-user-actions-group > .d-flex {
+        justify-content: center; 
+        width: 100%; 
+    }
+
+    .navbar-collapse.show .nav-user-actions-group .dropdown .btn,
+    .navbar-collapse.show .nav-user-actions-group .dropdown .nav-link {
+        display: inline-flex !important;
+        width: auto !important; 
+    }
+
+    .navbar-collapse.show .nav-user-actions-group .dropdown button.btn-sm.dropdown-toggle {
+        padding: .25rem .5rem !important;
+    }
+
+    .navbar-collapse.show .nav-user-actions-group .dropdown a.nav-link#userDropdown {
+        padding: 0.3rem 0.5rem !important; 
+    }
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #384352;
 
@@ -201,10 +222,20 @@ footer {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     border: none;
     overflow: hidden;
-    min-width: 180px;
-    left: auto !important;
-    right: 0 !important;
+    min-width: 180px; 
+    position: absolute !important; 
+    top: 100% !important; 
+    z-index: 1050; 
 }
+    .dropdown-menu[aria-labelledby="languageDropdown"] {
+        right: 0; 
+        left: auto; 
+    }
+
+    .dropdown-menu[aria-labelledby="userDropdown"].dropdown-menu-end {
+        right: 0;
+        left: auto;       
+    }
 
     .dropdown-menu .dropdown-item {
         padding: 12px 16px;
