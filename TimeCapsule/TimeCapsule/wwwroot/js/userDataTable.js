@@ -1,9 +1,5 @@
 ﻿$(document).ready(function () {
 
-    console.log("users.js: document.ready started.");
-    console.log("Current $.fn.dataTable.defaults.language:", $.fn.dataTable.defaults.language);
-
-
     var usersTable = $('#tableUser')
         .on('xhr.dt', function (e, settings, json, xhr) {
             if (xhr.responseJSON.traceId) {
